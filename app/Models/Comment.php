@@ -100,6 +100,16 @@ class Comment extends Model
     }
 
     /**
+     * Belongs To A Ticket.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function ticket()
+    {
+        return $this->belongsTo(Ticket::class);
+    }
+
+    /**
      * Belongs To A User.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
