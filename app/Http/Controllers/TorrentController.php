@@ -150,20 +150,14 @@ class TorrentController extends \App\Http\Controllers\Controller
         $repository = $this->torrentFacetedRepository;
         foreach ($torrents as $torrent) {
             $meta = null;
-            if ($torrent->category->tv_meta) {
-                if ($torrent->tmdb || $torrent->tmdb != 0) {
-                    $meta = \App\Models\Tv::with('genres', 'networks', 'seasons')->where('id', '=', $torrent->tmdb)->first();
-                }
+            if ($torrent->category->tv_meta && ($torrent->tmdb || $torrent->tmdb != 0)) {
+                $meta = \App\Models\Tv::with('genres', 'networks', 'seasons')->where('id', '=', $torrent->tmdb)->first();
             }
-            if ($torrent->category->movie_meta) {
-                if ($torrent->tmdb || $torrent->tmdb != 0) {
-                    $meta = \App\Models\Movie::with('genres', 'cast', 'companies', 'collection')->where('id', '=', $torrent->tmdb)->first();
-                }
+            if ($torrent->category->movie_meta && ($torrent->tmdb || $torrent->tmdb != 0)) {
+                $meta = \App\Models\Movie::with('genres', 'cast', 'companies', 'collection')->where('id', '=', $torrent->tmdb)->first();
             }
-            if ($torrent->category->game_meta) {
-                if ($torrent->igdb || $torrent->igdb != 0) {
-                    $meta = \MarcReichel\IGDBLaravel\Models\Game::with(['cover' => ['url', 'image_id'], 'artworks' => ['url', 'image_id'], 'genres' => ['name']])->find($torrent->igdb);
-                }
+            if ($torrent->category->game_meta && ($torrent->igdb || $torrent->igdb != 0)) {
+                $meta = \MarcReichel\IGDBLaravel\Models\Game::with(['cover' => ['url', 'image_id'], 'artworks' => ['url', 'image_id'], 'genres' => ['name']])->find($torrent->igdb);
             }
             if ($meta) {
                 $torrent->meta = $meta;
@@ -259,20 +253,14 @@ class TorrentController extends \App\Http\Controllers\Controller
             foreach ($torrents as $k1 => $c) {
                 foreach ($c as $k2 => $d) {
                     $meta = null;
-                    if ($d['chunk']->category->tv_meta) {
-                        if ($d['chunk']->tmdb || $d['chunk']->tmdb != 0) {
-                            $meta = \App\Models\Tv::with('genres', 'networks', 'seasons')->where('id', '=', $d['chunk']->tmdb)->first();
-                        }
+                    if ($d['chunk']->category->tv_meta && ($d['chunk']->tmdb || $d['chunk']->tmdb != 0)) {
+                        $meta = \App\Models\Tv::with('genres', 'networks', 'seasons')->where('id', '=', $d['chunk']->tmdb)->first();
                     }
-                    if ($d['chunk']->category->movie_meta) {
-                        if ($d['chunk']->tmdb || $d['chunk']->tmdb != 0) {
-                            $meta = \App\Models\Movie::with('genres', 'cast', 'companies', 'collection')->where('id', '=', $d['chunk']->tmdb)->first();
-                        }
+                    if ($d['chunk']->category->movie_meta && ($d['chunk']->tmdb || $d['chunk']->tmdb != 0)) {
+                        $meta = \App\Models\Movie::with('genres', 'cast', 'companies', 'collection')->where('id', '=', $d['chunk']->tmdb)->first();
                     }
-                    if ($d['chunk']->category->game_meta) {
-                        if ($d['chunk']->igdb || $d['chunk']->igdb != 0) {
-                            $meta = \MarcReichel\IGDBLaravel\Models\Game::with(['cover' => ['url', 'image_id'], 'artworks' => ['url', 'image_id'], 'genres' => ['name']])->find($d['chunk']->igdb);
-                        }
+                    if ($d['chunk']->category->game_meta && ($d['chunk']->igdb || $d['chunk']->igdb != 0)) {
+                        $meta = \MarcReichel\IGDBLaravel\Models\Game::with(['cover' => ['url', 'image_id'], 'artworks' => ['url', 'image_id'], 'genres' => ['name']])->find($d['chunk']->igdb);
                     }
                     if ($meta) {
                         $d['chunk']->meta = $meta;
@@ -670,20 +658,14 @@ class TorrentController extends \App\Http\Controllers\Controller
             foreach ($torrents as $k1 => $c) {
                 foreach ($c as $k2 => $d) {
                     $meta = null;
-                    if ($d['chunk']->category->tv_meta) {
-                        if ($d['chunk']->tmdb || $d['chunk']->tmdb != 0) {
-                            $meta = \App\Models\Tv::with('genres', 'networks', 'seasons')->where('id', '=', $d['chunk']->tmdb)->first();
-                        }
+                    if ($d['chunk']->category->tv_meta && ($d['chunk']->tmdb || $d['chunk']->tmdb != 0)) {
+                        $meta = \App\Models\Tv::with('genres', 'networks', 'seasons')->where('id', '=', $d['chunk']->tmdb)->first();
                     }
-                    if ($d['chunk']->category->movie_meta) {
-                        if ($d['chunk']->tmdb || $d['chunk']->tmdb != 0) {
-                            $meta = \App\Models\Movie::with('genres', 'cast', 'companies', 'collection')->where('id', '=', $d['chunk']->tmdb)->first();
-                        }
+                    if ($d['chunk']->category->movie_meta && ($d['chunk']->tmdb || $d['chunk']->tmdb != 0)) {
+                        $meta = \App\Models\Movie::with('genres', 'cast', 'companies', 'collection')->where('id', '=', $d['chunk']->tmdb)->first();
                     }
-                    if ($d['chunk']->category->game_meta) {
-                        if ($d['chunk']->igdb || $d['chunk']->igdb != 0) {
-                            $meta = \MarcReichel\IGDBLaravel\Models\Game::with(['cover' => ['url', 'image_id'], 'artworks' => ['url', 'image_id'], 'genres' => ['name']])->find($d['chunk']->igdb);
-                        }
+                    if ($d['chunk']->category->game_meta && ($d['chunk']->igdb || $d['chunk']->igdb != 0)) {
+                        $meta = \MarcReichel\IGDBLaravel\Models\Game::with(['cover' => ['url', 'image_id'], 'artworks' => ['url', 'image_id'], 'genres' => ['name']])->find($d['chunk']->igdb);
                     }
                     if ($meta) {
                         $d['chunk']->meta = $meta;
@@ -697,20 +679,14 @@ class TorrentController extends \App\Http\Controllers\Controller
             }
             foreach ($torrents as $torrent) {
                 $meta = null;
-                if ($torrent->category->tv_meta) {
-                    if ($torrent->tmdb || $torrent->tmdb != 0) {
-                        $meta = \App\Models\Tv::with('genres')->where('id', '=', $torrent->tmdb)->first();
-                    }
+                if ($torrent->category->tv_meta && ($torrent->tmdb || $torrent->tmdb != 0)) {
+                    $meta = \App\Models\Tv::with('genres')->where('id', '=', $torrent->tmdb)->first();
                 }
-                if ($torrent->category->movie_meta) {
-                    if ($torrent->tmdb || $torrent->tmdb != 0) {
-                        $meta = \App\Models\Movie::with('genres')->where('id', '=', $torrent->tmdb)->first();
-                    }
+                if ($torrent->category->movie_meta && ($torrent->tmdb || $torrent->tmdb != 0)) {
+                    $meta = \App\Models\Movie::with('genres')->where('id', '=', $torrent->tmdb)->first();
                 }
-                if ($torrent->category->game_meta) {
-                    if ($torrent->igdb || $torrent->igdb != 0) {
-                        $meta = \MarcReichel\IGDBLaravel\Models\Game::with(['cover' => ['url', 'image_id'], 'artworks' => ['url', 'image_id'], 'genres' => ['name']])->find($torrent->igdb);
-                    }
+                if ($torrent->category->game_meta && ($torrent->igdb || $torrent->igdb != 0)) {
+                    $meta = \MarcReichel\IGDBLaravel\Models\Game::with(['cover' => ['url', 'image_id'], 'artworks' => ['url', 'image_id'], 'genres' => ['name']])->find($torrent->igdb);
                 }
                 if ($meta) {
                     $torrent->meta = $meta;
