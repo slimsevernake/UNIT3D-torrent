@@ -13,10 +13,8 @@
 
 namespace App\Console\Commands;
 
-use App\Models\PrivateMessage;
-use App\Models\Warning;
-use Carbon\Carbon;
 use Illuminate\Console\Command;
+
 /**
  * @see \Tests\Unit\Console\Commands\AutoDeactivateWarningTest
  */
@@ -34,6 +32,7 @@ class AutoDeactivateWarning extends \Illuminate\Console\Command
      * @var string
      */
     protected $description = 'Automatically Deactivates User Warnings If Expired';
+
     /**
      * Execute the console command.
      *
@@ -52,7 +51,7 @@ class AutoDeactivateWarning extends \Illuminate\Console\Command
             $privateMessage->sender_id = 1;
             $privateMessage->receiver_id = $warning->warneduser->id;
             $privateMessage->subject = 'Hit and Run Warning Deactivated';
-            $privateMessage->message = 'The [b]WARNING[/b] you received relating to Torrent ' . $warning->torrenttitle->name . ' has expired! Try not to get more! [color=red][b]THIS IS AN AUTOMATED SYSTEM MESSAGE, PLEASE DO NOT REPLY![/b][/color]';
+            $privateMessage->message = 'The [b]WARNING[/b] you received relating to Torrent '.$warning->torrenttitle->name.' has expired! Try not to get more! [color=red][b]THIS IS AN AUTOMATED SYSTEM MESSAGE, PLEASE DO NOT REPLY![/b][/color]';
             $privateMessage->save();
         }
         $this->comment('Automated Warning Deativation Command Complete');

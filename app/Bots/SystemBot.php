@@ -22,6 +22,7 @@ class SystemBot
     private $message;
     private $targeted;
     private $log;
+
     /**
      * SystemBot Constructor.
      *
@@ -33,6 +34,7 @@ class SystemBot
         $this->chat = $chatRepository;
         $this->bot = $bot;
     }
+
     /**
      * Replace Vars.
      *
@@ -48,12 +50,14 @@ class SystemBot
             $botHelp = '';
             $bots = \App\Models\Bot::where('active', '=', 1)->where('id', '!=', $this->bot->id)->orderBy('position', 'asc')->get();
             foreach ($bots as $bot) {
-                $botHelp .= '( ! | / | @)' . $bot->command . ' help triggers help file for ' . $bot->name . "\n";
+                $botHelp .= '( ! | / | @)'.$bot->command.' help triggers help file for '.$bot->name."\n";
             }
             $output = \str_replace('{bots}', $botHelp, $output);
         }
+
         return $output;
     }
+
     /**
      * Get Help.
      */
@@ -61,6 +65,7 @@ class SystemBot
     {
         return $this->replaceVars($this->bot->help);
     }
+
     /**
      * Send Gift.
      *
@@ -76,7 +81,7 @@ class SystemBot
         $v = \validator(['receiver' => $receiver, 'amount' => $amount, 'note' => $output], ['receiver' => 'required|string|exists:users,username', 'amount' => \sprintf('required|numeric|min:1|max:%s', $this->target->seedbonus), 'note' => 'required|string']);
         if ($v->passes()) {
             $recipient = \App\Models\User::where('username', 'LIKE', $receiver)->first();
-            if (!$recipient || $recipient->id == $this->target->id) {
+            if (! $recipient || $recipient->id == $this->target->id) {
                 return 'Your BON gift could not be sent.';
             }
             $value = $amount;
@@ -99,10 +104,13 @@ class SystemBot
             $profileUrl = \href_profile($this->target);
             $recipientUrl = \href_profile($recipient);
             $this->chat->systemMessage(\sprintf('[url=%s]%s[/url] has gifted %s BON to [url=%s]%s[/url]', $profileUrl, $this->target->username, $value, $recipientUrl, $recipient->username));
-            return 'Your gift to ' . $recipient->username . ' for ' . $amount . ' BON has been sent!';
+
+            return 'Your gift to '.$recipient->username.' for '.$amount.' BON has been sent!';
         }
+
         return 'Your BON gift could not be sent.';
     }
+
     /**
      * Process Message.
      *
@@ -122,7 +130,7 @@ class SystemBot
         if ($message === '') {
             $log = '';
         } else {
-            $log = 'All ' . $this->bot->name . ' commands must be a private message or begin with /' . $this->bot->command . ' or !' . $this->bot->command . '. Need help? Type /' . $this->bot->command . ' help and you shall be helped.';
+            $log = 'All '.$this->bot->name.' commands must be a private message or begin with /'.$this->bot->command.' or !'.$this->bot->command.'. Need help? Type /'.$this->bot->command.' help and you shall be helped.';
         }
         $command = @\explode(' ', $message);
         if (\array_key_exists($x, $command)) {
@@ -142,8 +150,10 @@ class SystemBot
         $this->type = $type;
         $this->message = $message;
         $this->log = $log;
+
         return $this->pm();
     }
+
     /**
      * Output Message.
      */
@@ -159,8 +169,8 @@ class SystemBot
         }
         if ($type == 'message' || $type == 'private') {
             $receiverDirty = 0;
-            $receiverEchoes = \cache()->get('user-echoes' . $target->id);
-            if (!$receiverEchoes || !\is_array($receiverEchoes) || \count($receiverEchoes) < 1) {
+            $receiverEchoes = \cache()->get('user-echoes'.$target->id);
+            if (! $receiverEchoes || ! \is_array($receiverEchoes) || \count($receiverEchoes) < 1) {
                 $receiverEchoes = \App\Models\UserEcho::with(['room', 'target', 'bot'])->whereRaw('user_id = ?', [$target->id])->get();
             }
             $receiverListening = false;
@@ -169,7 +179,7 @@ class SystemBot
                     $receiverListening = true;
                 }
             }
-            if (!$receiverListening) {
+            if (! $receiverListening) {
                 $receiverPort = new \App\Models\UserEcho();
                 $receiverPort->user_id = $target->id;
                 $receiverPort->bot_id = $this->bot->id;
@@ -179,12 +189,12 @@ class SystemBot
             }
             if ($receiverDirty == 1) {
                 $expiresAt = \Carbon\Carbon::now()->addMinutes(60);
-                \cache()->put('user-echoes' . $target->id, $receiverEchoes, $expiresAt);
+                \cache()->put('user-echoes'.$target->id, $receiverEchoes, $expiresAt);
                 \event(new \App\Events\Chatter('echo', $target->id, \App\Http\Resources\UserEchoResource::collection($receiverEchoes)));
             }
             $receiverDirty = 0;
-            $receiverAudibles = \cache()->get('user-audibles' . $target->id);
-            if (!$receiverAudibles || !\is_array($receiverAudibles) || (\is_countable($receiverAudibles) ? \is_countable($receiverAudibles) ? \count($receiverAudibles) : 0 : 0) < 1) {
+            $receiverAudibles = \cache()->get('user-audibles'.$target->id);
+            if (! $receiverAudibles || ! \is_array($receiverAudibles) || (\is_countable($receiverAudibles) ? \is_countable($receiverAudibles) ? \count($receiverAudibles) : 0 : 0) < 1) {
                 $receiverAudibles = \App\Models\UserAudible::with(['room', 'target', 'bot'])->whereRaw('user_id = ?', [$target->id])->get();
             }
             $receiverListening = false;
@@ -193,7 +203,7 @@ class SystemBot
                     $receiverListening = true;
                 }
             }
-            if (!$receiverListening) {
+            if (! $receiverListening) {
                 $receiverPort = new \App\Models\UserAudible();
                 $receiverPort->user_id = $target->id;
                 $receiverPort->bot_id = $this->bot->id;
@@ -203,7 +213,7 @@ class SystemBot
             }
             if ($receiverDirty == 1) {
                 $expiresAt = \Carbon\Carbon::now()->addMinutes(60);
-                \cache()->put('user-audibles' . $target->id, $receiverAudibles, $expiresAt);
+                \cache()->put('user-audibles'.$target->id, $receiverAudibles, $expiresAt);
                 \event(new \App\Events\Chatter('audible', $target->id, \App\Http\Resources\UserAudibleResource::collection($receiverAudibles)));
             }
             if ($txt != '') {
@@ -211,6 +221,7 @@ class SystemBot
                 $message = $this->chat->privateMessage($target->id, $roomId, $message, 1, $this->bot->id);
                 $message = $this->chat->privateMessage(1, $roomId, $txt, $target->id, $this->bot->id);
             }
+
             return \response('success');
         }
         if ($type == 'echo') {
@@ -218,6 +229,7 @@ class SystemBot
                 $roomId = 0;
                 $message = $this->chat->botMessage($this->bot->id, $roomId, $txt, $target->id);
             }
+
             return \response('success');
         }
         if ($type == 'public') {
@@ -225,8 +237,10 @@ class SystemBot
                 $dumproom = $this->chat->message($target->id, $target->chatroom->id, $message, null, null);
                 $dumproom = $this->chat->message(1, $target->chatroom->id, $txt, null, $this->bot->id);
             }
+
             return \response('success');
         }
+
         return true;
     }
 }

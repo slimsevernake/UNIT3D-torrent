@@ -24,6 +24,7 @@ class CasinoBot
     private $log;
     private $expiresAt;
     private $current;
+
     /**
      * NerdBot Constructor.
      *
@@ -37,6 +38,7 @@ class CasinoBot
         $this->expiresAt = \Carbon\Carbon::now()->addMinutes(60);
         $this->current = \Carbon\Carbon::now();
     }
+
     /**
      * Replace Vars.
      *
@@ -52,12 +54,14 @@ class CasinoBot
             $botHelp = '';
             $bots = \App\Models\Bot::where('active', '=', 1)->where('id', '!=', $this->bot->id)->orderBy('position', 'asc')->get();
             foreach ($bots as $bot) {
-                $botHelp .= '( ! | / | @)' . $bot->command . ' help triggers help file for ' . $bot->name . "\n";
+                $botHelp .= '( ! | / | @)'.$bot->command.' help triggers help file for '.$bot->name."\n";
             }
             $output = \str_replace('{bots}', $botHelp, $output);
         }
+
         return $output;
     }
+
     /**
      * Send Bot Donation.
      *
@@ -88,10 +92,13 @@ class CasinoBot
             $botTransaction->save();
             $donations = \App\Models\BotTransaction::with('user', 'bot')->where('bot_id', '=', $this->bot->id)->where('to_bot', '=', 1)->latest()->limit(10)->get();
             \cache()->put('casinobot-donations', $donations, $this->expiresAt);
-            return 'Your donation to ' . $this->bot->name . ' for ' . $amount . ' BON has been sent!';
+
+            return 'Your donation to '.$this->bot->name.' for '.$amount.' BON has been sent!';
         }
-        return 'Your donation to ' . $output . ' could not be sent.';
+
+        return 'Your donation to '.$output.' could not be sent.';
     }
+
     /**
      * Get Bot Donations.
      *
@@ -104,18 +111,20 @@ class CasinoBot
     public function getDonations($duration = 'default')
     {
         $donations = \cache()->get('casinobot-donations');
-        if (!$donations || $donations == null) {
+        if (! $donations || $donations == null) {
             $donations = \App\Models\BotTransaction::with('user', 'bot')->where('bot_id', '=', $this->bot->id)->where('to_bot', '=', 1)->latest()->limit(10)->get();
             \cache()->put('casinobot-donations', $donations, $this->expiresAt);
         }
         $donationDump = '';
         $i = 1;
         foreach ($donations as $donation) {
-            $donationDump .= '#' . $i . '. ' . $donation->user->username . ' sent ' . $donation->cost . ' ' . $donation->forHumans() . ' with note: ' . $donation->comment . ".\n";
+            $donationDump .= '#'.$i.'. '.$donation->user->username.' sent '.$donation->cost.' '.$donation->forHumans().' with note: '.$donation->comment.".\n";
             $i++;
         }
-        return "The Most Recent Donations To Me Are As Follows:\n\n" . \trim($donationDump);
+
+        return "The Most Recent Donations To Me Are As Follows:\n\n".\trim($donationDump);
     }
+
     /**
      * Get Help.
      */
@@ -123,6 +132,7 @@ class CasinoBot
     {
         return $this->replaceVars($this->bot->help);
     }
+
     /**
      * Process Message.
      *
@@ -150,7 +160,7 @@ class CasinoBot
         if ($message === '') {
             $log = '';
         } else {
-            $log = 'All ' . $this->bot->name . ' commands must be a private message or begin with /' . $this->bot->command . ' or !' . $this->bot->command . '. Need help? Type /' . $this->bot->command . ' help and you shall be helped.';
+            $log = 'All '.$this->bot->name.' commands must be a private message or begin with /'.$this->bot->command.' or !'.$this->bot->command.'. Need help? Type /'.$this->bot->command.' help and you shall be helped.';
         }
         $command = @\explode(' ', $message);
         $wildcard = null;
@@ -177,8 +187,10 @@ class CasinoBot
         $this->type = $type;
         $this->message = $message;
         $this->log = $log;
+
         return $this->pm();
     }
+
     /**
      * Output Message.
      */
@@ -194,8 +206,8 @@ class CasinoBot
         }
         if ($type == 'message' || $type == 'private') {
             $receiverDirty = 0;
-            $receiverEchoes = \cache()->get('user-echoes' . $target->id);
-            if (!$receiverEchoes || !\is_array($receiverEchoes) || (\is_countable($receiverEchoes) ? \is_countable($receiverEchoes) ? \count($receiverEchoes) : 0 : 0) < 1) {
+            $receiverEchoes = \cache()->get('user-echoes'.$target->id);
+            if (! $receiverEchoes || ! \is_array($receiverEchoes) || (\is_countable($receiverEchoes) ? \is_countable($receiverEchoes) ? \count($receiverEchoes) : 0 : 0) < 1) {
                 $receiverEchoes = \App\Models\UserEcho::with(['room', 'target', 'bot'])->whereRaw('user_id = ?', [$target->id])->get();
             }
             $receiverListening = false;
@@ -204,7 +216,7 @@ class CasinoBot
                     $receiverListening = true;
                 }
             }
-            if (!$receiverListening) {
+            if (! $receiverListening) {
                 $receiverPort = new \App\Models\UserEcho();
                 $receiverPort->user_id = $target->id;
                 $receiverPort->bot_id = $this->bot->id;
@@ -214,12 +226,12 @@ class CasinoBot
             }
             if ($receiverDirty == 1) {
                 $expiresAt = \Carbon\Carbon::now()->addMinutes(60);
-                \cache()->put('user-echoes' . $target->id, $receiverEchoes, $expiresAt);
+                \cache()->put('user-echoes'.$target->id, $receiverEchoes, $expiresAt);
                 \event(new \App\Events\Chatter('echo', $target->id, \App\Http\Resources\UserEchoResource::collection($receiverEchoes)));
             }
             $receiverDirty = 0;
-            $receiverAudibles = \cache()->get('user-audibles' . $target->id);
-            if (!$receiverAudibles || !\is_array($receiverAudibles) || (\is_countable($receiverAudibles) ? \is_countable($receiverAudibles) ? \count($receiverAudibles) : 0 : 0) < 1) {
+            $receiverAudibles = \cache()->get('user-audibles'.$target->id);
+            if (! $receiverAudibles || ! \is_array($receiverAudibles) || (\is_countable($receiverAudibles) ? \is_countable($receiverAudibles) ? \count($receiverAudibles) : 0 : 0) < 1) {
                 $receiverAudibles = \App\Models\UserAudible::with(['room', 'target', 'bot'])->whereRaw('user_id = ?', [$target->id])->get();
             }
             $receiverListening = false;
@@ -228,7 +240,7 @@ class CasinoBot
                     $receiverListening = true;
                 }
             }
-            if (!$receiverListening) {
+            if (! $receiverListening) {
                 $receiverPort = new \App\Models\UserAudible();
                 $receiverPort->user_id = $target->id;
                 $receiverPort->bot_id = $this->bot->id;
@@ -238,7 +250,7 @@ class CasinoBot
             }
             if ($receiverDirty == 1) {
                 $expiresAt = \Carbon\Carbon::now()->addMinutes(60);
-                \cache()->put('user-audibles' . $target->id, $receiverAudibles, $expiresAt);
+                \cache()->put('user-audibles'.$target->id, $receiverAudibles, $expiresAt);
                 \event(new \App\Events\Chatter('audible', $target->id, \App\Http\Resources\UserAudibleResource::collection($receiverAudibles)));
             }
             if ($txt != '') {
@@ -246,6 +258,7 @@ class CasinoBot
                 $message = $this->chat->privateMessage($target->id, $roomId, $message, 1, $this->bot->id);
                 $message = $this->chat->privateMessage(1, $roomId, $txt, $target->id, $this->bot->id);
             }
+
             return \response('success');
         }
         if ($type == 'echo') {
@@ -253,6 +266,7 @@ class CasinoBot
                 $roomId = 0;
                 $message = $this->chat->botMessage($this->bot->id, $roomId, $txt, $target->id);
             }
+
             return \response('success');
         }
         if ($type == 'public') {
@@ -260,8 +274,10 @@ class CasinoBot
                 $dumproom = $this->chat->message($target->id, $target->chatroom->id, $message, null, null);
                 $dumproom = $this->chat->message(1, $target->chatroom->id, $txt, null, $this->bot->id);
             }
+
             return \response('success');
         }
+
         return true;
     }
 }
