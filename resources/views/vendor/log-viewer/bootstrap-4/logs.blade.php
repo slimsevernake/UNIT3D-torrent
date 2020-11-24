@@ -12,8 +12,8 @@
             <thead>
                 <tr>
                     @foreach($headers as $key => $header)
-                    <th scope="col" class="{{ $key == 'date' ? 'text-left' : 'text-center' }}">
-                        @if ($key == 'date')
+                    <th scope="col" class="{{ $key === 'date' ? 'text-left' : 'text-center' }}">
+                        @if ($key === 'date')
                             <span class="badge badge-info">{{ $header }}</span>
                         @else
                             <span class="badge badge-level-{{ $key }}">
@@ -29,8 +29,8 @@
                 @forelse($rows as $date => $row)
                     <tr>
                         @foreach($row as $key => $value)
-                            <td class="{{ $key == 'date' ? 'text-left' : 'text-center' }}">
-                                @if ($key == 'date')
+                            <td class="{{ $key === 'date' ? 'text-left' : 'text-center' }}">
+                                @if ($key === 'date')
                                     <span class="badge badge-primary">{{ $value }}</span>
                                 @elseif ($value == 0)
                                     <span class="badge empty">{{ $value }}</span>

@@ -62,7 +62,7 @@ class AlbumController extends \App\Http\Controllers\Controller
         $album->description = $request->input('description');
         $album->imdb = $request->input('imdb');
         $image = $request->file('cover_image');
-        $filename = 'album-cover_'.\uniqid().'.'.$image->getClientOriginalExtension();
+        $filename = 'album-cover_'.\uniqid('', true).'.'.$image->getClientOriginalExtension();
         $path = \public_path('/files/img/'.$filename);
         \Intervention\Image\Facades\Image::make($image->getRealPath())->fit(400, 225)->encode('png', 100)->save($path);
         $album->cover_image = $filename;
@@ -104,7 +104,7 @@ class AlbumController extends \App\Http\Controllers\Controller
     {
         $user = $request->user();
         $album = \App\Models\Album::findOrFail($id);
-        \abort_unless($user->group->is_modo || $user->id === $album->user_id && \Carbon\Carbon::now()->lt($album->created_at->addDay()), 403);
+        \abort_unless($user->group->is_modo || ($user->id === $album->user_id && \Carbon\Carbon::now()->lt($album->created_at->addDay())), 403);
         $album->delete();
 
         return \redirect()->route('albums.index')->withSuccess('Album has successfully been deleted');

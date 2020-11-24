@@ -125,7 +125,7 @@ class ChatRepository
 
     public function ping($type, $id)
     {
-        if ($type == 'room') {
+        if ($type === 'room') {
             $rooms = Chatroom::where('id', '>', 0)->get();
             foreach ($rooms as $room) {
                 \broadcast(new Ping($room->id, $id));

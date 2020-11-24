@@ -277,7 +277,7 @@ class TorrentController extends \App\Http\Controllers\Controller
         $downloaded = null;
         $leeching = null;
         $idling = null;
-        if ($request->has('view') && $request->input('view') == 'group') {
+        if ($request->has('view') && $request->input('view') === 'group') {
             $collection = 1;
         }
         if ($request->has('notdownloaded') && $request->input('notdownloaded') != null) {
@@ -356,7 +356,7 @@ class TorrentController extends \App\Http\Controllers\Controller
             $order = 'desc';
             // $order = 'asc';
         }
-        $direction = $order == 'asc' ? 1 : 2;
+        $direction = $order === 'asc' ? 1 : 2;
         $qty = $request->has('qty') ? $request->input('qty') : 25;
         if ($collection == 1) {
             $torrent = \Illuminate\Support\Facades\DB::table('torrents')->selectRaw('distinct(torrents.imdb),max(torrents.bumped_at) as sbumped_at,max(torrents.seeders) as sseeders,max(torrents.leechers) as sleechers,max(torrents.times_completed) as stimes_completed,max(torrents.name) as sname,max(torrents.size) as ssize')->leftJoin('torrents as torrentsl', 'torrents.id', '=', 'torrentsl.id')->groupBy('torrents.imdb')->whereRaw('torrents.status = ? AND torrents.imdb != ?', [1, 0]);
@@ -654,7 +654,7 @@ class TorrentController extends \App\Http\Controllers\Controller
                 }
             }
         }
-        if ($request->has('view') && $request->input('view') == 'card') {
+        if ($request->has('view') && $request->input('view') === 'card') {
             if ($logger == null) {
                 $logger = 'torrent.results_cards';
             }
@@ -886,7 +886,7 @@ class TorrentController extends \App\Http\Controllers\Controller
             $user = $request->user();
             $id = $request->id;
             $torrent = \App\Models\Torrent::withAnyStatus()->findOrFail($id);
-            if ($user->group->is_modo || $user->id == $torrent->user_id && \Carbon\Carbon::now()->lt($torrent->created_at->addDay())) {
+            if ($user->group->is_modo || ($user->id == $torrent->user_id && \Carbon\Carbon::now()->lt($torrent->created_at->addDay()))) {
                 $users = \App\Models\History::where('info_hash', '=', $torrent->info_hash)->get();
                 foreach ($users as $pm) {
                     $privateMessage = new \App\Models\PrivateMessage();
@@ -1012,7 +1012,7 @@ class TorrentController extends \App\Http\Controllers\Controller
         if ($request->hasFile('torrent') == false) {
             return \redirect()->route('upload_form', ['category_id' => $category->id])->withErrors('You Must Provide A Torrent File For Upload!')->withInput();
         }
-        if ($requestFile->getError() != 0 && $requestFile->getClientOriginalExtension() != 'torrent') {
+        if ($requestFile->getError() != 0 && $requestFile->getClientOriginalExtension() !== 'torrent') {
             return \redirect()->route('upload_form', ['category_id' => $category->id])->withErrors('An Unknown Error Has Occurred!')->withInput();
         }
         // Deplace and decode the torrent temporarily
@@ -1168,7 +1168,7 @@ class TorrentController extends \App\Http\Controllers\Controller
         }
         // Get the content of the torrent
         $dict = \App\Helpers\Bencode::bdecode(\file_get_contents(\getcwd().'/files/torrents/'.$torrent->file_name));
-        if ($request->user() || $rsskey && $user) {
+        if ($request->user() || ($rsskey && $user)) {
             // Set the announce key and add the user passkey
             $dict['announce'] = \route('announce', ['passkey' => $user->passkey]);
             // Remove Other announce url

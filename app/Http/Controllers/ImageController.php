@@ -52,7 +52,7 @@ class ImageController extends Controller
         $image->type = $request->input('type');
 
         $file = $request->file('image');
-        $randomName = \uniqid();
+        $randomName = \uniqid('', true);
         $destinationPath = \public_path('/files/img/');
         $clientOriginalExtension = $file->getClientOriginalExtension();
         $filename = 'album-image_'.$randomName.'.'.$clientOriginalExtension;

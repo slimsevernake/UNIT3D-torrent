@@ -52,15 +52,15 @@ class Chatter implements ShouldBroadcastNow
     public function __construct($type, $target, $payload)
     {
         $this->type = $type;
-        if ($type == 'echo') {
+        if ($type === 'echo') {
             $this->echoes = $payload;
-        } elseif ($type == 'audible') {
+        } elseif ($type === 'audible') {
             $this->audibles = $payload;
-        } elseif ($type == 'new.message') {
+        } elseif ($type === 'new.message') {
             $this->message = $payload;
-        } elseif ($type == 'new.bot') {
+        } elseif ($type === 'new.bot') {
             $this->message = $payload;
-        } elseif ($type == 'new.ping') {
+        } elseif ($type === 'new.ping') {
             $this->ping = $payload;
         }
         $this->target = $target;

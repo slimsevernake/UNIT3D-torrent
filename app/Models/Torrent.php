@@ -402,7 +402,7 @@ class Torrent extends \Illuminate\Database\Eloquent\Model
      */
     public function notifyUploader($type, $payload)
     {
-        if ($type == 'thank') {
+        if ($type === 'thank') {
             $user = \App\Models\User::with('notification')->findOrFail($this->user_id);
             if ($user->acceptsNotification(\auth()->user(), $user, 'torrent', 'show_torrent_thank')) {
                 $user->notify(new \App\Notifications\NewThank('torrent', $payload));

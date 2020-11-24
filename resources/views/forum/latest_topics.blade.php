@@ -68,7 +68,7 @@
                             </td>
                             <td class="f-display-topic-title">
                                 <strong><a href="{{ route('forum_topic', ['id' => $r->id]) }}">{{ $r->name }}</a></strong>
-                                @if ($r->state == "close") <span
+                                @if ($r->state === "close") <span
                                     class='label label-sm label-default'>{{ strtoupper(trans('forum.closed')) }}</span> @endif
                                 @if ($r->approved == "1") <span
                                     class='label label-sm label-success'>{{ strtoupper(trans('forum.approved')) }}</span> @endif

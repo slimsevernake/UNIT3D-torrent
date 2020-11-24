@@ -75,12 +75,12 @@
                                     <div class="form-group">
                                         <label for="email" class="control-label">@lang('auth.email')</label>
                                         <input id="email" type="email" class="form-control" name="email" required>
-                                       @if (config('email-white-blacklist.enabled') == 'block')
+                                       @if (config('email-white-blacklist.enabled') === 'block')
                                             <br>
                                             <a target="_blank" rel="noopener noreferrer" href="{{ route('public.email') }}">
                                                 @lang('common.email-blacklist')
                                             </a>
-                                       @elseif (config('email-white-blacklist.enabled') == 'allow')
+                                       @elseif (config('email-white-blacklist.enabled') === 'allow')
                                             <br>
                                             <a target="_blank" rel="noopener noreferrer" href="{{ route('public.email') }}">
                                                 @lang('common.email-whitelist')

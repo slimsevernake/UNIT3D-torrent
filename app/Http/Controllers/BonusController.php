@@ -268,7 +268,7 @@ class BonusController extends \App\Http\Controllers\Controller
         $user = $request->user();
         $v = \validator($request->all(), ['to_username' => 'required|exists:users,username|max:180', 'bonus_points' => \sprintf('required|numeric|min:1|max:%s', $user->seedbonus), 'bonus_message' => 'required|string']);
         $dest = 'default';
-        if ($request->has('dest') && $request->input('dest') == 'profile') {
+        if ($request->has('dest') && $request->input('dest') === 'profile') {
             $dest = 'profile';
         }
         if ($v->passes()) {
@@ -296,7 +296,7 @@ class BonusController extends \App\Http\Controllers\Controller
             $profileUrl = \href_profile($user);
             $recipientUrl = \href_profile($recipient);
             $this->chatRepository->systemMessage(\sprintf('[url=%s]%s[/url] has gifted %s BON to [url=%s]%s[/url]', $profileUrl, $user->username, $value, $recipientUrl, $recipient->username));
-            if ($dest == 'profile') {
+            if ($dest === 'profile') {
                 return \redirect()->route('users.show', ['username' => $recipient->username])->withSuccess('Gift Sent');
             }
 
@@ -308,7 +308,7 @@ class BonusController extends \App\Http\Controllers\Controller
             if (! $recipient || $recipient->id == $user->id) {
                 return \redirect()->route('bonus_store')->withErrors('Unable to find specified user');
             }
-            if ($dest == 'profile') {
+            if ($dest === 'profile') {
                 return \redirect()->route('users.show', ['username' => $recipient->username])->withErrors('You Must Enter An Amount And Message!');
             }
 

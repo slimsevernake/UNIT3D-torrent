@@ -146,7 +146,7 @@ class UserNotification extends \Illuminate\Database\Eloquent\Model
     public function setDefaultValues($type = 'default')
     {
         foreach ($this->casts as $k => $v) {
-            if ($v == 'array') {
+            if ($v === 'array') {
                 $this->{$k} = $this->expected_groups;
             }
         }

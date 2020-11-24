@@ -35,7 +35,7 @@ class SetLanguage
         // Set carbon language
         if (\config('language.carbon')) {
             // Carbon uses only language code
-            if (\config('language.mode.code') == 'long') {
+            if (\config('language.mode.code') === 'long') {
                 $locale = \explode('-', $locale)[0];
             }
             \Carbon\Carbon::setLocale($locale);
@@ -43,7 +43,7 @@ class SetLanguage
         // Set date language
         if (\config('language.date')) {
             // Date uses only language code
-            if (\config('language.mode.code') == 'long') {
+            if (\config('language.mode.code') === 'long') {
                 $locale = \explode('-', $locale)[0];
             }
             \Date::setLocale($locale);

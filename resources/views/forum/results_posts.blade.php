@@ -289,10 +289,10 @@
                                                     <label for="sorting"></label><select id="sorting" name="sorting"
                                                         class="form-control">
                                                         <option value="updated_at"
-                                                            {{ isset($params) && is_array($params) && array_key_exists('sorting', $params) && $params['sorting'] == 'updated_at' ? 'SELECTED' : '' }}>
+                                                            {{ isset($params) && is_array($params) && array_key_exists('sorting', $params) && $params['sorting'] === 'updated_at' ? 'SELECTED' : '' }}>
                                                             Updated At</option>
                                                         <option value="created_at"
-                                                            {{ isset($params) && is_array($params) && array_key_exists('sorting', $params) && $params['sorting'] == 'created_at' ? 'SELECTED' : '' }}>
+                                                            {{ isset($params) && is_array($params) && array_key_exists('sorting', $params) && $params['sorting'] === 'created_at' ? 'SELECTED' : '' }}>
                                                             Created At</option>
                                                     </select>
                                                 </div>
@@ -304,10 +304,10 @@
                                                     <label for="direction"></label><select id="direction" name="direction"
                                                         class="form-control">
                                                         <option value="desc"
-                                                            {{ isset($params) && is_array($params) && array_key_exists('direction', $params) && $params['direction'] == 'desc' ? 'SELECTED' : '' }}>
+                                                            {{ isset($params) && is_array($params) && array_key_exists('direction', $params) && $params['direction'] === 'desc' ? 'SELECTED' : '' }}>
                                                             @lang('common.descending')</option>
                                                         <option value="asc"
-                                                            {{ isset($params) && is_array($params) && array_key_exists('direction', $params) && $params['direction'] == 'asc' ? 'SELECTED' : '' }}>
+                                                            {{ isset($params) && is_array($params) && array_key_exists('direction', $params) && $params['direction'] === 'asc' ? 'SELECTED' : '' }}>
                                                             @lang('common.ascending')</option>
                                                     </select>
                                                 </div>
@@ -344,7 +344,7 @@
                             <td class="f-display-topic-title">
                                 <strong><a
                                         href="{{ route('forum_topic', ['id' => $r->topic->id]) }}">{{ $r->topic->name }}</a></strong>
-                                @if ($r->topic->state == "close") <span
+                                @if ($r->topic->state === "close") <span
                                     class='label label-sm label-default'>{{ strtoupper(trans('forum.closed')) }}</span> @endif
                                 @if ($r->topic->approved == "1") <span
                                     class='label label-sm label-success'>{{ strtoupper(trans('forum.approved')) }}</span> @endif

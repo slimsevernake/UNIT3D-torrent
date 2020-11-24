@@ -109,15 +109,15 @@
 
 
                                 <span class="inline">
-                                    @if ($topic->state == 'open')
+                                    @if ($topic->state === 'open')
                                         <button id="quote" class="btn btn-xs btn-xxs btn-info">@lang('forum.quote')</button>
                                     @endauth
                                     @if (auth()->user()->group->is_modo || $p->user_id == auth()->user()->id)
                                         <a href="{{ route('forum_post_edit_form', ['id' => $topic->id, 'postId' => $p->id]) }}"><button
                                                 class="btn btn-xs btn-xxs btn-warning">@lang('common.edit')</button></a>
                                     @endauth
-                                    @if (auth()->user()->group->is_modo || $p->user_id == auth()->user()->id && $topic->state ==
-                                        'open')
+                                    @if (auth()->user()->group->is_modo || ($p->user_id == auth()->user()->id && $topic->state ==
+                                        'open'))
                                         <a href="{{ route('forum_post_delete', ['id' => $topic->id, 'postId' => $p->id]) }}"><button
                                                 class="btn btn-xs btn-xxs btn-danger">@lang('common.delete')</button></a>
                                     @endauth
@@ -187,7 +187,7 @@
             <br>
             <div class="block">
                 <div class="topic-new-post">
-                    @if ($topic->state == "close" && auth()->user()->group->is_modo)
+                    @if ($topic->state === "close" && auth()->user()->group->is_modo)
                         <form role="form" method="POST" action="{{ route('forum_reply', ['id' => $topic->id]) }}">
                             @csrf
                             <div class="text-danger">This topic is closed, but you can still reply due to you
@@ -199,7 +199,7 @@
                             </div>
                             <button type="submit" class="btn btn-primary">@lang('common.submit')</button>
                         </form>
-                    @elseif ($topic->state == "close")
+                    @elseif ($topic->state === "close")
                         <div class="col-md-12 alert alert-danger">@lang('forum.topic-closed')</div>
                     @else
                         <form role="form" method="POST" action="{{ route('forum_reply', ['id' => $topic->id]) }}">
@@ -215,7 +215,7 @@
                     <div class="text-center">
                         @if (auth()->user()->group->is_modo || $topic->first_post_user_id == auth()->user()->id)
                             <h3>@lang('forum.moderation')</h3>
-                            @if ($topic->state == "close")
+                            @if ($topic->state === "close")
                                 <a href="{{ route('forum_open', ['id' => $topic->id]) }}"
                                     class="btn btn-success">@lang('forum.open-topic')</a>
                             @else

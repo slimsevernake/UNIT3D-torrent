@@ -83,12 +83,12 @@
                 <a href="{{ route('username.request') }}">
                     <h2 class="inactive underlineHover">@lang('auth.lost-username') </h2>
                 </a>
-                @if (config('email-white-blacklist.enabled') == 'block')
+                @if (config('email-white-blacklist.enabled') === 'block')
                     <br>
                     <a href="{{ route('public.email') }}">
                         <h2 class="inactive underlineHover">@lang('common.email-blacklist') </h2>
                     </a>
-                @elseif (config('email-white-blacklist.enabled') == 'allow')
+                @elseif (config('email-white-blacklist.enabled') === 'allow')
                     <br>
                     <a href="{{ route('public.email') }}">
                         <h2 class="inactive underlineHover">@lang('common.email-whitelist') </h2>

@@ -123,7 +123,7 @@ class SystemBot
     public function process($type, \App\Models\User $user, $message = '', $targeted = 0)
     {
         $this->target = $user;
-        $x = $type == 'message' ? 0 : 1;
+        $x = $type === 'message' ? 0 : 1;
         $y = $x + 1;
         $z = $y + 1;
         if ($message === '') {
@@ -166,7 +166,7 @@ class SystemBot
         if ($targeted) {
             // future holder
         }
-        if ($type == 'message' || $type == 'private') {
+        if ($type === 'message' || $type === 'private') {
             $receiverDirty = 0;
             $receiverEchoes = \cache()->get('user-echoes'.$target->id);
             if (! $receiverEchoes || ! \is_array($receiverEchoes) || \count($receiverEchoes) < 1) {
@@ -223,7 +223,7 @@ class SystemBot
 
             return \response('success');
         }
-        if ($type == 'echo') {
+        if ($type === 'echo') {
             if ($txt != '') {
                 $roomId = 0;
                 $message = $this->chat->botMessage($this->bot->id, $roomId, $txt, $target->id);
@@ -231,7 +231,7 @@ class SystemBot
 
             return \response('success');
         }
-        if ($type == 'public') {
+        if ($type === 'public') {
             if ($txt != '') {
                 $dumproom = $this->chat->message($target->id, $target->chatroom->id, $message, null, null);
                 $dumproom = $this->chat->message(1, $target->chatroom->id, $txt, null, $this->bot->id);

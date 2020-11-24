@@ -80,7 +80,7 @@ class TorrentController extends \App\Http\Controllers\API\BaseController
         } catch (\Exception $e) {
             return $this->sendError('Validation Error.', 'You Must Provide A Valid Torrent File For Upload!');
         }
-        $fileName = \sprintf('%s.torrent', \uniqid());
+        $fileName = \sprintf('%s.torrent', \uniqid('', true));
         // Generate a unique name
         \Illuminate\Support\Facades\Storage::disk('torrents')->put($fileName, \App\Helpers\Bencode::bencode($decodedTorrent));
         // Find the right category
@@ -382,7 +382,7 @@ class TorrentController extends \App\Http\Controllers\API\BaseController
         if ($request->has('reseed') && $request->input('reseed') != null) {
             $torrent->where('torrents.seeders', '=', 0)->where('torrents.leechers', '>=', 1);
         }
-        if (! empty($torrent)) {
+        if ($torrent !== null) {
             return new \App\Http\Resources\TorrentsResource($torrent->paginate(25));
         }
 

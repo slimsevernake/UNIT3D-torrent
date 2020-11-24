@@ -1,4 +1,4 @@
-@if($route == 'profile' && auth()->user()->id != $user->id)
+@if($route === 'profile' && auth()->user()->id != $user->id)
     
 @else
     <div class="button-holder">

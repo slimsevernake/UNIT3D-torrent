@@ -24,7 +24,7 @@
             @lang('user.seeds')
         </a>
         @if(auth()->user()->id == $user->id)
-            @if(!$route || $route != 'profile')
+            @if(!$route || $route !== 'profile')
                 <a href="{{ route('download_history_torrents', ['username' => $user->username]) }}" role="button"
                     class="btn btn-sm btn-labeled btn-success">
                     <span class='btn-label'>

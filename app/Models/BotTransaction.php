@@ -86,7 +86,7 @@ class BotTransaction extends \Illuminate\Database\Eloquent\Model
      */
     public function forHumans()
     {
-        if ($this->type == 'bon') {
+        if ($this->type === 'bon') {
             return 'BON';
         }
 

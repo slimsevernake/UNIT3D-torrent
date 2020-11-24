@@ -47,7 +47,7 @@ class Language
         if ($locale === 'default') {
             $locale = \app()->getLocale();
         }
-        if (\config('language.mode.code', 'short') == 'short') {
+        if (\config('language.mode.code', 'short') === 'short') {
             return \strtolower(\substr(self::getLongCode($locale), 3));
         }
 

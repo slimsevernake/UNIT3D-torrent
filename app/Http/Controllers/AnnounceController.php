@@ -393,7 +393,7 @@ class AnnounceController extends \App\Http\Controllers\Controller
          */
         if (\strtolower($queries['event']) !== 'stopped') {
             $limit = $queries['numwant'] <= 50 ? $queries['numwant'] : 50;
-            // Get Torrents Peers
+            // Get Torrents Peerss
             $peers = \App\Models\Peer::where('torrent_id', '=', $torrent->id)->where('user_id', '!=', $user->id)->take($limit)->get()->toArray();
             $repDict['peers'] = $this->givePeers($peers, $queries['compact'], $queries['no_peer_id'], FILTER_FLAG_IPV4);
             $repDict['peers6'] = $this->givePeers($peers, $queries['compact'], $queries['no_peer_id'], FILTER_FLAG_IPV6);
