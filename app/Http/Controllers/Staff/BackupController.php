@@ -26,6 +26,9 @@ use League\Flysystem\Adapter\Local;
  */
 class BackupController extends Controller
 {
+    /**
+     * @var string
+     */
     private const MESSAGE = 'success';
 
     /**
@@ -101,10 +104,10 @@ class BackupController extends Controller
             } else {
                 Log::info('BackupManager process has started');
             }
-        } catch (Exception $e) {
-            Log::error($e);
+        } catch (Exception $exception) {
+            Log::error($exception);
 
-            \response($e->getMessage(), 500);
+            \response($exception->getMessage(), 500);
         }
 
         return self::MESSAGE;
@@ -137,10 +140,10 @@ class BackupController extends Controller
             } else {
                 Log::info('BackupManager process has started');
             }
-        } catch (Exception $e) {
-            Log::error($e);
+        } catch (Exception $exception) {
+            Log::error($exception);
 
-            \response($e->getMessage(), 500);
+            \response($exception->getMessage(), 500);
         }
 
         return self::MESSAGE;
@@ -173,10 +176,10 @@ class BackupController extends Controller
             } else {
                 Log::info('BackupManager process has started');
             }
-        } catch (Exception $e) {
-            Log::error($e);
+        } catch (Exception $exception) {
+            Log::error($exception);
 
-            \response($e->getMessage(), 500);
+            \response($exception->getMessage(), 500);
         }
 
         return self::MESSAGE;

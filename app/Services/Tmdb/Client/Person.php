@@ -19,6 +19,9 @@ class Person
      * @var \GuzzleHttp\Client|mixed
      */
     public $client;
+    /**
+     * @var string
+     */
     public const API_BASE_URI = 'https://api.TheMovieDB.org/3';
     public $data;
 
@@ -58,12 +61,12 @@ class Person
 
     public function get_known_for_department()
     {
-        return \preg_replace('/[[:^print:]]/', '', $this->data['known_for_department']);
+        return \preg_replace('#[[:^print:]]#', '', $this->data['known_for_department']);
     }
 
     public function get_deathday()
     {
-        return \preg_replace('/[[:^print:]]/', '', $this->data['deathday']);
+        return \preg_replace('#[[:^print:]]#', '', $this->data['deathday']);
     }
 
     public function get_id()
@@ -78,7 +81,7 @@ class Person
 
     public function get_name()
     {
-        return \preg_replace('/[[:^print:]]/', '', $this->data['name']);
+        return \preg_replace('#[[:^print:]]#', '', $this->data['name']);
     }
 
     public function get_gender()

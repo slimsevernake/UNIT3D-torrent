@@ -19,6 +19,9 @@ class Season
      * @var \GuzzleHttp\Client|mixed
      */
     public $client;
+    /**
+     * @var string
+     */
     public const API_BASE_URI = 'https://api.TheMovieDB.org/3';
     public $data;
 
@@ -63,12 +66,12 @@ class Season
 
     public function get_name()
     {
-        return \preg_replace('/[[:^print:]]/', '', $this->data['name']);
+        return \preg_replace('#[[:^print:]]#', '', $this->data['name']);
     }
 
     public function get_overview()
     {
-        return \preg_replace('/[[:^print:]]/', '', $this->data['overview']);
+        return \preg_replace('#[[:^print:]]#', '', $this->data['overview']);
     }
 
     public function get_id()

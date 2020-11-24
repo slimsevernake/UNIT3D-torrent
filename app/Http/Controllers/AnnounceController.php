@@ -32,11 +32,26 @@ use Illuminate\Http\Request;
 class AnnounceController extends \App\Http\Controllers\Controller
 {
     // Torrent Moderation Codes
+    /**
+     * @var int
+     */
     protected const PENDING = 0;
+    /**
+     * @var int
+     */
     protected const REJECTED = 2;
+    /**
+     * @var int
+     */
     protected const POSTPONED = 3;
     // Announce Intervals
+    /**
+     * @var int
+     */
     private const MIN = 2400;
+    /**
+     * @var int
+     */
     private const MAX = 3600;
     // Port Blacklist
     private const BLACK_PORTS = [
@@ -119,8 +134,8 @@ class AnnounceController extends \App\Http\Controllers\Controller
              * Dispatch The Specfic Annnounce Event Job.
              */
             $this->sendAnnounceJob($queries, $user, $torrent);
-        } catch (\App\Exceptions\TrackerException $exception) {
-            $rep_dict = $this->generateFailedAnnounceResponse($exception);
+        } catch (\App\Exceptions\TrackerException $trackerException) {
+            $rep_dict = $this->generateFailedAnnounceResponse($trackerException);
         } finally {
             return $this->sendFinalAnnounceResponse($rep_dict);
         }
@@ -148,7 +163,7 @@ class AnnounceController extends \App\Http\Controllers\Controller
             throw new \App\Exceptions\TrackerException(123);
         }
         // Block Browser by check it's User-Agent
-        if (\preg_match('/(Mozilla|Browser|Chrome|Safari|AppleWebKit|Opera|Links|Lynx|Bot|Unknown)/i', $user_agent)) {
+        if (\preg_match('#(Mozilla|Browser|Chrome|Safari|AppleWebKit|Opera|Links|Lynx|Bot|Unknown)#i', $user_agent)) {
             throw new \App\Exceptions\TrackerException(121);
         }
     }

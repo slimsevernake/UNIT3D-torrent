@@ -16,7 +16,7 @@ namespace App\Helpers;
 class Markdown
 {
     /**
-     * @var string[]
+     * @var array<string, string>
      */
     private const SPECIAL_CHARACTER = ['>' => 'gt', '<' => 'lt', '"' => 'quot'];
 
@@ -1205,7 +1205,7 @@ class Markdown
 
     protected function inlineSpecialCharacter($Excerpt)
     {
-        if ($Excerpt['text'][0] === '&' && ! \preg_match('~^&#?\w+;~', $Excerpt['text'])) {
+        if ($Excerpt['text'][0] === '&' && ! \preg_match('#^&#?\w+;#', $Excerpt['text'])) {
             return [
                 'markup' => '&amp;',
                 'extent' => 1,

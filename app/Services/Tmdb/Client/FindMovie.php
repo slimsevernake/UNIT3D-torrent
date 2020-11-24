@@ -19,6 +19,9 @@ class FindMovie
      * @var \GuzzleHttp\Client|mixed
      */
     public $client;
+    /**
+     * @var string
+     */
     public const API_BASE_URI = 'https://api.TheMovieDB.org/3';
     public $data;
 
