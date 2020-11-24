@@ -36,7 +36,7 @@ class AddAnonToRequestBountyTable extends Migration
      */
     public function down()
     {
-        Schema::table('request_bounty', function (Blueprint $table) {
+        Schema::table('request_bounty', static function (Blueprint $table) {
             //
         });
     }

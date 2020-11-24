@@ -20,28 +20,28 @@ class BackupEncryption
      *
      * @var string
      */
-    const ENCRYPTION_DEFAULT = 'default';
+    public const ENCRYPTION_DEFAULT = 'default';
 
     /**
      * AES-128 encryption contants.
      *
      * @var string
      */
-    const ENCRYPTION_WINZIP_AES_128 = 'aes_128';
+    public const ENCRYPTION_WINZIP_AES_128 = 'aes_128';
 
     /**
      * AES-192 encryption contants.
      *
      * @var string
      */
-    const ENCRYPTION_WINZIP_AES_192 = 'aes_192';
+    public const ENCRYPTION_WINZIP_AES_192 = 'aes_192';
 
     /**
      * AES-256 encryption contants.
      *
      * @var string
      */
-    const ENCRYPTION_WINZIP_AES_256 = 'aes_256';
+    public const ENCRYPTION_WINZIP_AES_256 = 'aes_256';
 
     /**
      * ZipArchive encryption constants; stores as simple string for PHP < 7.2

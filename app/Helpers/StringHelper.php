@@ -18,27 +18,27 @@ class StringHelper
     /**
      * @var int
      */
-    const KIB = 1_024;
+    public const KIB = 1_024;
 
     /**
      * @var int
      */
-    const MIB = 1_024 * 1_024;
+    public const MIB = 1_024 * 1_024;
 
     /**
      * @var int
      */
-    const GIB = 1_024 * 1_024 * 1_024;
+    public const GIB = 1_024 * 1_024 * 1_024;
 
     /**
      * @var int
      */
-    const TIB = 1_024 * 1_024 * 1_024 * 1_024;
+    public const TIB = 1_024 * 1_024 * 1_024 * 1_024;
 
     /**
      * @var int
      */
-    const PIB = 1_024 * 1_024 * 1_024 * 1_024 * 1_024;
+    public const PIB = 1_024 * 1_024 * 1_024 * 1_024 * 1_024;
 
     /**
      * @var string

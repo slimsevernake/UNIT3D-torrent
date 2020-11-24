@@ -37,7 +37,7 @@ class AddSoftDeletesToWarnings extends Migration
      */
     public function down()
     {
-        Schema::table('warnings', function (Blueprint $table) {
+        Schema::table('warnings', static function (Blueprint $table) {
             //
         });
     }

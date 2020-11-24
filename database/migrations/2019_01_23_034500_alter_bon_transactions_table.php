@@ -36,7 +36,7 @@ class AlterBonTransactionsTable extends Migration
      */
     public function down()
     {
-        Schema::table('bon_transactions', function (Blueprint $table) {
+        Schema::table('bon_transactions', static function (Blueprint $table) {
             //
         });
     }

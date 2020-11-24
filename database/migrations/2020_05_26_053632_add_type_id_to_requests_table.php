@@ -48,7 +48,7 @@ class AddTypeIdToRequestsTable extends Migration
      */
     public function down()
     {
-        Schema::table('requests', function (Blueprint $table) {
+        Schema::table('requests', static function (Blueprint $table) {
             //
         });
     }

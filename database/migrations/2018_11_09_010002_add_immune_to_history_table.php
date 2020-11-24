@@ -38,7 +38,7 @@ class AddImmuneToHistoryTable extends Migration
      */
     public function down()
     {
-        Schema::table('history', function (Blueprint $table) {
+        Schema::table('history', static function (Blueprint $table) {
             //
         });
     }

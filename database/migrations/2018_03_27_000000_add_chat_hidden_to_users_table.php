@@ -36,7 +36,7 @@ class AddChatHiddenToUsersTable extends Migration
      */
     public function down()
     {
-        Schema::table('chat_hidden', function (Blueprint $table) {
+        Schema::table('chat_hidden', static function (Blueprint $table) {
             //
         });
     }

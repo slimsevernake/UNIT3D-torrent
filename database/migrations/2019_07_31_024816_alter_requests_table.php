@@ -36,7 +36,7 @@ class AlterRequestsTable extends Migration
      */
     public function down()
     {
-        Schema::table('torrents', function (Blueprint $table) {
+        Schema::table('torrents', static function (Blueprint $table) {
             //
         });
     }

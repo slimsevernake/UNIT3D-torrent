@@ -725,7 +725,7 @@ class TorrentController extends \App\Http\Controllers\Controller
         foreach ($parts as $part) {
             $part = \trim($part);
             if ($part != '') {
-                \array_push($result, $part);
+                $result[] = $part;
             }
         }
 
@@ -755,15 +755,11 @@ class TorrentController extends \App\Http\Controllers\Controller
         $userTips = \App\Models\BonTransactions::where('torrent_id', '=', $id)->where('sender', '=', $request->user()->id)->sum('cost');
         $lastSeedActivity = \App\Models\History::where('info_hash', '=', $torrent->info_hash)->where('seeder', '=', 1)->latest('updated_at')->first();
         $meta = null;
-        if ($torrent->category->tv_meta) {
-            if ($torrent->tmdb && $torrent->tmdb != 0) {
-                $meta = \App\Models\Tv::with('genres', 'networks', 'seasons')->where('id', '=', $torrent->tmdb)->first();
-            }
+        if ($torrent->category->tv_meta && $torrent->tmdb && $torrent->tmdb != 0) {
+            $meta = \App\Models\Tv::with('genres', 'networks', 'seasons')->where('id', '=', $torrent->tmdb)->first();
         }
-        if ($torrent->category->movie_meta) {
-            if ($torrent->tmdb && $torrent->tmdb != 0) {
-                $meta = \App\Models\Movie::with('genres', 'cast', 'companies', 'collection')->where('id', '=', $torrent->tmdb)->first();
-            }
+        if ($torrent->category->movie_meta && $torrent->tmdb && $torrent->tmdb != 0) {
+            $meta = \App\Models\Movie::with('genres', 'cast', 'companies', 'collection')->where('id', '=', $torrent->tmdb)->first();
         }
         $characters = null;
         if ($torrent->category->game_meta) {

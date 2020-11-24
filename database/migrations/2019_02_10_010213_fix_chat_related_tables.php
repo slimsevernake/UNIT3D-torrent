@@ -43,7 +43,7 @@ class FixChatRelatedTables extends Migration
      */
     public function down()
     {
-        Schema::table('user_echoes', function (Blueprint $table) {
+        Schema::table('user_echoes', static function (Blueprint $table) {
             //
         });
     }

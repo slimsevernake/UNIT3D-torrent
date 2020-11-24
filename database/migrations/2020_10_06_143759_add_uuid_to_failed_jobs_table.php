@@ -25,7 +25,7 @@ class AddUuidToFailedJobsTable extends Migration
      */
     public function down()
     {
-        Schema::table('failed_jobs', function (Blueprint $table) {
+        Schema::table('failed_jobs', static function (Blueprint $table) {
             //
         });
     }

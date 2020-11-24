@@ -36,7 +36,7 @@ class AddLastReplyAtToTopicsTable extends Migration
      */
     public function down()
     {
-        Schema::table('topics', function (Blueprint $table) {
+        Schema::table('topics', static function (Blueprint $table) {
             //
         });
     }

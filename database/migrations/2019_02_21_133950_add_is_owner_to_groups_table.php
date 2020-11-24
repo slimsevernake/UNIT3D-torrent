@@ -36,7 +36,7 @@ class AddIsOwnerToGroupsTable extends Migration
      */
     public function down()
     {
-        Schema::table('groups', function (Blueprint $table) {
+        Schema::table('groups', static function (Blueprint $table) {
             //
         });
     }

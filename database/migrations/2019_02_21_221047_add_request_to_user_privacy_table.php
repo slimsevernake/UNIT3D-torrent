@@ -41,7 +41,7 @@ class AddRequestToUserPrivacyTable extends Migration
      */
     public function down()
     {
-        Schema::table('user_privacy', function (Blueprint $table) {
+        Schema::table('user_privacy', static function (Blueprint $table) {
             //
         });
     }

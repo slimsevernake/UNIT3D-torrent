@@ -42,7 +42,7 @@ class RenameTopicSubscriptionsTable extends Migration
      */
     public function down()
     {
-        Schema::table('topic_subscriptions', function (Blueprint $table) {
+        Schema::table('topic_subscriptions', static function (Blueprint $table) {
             //
         });
     }

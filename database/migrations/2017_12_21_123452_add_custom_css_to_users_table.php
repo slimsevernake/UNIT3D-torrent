@@ -36,7 +36,7 @@ class AddCustomCssToUsersTable extends Migration
      */
     public function down()
     {
-        Schema::table('users', function (Blueprint $table) {
+        Schema::table('users', static function (Blueprint $table) {
             //
         });
     }
