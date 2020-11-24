@@ -45,13 +45,13 @@ class AutoDisableInactiveUsers extends \Illuminate\Console\Command
     public function handle()
     {
         if (\config('pruning.user_pruning') == true) {
-            $disabled_group = \cache()->rememberForever('disabled_group', fn() => \App\Models\Group::where('slug', '=', 'disabled')->pluck('id'));
+            $disabledGroup = \cache()->rememberForever('disabled_group', fn() => \App\Models\Group::where('slug', '=', 'disabled')->pluck('id'));
             $current = \Carbon\Carbon::now();
             $matches = \App\Models\User::whereIn('group_id', [\config('pruning.group_ids')])->get();
             $users = $matches->where('created_at', '<', $current->copy()->subDays(\config('pruning.account_age'))->toDateTimeString())->where('last_login', '<', $current->copy()->subDays(\config('pruning.last_login'))->toDateTimeString())->get();
             foreach ($users as $user) {
                 if ($user->getSeeding() === 0) {
-                    $user->group_id = $disabled_group[0];
+                    $user->group_id = $disabledGroup[0];
                     $user->can_upload = 0;
                     $user->can_download = 0;
                     $user->can_comment = 0;

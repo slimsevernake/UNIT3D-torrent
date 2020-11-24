@@ -118,11 +118,11 @@ class Post extends \Illuminate\Database\Eloquent\Model
      *
      * @return string Formatted And Trimmed Content
      */
-    public function getBrief($length = 100, $ellipses = true, $strip_html = false)
+    public function getBrief($length = 100, $ellipses = true, $stripHtml = false)
     {
         $input = $this->content;
         //strip tags, if desired
-        if ($strip_html) {
+        if ($stripHtml) {
             $input = \strip_tags($input);
         }
         //no need to trim, already shorter than trim length
@@ -130,13 +130,13 @@ class Post extends \Illuminate\Database\Eloquent\Model
             return $input;
         }
         //find last space within length
-        $last_space = \strrpos(\substr($input, 0, $length), ' ');
-        $trimmed_text = \substr($input, 0, $last_space);
+        $lastSpace = \strrpos(\substr($input, 0, $length), ' ');
+        $trimmedText = \substr($input, 0, $lastSpace);
         //add ellipses (...)
         if ($ellipses) {
-            $trimmed_text .= '...';
+            $trimmedText .= '...';
         }
-        return $trimmed_text;
+        return $trimmedText;
     }
     /**
      * Get A Post From A ID.

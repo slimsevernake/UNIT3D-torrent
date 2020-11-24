@@ -85,9 +85,9 @@ class User extends \Illuminate\Foundation\Auth\User
      *
      * @return bool
      */
-    public function isBookmarked($torrent_id)
+    public function isBookmarked($torrentId)
     {
-        return $this->bookmarks()->where('torrent_id', '=', $torrent_id)->first() !== null;
+        return $this->bookmarks()->where('torrent_id', '=', $torrentId)->first() !== null;
     }
     /**
      * Has Many Messages.
@@ -506,7 +506,7 @@ class User extends \Illuminate\Foundation\Auth\User
      */
     public function acceptsNotification(self $sender, self $target, $group = 'follower', $type = false)
     {
-        $target_group = 'json_' . $group . '_groups';
+        $targetGroup = 'json_' . $group . '_groups';
         if ($sender->id === $target->id) {
             return false;
         }
@@ -519,9 +519,9 @@ class User extends \Illuminate\Foundation\Auth\User
         if ($target->notification && $type && !$target->notification->{$type}) {
             return false;
         }
-        if ($target->notification && $target->notification->{$target_group} && \is_array($target->notification->{$target_group}['default_groups'])) {
-            if (\array_key_exists($sender->group->id, $target->notification->{$target_group}['default_groups'])) {
-                return $target->notification->{$target_group}['default_groups'][$sender->group->id] == 1;
+        if ($target->notification && $target->notification->{$targetGroup} && \is_array($target->notification->{$targetGroup}['default_groups'])) {
+            if (\array_key_exists($sender->group->id, $target->notification->{$targetGroup}['default_groups'])) {
+                return $target->notification->{$targetGroup}['default_groups'][$sender->group->id] == 1;
             }
             return true;
         }
@@ -538,7 +538,7 @@ class User extends \Illuminate\Foundation\Auth\User
      */
     public function isVisible(self $target, $group = 'profile', $type = false)
     {
-        $target_group = 'json_' . $group . '_groups';
+        $targetGroup = 'json_' . $group . '_groups';
         $sender = \auth()->user();
         if ($sender->id == $target->id) {
             return true;
@@ -552,9 +552,9 @@ class User extends \Illuminate\Foundation\Auth\User
         if ($target->privacy && $type && (!$target->privacy->{$type} || $target->privacy->{$type} == 0)) {
             return false;
         }
-        if ($target->privacy && $target->privacy->{$target_group} && \is_array($target->privacy->{$target_group}['default_groups'])) {
-            if (\array_key_exists($sender->group->id, $target->privacy->{$target_group}['default_groups'])) {
-                return $target->privacy->{$target_group}['default_groups'][$sender->group->id] == 1;
+        if ($target->privacy && $target->privacy->{$targetGroup} && \is_array($target->privacy->{$targetGroup}['default_groups'])) {
+            if (\array_key_exists($sender->group->id, $target->privacy->{$targetGroup}['default_groups'])) {
+                return $target->privacy->{$targetGroup}['default_groups'][$sender->group->id] == 1;
             }
             return true;
         }
@@ -571,7 +571,7 @@ class User extends \Illuminate\Foundation\Auth\User
      */
     public function isAllowed(self $target, $group = 'profile', $type = false)
     {
-        $target_group = 'json_' . $group . '_groups';
+        $targetGroup = 'json_' . $group . '_groups';
         $sender = \auth()->user();
         if ($sender->id == $target->id) {
             return true;
@@ -585,9 +585,9 @@ class User extends \Illuminate\Foundation\Auth\User
         if ($target->privacy && $type && (!$target->privacy->{$type} || $target->privacy->{$type} == 0)) {
             return false;
         }
-        if ($target->privacy && $target->privacy->{$target_group} && \is_array($target->privacy->{$target_group}['default_groups'])) {
-            if (\array_key_exists($sender->group->id, $target->privacy->{$target_group}['default_groups'])) {
-                return $target->privacy->{$target_group}['default_groups'][$sender->group->id] == 1;
+        if ($target->privacy && $target->privacy->{$targetGroup} && \is_array($target->privacy->{$targetGroup}['default_groups'])) {
+            if (\array_key_exists($sender->group->id, $target->privacy->{$targetGroup}['default_groups'])) {
+                return $target->privacy->{$targetGroup}['default_groups'][$sender->group->id] == 1;
             }
             return true;
         }
@@ -601,12 +601,12 @@ class User extends \Illuminate\Foundation\Auth\User
      *
      * @return string
      */
-    public function isSubscribed(string $type, $topic_id)
+    public function isSubscribed(string $type, $topicId)
     {
         if ($type === 'topic') {
-            return (bool) $this->subscriptions()->where('topic_id', '=', $topic_id)->first(['id']);
+            return (bool) $this->subscriptions()->where('topic_id', '=', $topicId)->first(['id']);
         }
-        return (bool) $this->subscriptions()->where('forum_id', '=', $topic_id)->first(['id']);
+        return (bool) $this->subscriptions()->where('forum_id', '=', $topicId)->first(['id']);
     }
     /**
      * Get All Followers Of A User.
@@ -615,9 +615,9 @@ class User extends \Illuminate\Foundation\Auth\User
      *
      * @return string
      */
-    public function isFollowing($target_id)
+    public function isFollowing($targetId)
     {
-        return (bool) $this->follows()->where('target_id', '=', $target_id)->first(['id']);
+        return (bool) $this->follows()->where('target_id', '=', $targetId)->first(['id']);
     }
     /**
      * Return Upload In Human Format.

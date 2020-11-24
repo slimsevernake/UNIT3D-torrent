@@ -51,13 +51,13 @@ class TorrentHelper
                 $wish->source = \sprintf('%s/torrents/%s', $appurl, $torrent->id);
                 $wish->save();
                 // Send Private Message
-                $pm = new \App\Models\PrivateMessage();
-                $pm->sender_id = 1;
-                $pm->receiver_id = $wish->user_id;
-                $pm->subject = 'Wish List Notice!';
-                $pm->message = \sprintf('The following item, %s, from your wishlist has been uploaded to %s! You can view it [url=%s/torrents/', $wish->title, $appname, $appurl) . $torrent->id . '] HERE [/url]
+                $privateMessage = new \App\Models\PrivateMessage();
+                $privateMessage->sender_id = 1;
+                $privateMessage->receiver_id = $wish->user_id;
+                $privateMessage->subject = 'Wish List Notice!';
+                $privateMessage->message = \sprintf('The following item, %s, from your wishlist has been uploaded to %s! You can view it [url=%s/torrents/', $wish->title, $appname, $appurl) . $torrent->id . '] HERE [/url]
                                 [color=red][b]THIS IS AN AUTOMATED SYSTEM MESSAGE, PLEASE DO NOT REPLY![/b][/color]';
-                $pm->save();
+                $privateMessage->save();
             }
         }
         if ($torrent->anon == 0) {

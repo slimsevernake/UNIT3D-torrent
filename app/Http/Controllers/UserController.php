@@ -64,10 +64,10 @@ class UserController extends Controller
         $bondownload = BonTransactions::where('sender', '=', $user->id)->where([['name', 'like', '%Download%']])->sum('cost');
 
         //  With Multipliers
-        $his_upl_cre = History::where('user_id', '=', $user->id)->sum('uploaded');
+        $hisUplCre = History::where('user_id', '=', $user->id)->sum('uploaded');
         //  Without Multipliers
-        $his_upl = History::where('user_id', '=', $user->id)->sum('actual_uploaded');
-        $total = $his_upl_cre - $his_upl;
+        $hisUpl = History::where('user_id', '=', $user->id)->sum('actual_uploaded');
+        $total = $hisUplCre - $hisUpl;
 
         $realupload = ($user->uploaded - $bonupload) - $total;
         $realdownload = $user->downloaded + $bondownload;
@@ -89,8 +89,8 @@ class UserController extends Controller
             'realupload'   => $realupload,
             'bondownload'  => $bondownload,
             'realdownload' => $realdownload,
-            'his_upl_cre'  => $his_upl_cre,
-            'his_upl'      => $his_upl,
+            'his_upl_cre'  => $hisUplCre,
+            'his_upl'      => $hisUpl,
             'requested'    => $requested,
             'filled'       => $filled,
             'invitedBy'    => $invitedBy,
@@ -186,11 +186,11 @@ class UserController extends Controller
         \abort_unless($request->user()->id == $user->id, 403);
 
         // Avatar
-        $max_upload = \config('image.max_upload_size');
+        $maxUpload = \config('image.max_upload_size');
         if ($request->hasFile('image') && $request->file('image')->getError() === 0) {
             $image = $request->file('image');
             if (\in_array($image->getClientOriginalExtension(), ['jpg', 'JPG', 'jpeg', 'bmp', 'png', 'PNG', 'tiff', 'gif']) && \preg_match('#image/*#', $image->getMimeType())) {
-                if ($max_upload >= $image->getSize()) {
+                if ($maxUpload >= $image->getSize()) {
                     $filename = $user->username.'.'.$image->getClientOriginalExtension();
                     $path = \public_path('/files/img/'.$filename);
                     if ($image->getClientOriginalExtension() !== 'gif') {
@@ -209,7 +209,7 @@ class UserController extends Controller
                     $user->image = $user->username.'.'.$image->getClientOriginalExtension();
                 } else {
                     return \redirect()->route('users.show', ['username' => $user->username])
-                        ->withErrors('Your avatar is too large, max file size: '.($max_upload / 1_000_000).' MB');
+                        ->withErrors('Your avatar is too large, max file size: '.($maxUpload / 1_000_000).' MB');
                 }
             }
         }
@@ -263,12 +263,12 @@ class UserController extends Controller
 
         // Style Settings
         $user->style = (int) $request->input('theme');
-        $css_url = $request->input('custom_css');
-        if (isset($css_url) && ! \filter_var($css_url, FILTER_VALIDATE_URL)) {
+        $cssUrl = $request->input('custom_css');
+        if (isset($cssUrl) && ! \filter_var($cssUrl, FILTER_VALIDATE_URL)) {
             return \redirect()->route('users.show', ['username' => $user->username])
                 ->withErrors('The URL for the external CSS stylesheet is invalid, try it again with a valid URL.');
         }
-        $user->custom_css = $css_url;
+        $user->custom_css = $cssUrl;
         $user->nav = $request->input('sidenav');
 
         // Torrent Settings
@@ -1258,31 +1258,31 @@ class UserController extends Controller
             ])->render();
         }
         if ($request->has('view') && $request->input('view') == 'requests') {
-            $torrentRequests = TorrentRequest::with(['user', 'category', 'type']);
+            $builder = TorrentRequest::with(['user', 'category', 'type']);
             $order = null;
             $sorting = null;
             if ($request->has('name') && $request->input('name') != null) {
-                $torrentRequests->where('name', 'like', '%'.$request->input('name').'%');
+                $builder->where('name', 'like', '%'.$request->input('name').'%');
             }
             if ($request->has('filled') && $request->input('filled') != null) {
-                $torrentRequests->whereNotNull('filled_by')
+                $builder->whereNotNull('filled_by')
                     ->whereNotNull('filled_hash')
                     ->whereNotNull('filled_when')
                     ->whereNotNull('approved_by')
                     ->whereNotNull('approved_when');
             }
             if ($request->has('pending') && $request->input('pending') != null) {
-                $torrentRequests->whereNotNull('filled_by')
+                $builder->whereNotNull('filled_by')
                     ->whereNotNull('filled_hash')
                     ->whereNotNull('filled_when')
                     ->whereNull('approved_by')
                     ->whereNull('approved_when');
             }
             if ($request->has('claimed') && $request->input('claimed') != null) {
-                $torrentRequests->where('claimed', '=', 1);
+                $builder->where('claimed', '=', 1);
             }
             if ($request->has('unfilled') && $request->input('unfilled') != null) {
-                $torrentRequests->where(function ($query) {
+                $builder->where(function ($query) {
                     $query->whereNull('filled_by')->orWhereNull('filled_hash')->orWhereNull('approved_by');
                 });
             }
@@ -1299,9 +1299,9 @@ class UserController extends Controller
             }
             $direction = $order == 'asc' ? 1 : 2;
             if ($sorting == 'date') {
-                $table = $torrentRequests->where('user_id', '=', $user->id)->orderBy('created_at', $order)->paginate(25);
+                $table = $builder->where('user_id', '=', $user->id)->orderBy('created_at', $order)->paginate(25);
             } else {
-                $table = $torrentRequests->where('user_id', '=', $user->id)->orderBy($sorting, $order)->paginate(25);
+                $table = $builder->where('user_id', '=', $user->id)->orderBy($sorting, $order)->paginate(25);
             }
 
             return \view('user.filters.requests', [
@@ -1641,10 +1641,10 @@ class UserController extends Controller
     {
         $user = User::where('username', '=', $username)->firstOrFail();
         if (($request->user()->id == $user->id || $request->user()->group->is_modo)) {
-            $his_upl = History::where('user_id', '=', $user->id)->sum('actual_uploaded');
-            $his_upl_cre = History::where('user_id', '=', $user->id)->sum('uploaded');
-            $his_downl = History::where('user_id', '=', $user->id)->sum('actual_downloaded');
-            $his_downl_cre = History::where('user_id', '=', $user->id)->sum('downloaded');
+            $hisUpl = History::where('user_id', '=', $user->id)->sum('actual_uploaded');
+            $hisUplCre = History::where('user_id', '=', $user->id)->sum('uploaded');
+            $hisDownl = History::where('user_id', '=', $user->id)->sum('actual_downloaded');
+            $hisDownlCre = History::where('user_id', '=', $user->id)->sum('downloaded');
 
             $logger = 'user.private.downloads';
 
@@ -1667,10 +1667,10 @@ class UserController extends Controller
                 'route'         => 'downloads',
                 'user'          => $user,
                 'downloads'     => $downloads,
-                'his_upl'       => $his_upl,
-                'his_upl_cre'   => $his_upl_cre,
-                'his_downl'     => $his_downl,
-                'his_downl_cre' => $his_downl_cre,
+                'his_upl'       => $hisUpl,
+                'his_upl_cre'   => $hisUplCre,
+                'his_downl'     => $hisDownl,
+                'his_downl_cre' => $hisDownlCre,
             ]);
         }
         $logger = 'user.downloads';
@@ -1743,10 +1743,10 @@ class UserController extends Controller
         $user = User::where('username', '=', $username)->firstOrFail();
 
         \abort_unless($request->user()->group->is_modo || $request->user()->id == $user->id, 403);
-        $his_upl = History::where('user_id', '=', $user->id)->sum('actual_uploaded');
-        $his_upl_cre = History::where('user_id', '=', $user->id)->sum('uploaded');
-        $his_downl = History::where('user_id', '=', $user->id)->sum('actual_downloaded');
-        $his_downl_cre = History::where('user_id', '=', $user->id)->sum('downloaded');
+        $hisUpl = History::where('user_id', '=', $user->id)->sum('actual_uploaded');
+        $hisUplCre = History::where('user_id', '=', $user->id)->sum('uploaded');
+        $hisDownl = History::where('user_id', '=', $user->id)->sum('actual_downloaded');
+        $hisDownlCre = History::where('user_id', '=', $user->id)->sum('downloaded');
 
         if (\config('hitrun.enabled') == true) {
             $downloads = History::selectRaw('distinct(history.info_hash), max(torrents.name) as name, max(torrents.id), max(history.completed_at) as completed_at, max(history.created_at) as created_at, max(history.id) as id, max(history.user_id) as user_id, max(history.seedtime) as seedtime, max(history.seedtime) as satisfied_at, max(history.seeder) as seeder, max(torrents.size) as size,max(torrents.leechers) as leechers,max(torrents.seeders) as seeders,max(torrents.times_completed) as times_completed')->with(['torrent' => function ($query) {
@@ -1770,10 +1770,10 @@ class UserController extends Controller
             'route'         => 'unsatisfieds',
             'user'          => $user,
             'downloads'     => $downloads,
-            'his_upl'       => $his_upl,
-            'his_upl_cre'   => $his_upl_cre,
-            'his_downl'     => $his_downl,
-            'his_downl_cre' => $his_downl_cre,
+            'his_upl'       => $hisUpl,
+            'his_upl_cre'   => $hisUplCre,
+            'his_downl'     => $hisDownl,
+            'his_downl_cre' => $hisDownlCre,
         ]);
     }
 
@@ -1790,10 +1790,10 @@ class UserController extends Controller
         $user = User::where('username', '=', $username)->firstOrFail();
 
         \abort_unless($request->user()->group->is_modo || $request->user()->id == $user->id, 403);
-        $his_upl = History::where('user_id', '=', $user->id)->sum('actual_uploaded');
-        $his_upl_cre = History::where('user_id', '=', $user->id)->sum('uploaded');
-        $his_downl = History::where('user_id', '=', $user->id)->sum('actual_downloaded');
-        $his_downl_cre = History::where('user_id', '=', $user->id)->sum('downloaded');
+        $hisUpl = History::where('user_id', '=', $user->id)->sum('actual_uploaded');
+        $hisUplCre = History::where('user_id', '=', $user->id)->sum('uploaded');
+        $hisDownl = History::where('user_id', '=', $user->id)->sum('actual_downloaded');
+        $hisDownlCre = History::where('user_id', '=', $user->id)->sum('downloaded');
         $history = History::with(['torrent' => function ($query) {
             $query->withAnyStatus();
         }])->selectRaw('distinct(history.id),max(history.info_hash) as info_hash,max(history.agent) as agent,max(history.uploaded) as uploaded,max(history.downloaded) as downloaded,max(history.seeder) as seeder,max(history.active) as active,max(history.actual_uploaded) as actual_uploaded,max(history.actual_downloaded) as actual_downloaded,max(history.seedtime) as seedtime,max(history.created_at) as created_at,max(history.updated_at) as updated_at,max(history.completed_at) as completed_at,max(history.immune) as immune,max(history.hitrun) as hitrun,max(history.prewarn) as prewarn,max(torrents.moderated_at) as moderated_at,max(torrents.slug) as slug,max(torrents.user_id) as user_id,max(torrents.name) as name,max(torrents.category_id) as category_id,max(torrents.size) as size,max(torrents.leechers) as leechers,max(torrents.seeders) as seeders,max(torrents.times_completed) as times_completed,max(torrents.status) as status')->leftJoin('torrents', 'torrents.info_hash', '=', 'history.info_hash')->where('history.user_id', '=', $user->id)->groupBy('history.id')
@@ -1803,10 +1803,10 @@ class UserController extends Controller
             'route'         => 'torrents',
             'user'          => $user,
             'history'       => $history,
-            'his_upl'       => $his_upl,
-            'his_upl_cre'   => $his_upl_cre,
-            'his_downl'     => $his_downl,
-            'his_downl_cre' => $his_downl_cre,
+            'his_upl'       => $hisUpl,
+            'his_upl_cre'   => $hisUplCre,
+            'his_downl'     => $hisDownl,
+            'his_downl_cre' => $hisDownlCre,
         ]);
     }
 
@@ -1844,10 +1844,10 @@ class UserController extends Controller
     {
         $user = User::where('username', '=', $username)->firstOrFail();
         if ($request->user()->id == $user->id || $request->user()->group->is_modo) {
-            $his_upl = History::where('user_id', '=', $user->id)->sum('actual_uploaded');
-            $his_upl_cre = History::where('user_id', '=', $user->id)->sum('uploaded');
-            $his_downl = History::where('user_id', '=', $user->id)->sum('actual_downloaded');
-            $his_downl_cre = History::where('user_id', '=', $user->id)->sum('downloaded');
+            $hisUpl = History::where('user_id', '=', $user->id)->sum('actual_uploaded');
+            $hisUplCre = History::where('user_id', '=', $user->id)->sum('uploaded');
+            $hisDownl = History::where('user_id', '=', $user->id)->sum('actual_downloaded');
+            $hisDownlCre = History::where('user_id', '=', $user->id)->sum('downloaded');
 
             $logger = 'user.private.uploads';
             $uploads = Torrent::with(['tips', 'thanks', 'category'])->selectRaw('distinct(torrents.id),max(torrents.moderated_at) as moderated_at,max(torrents.slug) as slug,max(torrents.user_id) as user_id,max(torrents.name) as name,max(torrents.category_id) as category_id,max(torrents.size) as size,max(torrents.leechers) as leechers,max(torrents.seeders) as seeders,max(torrents.times_completed) as times_completed,max(torrents.created_at) as created_at,max(torrents.status) as status,count(distinct thanks.id) as thanked_total,max(bt.tipped_total) as tipped_total')
@@ -1857,10 +1857,10 @@ class UserController extends Controller
                 'route'         => 'uploads',
                 'user'          => $user,
                 'uploads'       => $uploads,
-                'his_upl'       => $his_upl,
-                'his_upl_cre'   => $his_upl_cre,
-                'his_downl'     => $his_downl,
-                'his_downl_cre' => $his_downl_cre,
+                'his_upl'       => $hisUpl,
+                'his_upl_cre'   => $hisUplCre,
+                'his_downl'     => $hisDownl,
+                'his_downl_cre' => $hisDownlCre,
             ]);
         }
         $logger = 'user.uploads';
@@ -1887,10 +1887,10 @@ class UserController extends Controller
 
         \abort_unless($request->user()->group->is_modo || $request->user()->id == $user->id, 403);
 
-        $his_upl = History::where('user_id', '=', $user->id)->sum('actual_uploaded');
-        $his_upl_cre = History::where('user_id', '=', $user->id)->sum('uploaded');
-        $his_downl = History::where('user_id', '=', $user->id)->sum('actual_downloaded');
-        $his_downl_cre = History::where('user_id', '=', $user->id)->sum('downloaded');
+        $hisUpl = History::where('user_id', '=', $user->id)->sum('actual_uploaded');
+        $hisUplCre = History::where('user_id', '=', $user->id)->sum('uploaded');
+        $hisDownl = History::where('user_id', '=', $user->id)->sum('actual_downloaded');
+        $hisDownlCre = History::where('user_id', '=', $user->id)->sum('downloaded');
 
         $active = Peer::with(['torrent' => function ($query) {
             $query->withAnyStatus();
@@ -1902,10 +1902,10 @@ class UserController extends Controller
         return \view('user.private.active', ['user' => $user,
             'route'                                 => 'active',
             'active'                                => $active,
-            'his_upl'                               => $his_upl,
-            'his_upl_cre'                           => $his_upl_cre,
-            'his_downl'                             => $his_downl,
-            'his_downl_cre'                         => $his_downl_cre,
+            'his_upl'                               => $hisUpl,
+            'his_upl_cre'                           => $hisUplCre,
+            'his_downl'                             => $hisDownl,
+            'his_downl_cre'                         => $hisDownlCre,
         ]);
     }
 
@@ -1923,10 +1923,10 @@ class UserController extends Controller
 
         \abort_unless($request->user()->group->is_modo || $request->user()->id == $user->id, 403);
 
-        $his_upl = History::where('user_id', '=', $user->id)->sum('actual_uploaded');
-        $his_upl_cre = History::where('user_id', '=', $user->id)->sum('uploaded');
-        $his_downl = History::where('user_id', '=', $user->id)->sum('actual_downloaded');
-        $his_downl_cre = History::where('user_id', '=', $user->id)->sum('downloaded');
+        $hisUpl = History::where('user_id', '=', $user->id)->sum('actual_uploaded');
+        $hisUplCre = History::where('user_id', '=', $user->id)->sum('uploaded');
+        $hisDownl = History::where('user_id', '=', $user->id)->sum('actual_downloaded');
+        $hisDownlCre = History::where('user_id', '=', $user->id)->sum('downloaded');
 
         $seeds = Peer::with(['torrent' => function ($query) {
             $query->withAnyStatus();
@@ -1937,10 +1937,10 @@ class UserController extends Controller
         return \view('user.private.seeds', ['user' => $user,
             'route'                                => 'seeds',
             'seeds'                                => $seeds,
-            'his_upl'                              => $his_upl,
-            'his_upl_cre'                          => $his_upl_cre,
-            'his_downl'                            => $his_downl,
-            'his_downl_cre'                        => $his_downl_cre,
+            'his_upl'                              => $hisUpl,
+            'his_upl_cre'                          => $hisUplCre,
+            'his_downl'                            => $hisDownl,
+            'his_downl_cre'                        => $hisDownlCre,
         ]);
     }
 
@@ -2045,10 +2045,10 @@ class UserController extends Controller
             $zipArchive->close();
         }
 
-        $zip_file = $path.'/'.$zipFileName;
+        $zipFile = $path.'/'.$zipFileName;
 
-        if (\file_exists($zip_file)) {
-            return \response()->download($zip_file)->deleteFileAfterSend(true);
+        if (\file_exists($zipFile)) {
+            return \response()->download($zipFile)->deleteFileAfterSend(true);
         }
 
         return \redirect()->back()->withErrors('Something Went Wrong!');

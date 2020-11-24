@@ -99,10 +99,10 @@ class ApplicationController extends \App\Http\Controllers\Controller
     {
         $application = \App\Models\Application::withAnyStatus()->findOrFail($id);
         if ($application->status !== 2) {
-            $denied_message = $request->input('deny');
+            $deniedMessage = $request->input('deny');
             $v = \validator($request->all(), ['deny' => 'required']);
             $application->markRejected();
-            \Illuminate\Support\Facades\Mail::to($application->email)->send(new \App\Mail\DenyApplication($denied_message));
+            \Illuminate\Support\Facades\Mail::to($application->email)->send(new \App\Mail\DenyApplication($deniedMessage));
             return \redirect()->route('staff.applications.index')->withSuccess('Application Rejected');
         }
         return \redirect()->route('staff.applications.index')->withErrors('Application Already Rejected');

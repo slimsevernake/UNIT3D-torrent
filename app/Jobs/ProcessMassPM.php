@@ -42,10 +42,10 @@ class ProcessMassPM implements ShouldQueue
      * @param $subject
      * @param $message
      */
-    public function __construct($sender_id, $receiver_id, $subject, $message)
+    public function __construct($senderId, $receiverId, $subject, $message)
     {
-        $this->sender_id = $sender_id;
-        $this->receiver_id = $receiver_id;
+        $this->sender_id = $senderId;
+        $this->receiver_id = $receiverId;
         $this->subject = $subject;
         $this->message = $message;
     }

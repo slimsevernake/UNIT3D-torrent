@@ -42,15 +42,15 @@ class AutoRemovePersonalFreeleech extends \Illuminate\Console\Command
     public function handle()
     {
         $current = \Carbon\Carbon::now();
-        $personal_freeleech = \App\Models\PersonalFreeleech::where('created_at', '<', $current->copy()->subDays(1)->toDateTimeString())->get();
-        foreach ($personal_freeleech as $pfl) {
+        $personalFreeleech = \App\Models\PersonalFreeleech::where('created_at', '<', $current->copy()->subDays(1)->toDateTimeString())->get();
+        foreach ($personalFreeleech as $pfl) {
             // Send Private Message
-            $pm = new \App\Models\PrivateMessage();
-            $pm->sender_id = 1;
-            $pm->receiver_id = $pfl->user_id;
-            $pm->subject = 'Personal 24 Hour Freeleech Expired';
-            $pm->message = 'Your [b]Personal 24 Hour Freeleech[/b] has expired! Feel free to reenable it in the BON Store! [color=red][b]THIS IS AN AUTOMATED SYSTEM MESSAGE, PLEASE DO NOT REPLY![/b][/color]';
-            $pm->save();
+            $privateMessage = new \App\Models\PrivateMessage();
+            $privateMessage->sender_id = 1;
+            $privateMessage->receiver_id = $pfl->user_id;
+            $privateMessage->subject = 'Personal 24 Hour Freeleech Expired';
+            $privateMessage->message = 'Your [b]Personal 24 Hour Freeleech[/b] has expired! Feel free to reenable it in the BON Store! [color=red][b]THIS IS AN AUTOMATED SYSTEM MESSAGE, PLEASE DO NOT REPLY![/b][/color]';
+            $privateMessage->save();
             // Delete The Record From DB
             $pfl->delete();
         }

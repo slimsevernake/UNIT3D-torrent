@@ -52,10 +52,10 @@ class AutoRemoveFeaturedTorrent extends \Illuminate\Console\Command
     public function handle()
     {
         $current = \Carbon\Carbon::now();
-        $featured_torrents = \App\Models\FeaturedTorrent::where('created_at', '<', $current->copy()->subDays(7)->toDateTimeString())->get();
-        foreach ($featured_torrents as $featured_torrent) {
+        $featuredTorrents = \App\Models\FeaturedTorrent::where('created_at', '<', $current->copy()->subDays(7)->toDateTimeString())->get();
+        foreach ($featuredTorrents as $featuredTorrent) {
             // Find The Torrent
-            $torrent = \App\Models\Torrent::where('featured', '=', 1)->where('id', '=', $featured_torrent->torrent_id)->first();
+            $torrent = \App\Models\Torrent::where('featured', '=', 1)->where('id', '=', $featuredTorrent->torrent_id)->first();
             if (isset($torrent)) {
                 $torrent->free = 0;
                 $torrent->doubleup = 0;
@@ -66,7 +66,7 @@ class AutoRemoveFeaturedTorrent extends \Illuminate\Console\Command
                 $this->chatRepository->systemMessage(\sprintf('Ladies and Gents, [url=%s/torrents/%s]%s[/url] is no longer featured. :poop:', $appurl, $torrent->id, $torrent->name));
             }
             // Delete The Record From DB
-            $featured_torrent->delete();
+            $featuredTorrent->delete();
         }
         $this->comment('Automated Removal Featured Torrents Command Complete');
     }

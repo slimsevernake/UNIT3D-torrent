@@ -38,11 +38,11 @@ class BookmarkController extends Controller
         \abort_unless(($request->user()->group->is_modo || $request->user()->id == $user->id), 403);
 
         $bookmarks = $user->bookmarks()->latest()->paginate(25);
-        $personal_freeleech = PersonalFreeleech::where('user_id', '=', $user->id)->first();
+        $personalFreeleech = PersonalFreeleech::where('user_id', '=', $user->id)->first();
 
         return \view('user.bookmarks', [
             'user'               => $user,
-            'personal_freeleech' => $personal_freeleech,
+            'personal_freeleech' => $personalFreeleech,
             'bookmarks'          => $bookmarks,
             'route'              => 'bookmarks.index',
         ]);

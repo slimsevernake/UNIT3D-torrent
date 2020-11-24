@@ -157,22 +157,22 @@ class TorrentController extends \App\Http\Controllers\API\BaseController
             $torrentFile->save();
             unset($torrentFile);
         }
-        $client = new \App\Services\Tmdb\TMDBScraper();
+        $tmdbScraper = new \App\Services\Tmdb\TMDBScraper();
         if ($torrent->category->tv_meta) {
             if ($torrent->tmdb || $torrent->tmdb != 0) {
-                $client->tv($torrent->tmdb);
+                $tmdbScraper->tv($torrent->tmdb);
             }
         }
         if ($torrent->category->movie_meta) {
             if ($torrent->tmdb || $torrent->tmdb != 0) {
-                $client->movie($torrent->tmdb);
+                $tmdbScraper->movie($torrent->tmdb);
             }
         }
         // check for trusted user and update torrent
         if ($user->group->is_trusted) {
             $appurl = \config('app.url');
             $user = $torrent->user;
-            $user_id = $user->id;
+            $userId = $user->id;
             $username = $user->username;
             $anon = $torrent->anon;
             $featured = $torrent->featured;
@@ -249,16 +249,16 @@ class TorrentController extends \App\Http\Controllers\API\BaseController
         $search = $request->input('name');
         $description = $request->input('description');
         $size = $request->input('size');
-        $info_hash = $request->input('info_hash');
-        $file_name = $request->input('file_name');
+        $infoHash = $request->input('info_hash');
+        $fileName = $request->input('file_name');
         $uploader = $request->input('uploader');
         $imdb = $request->input('imdb');
         $tvdb = $request->input('tvdb');
         $tmdb = $request->input('tmdb');
         $mal = $request->input('mal');
         $igdb = $request->input('igdb');
-        $start_year = $request->input('start_year');
-        $end_year = $request->input('end_year');
+        $startYear = $request->input('start_year');
+        $endYear = $request->input('end_year');
         $categories = $request->input('categories');
         $types = $request->input('types');
         $resolutions = $request->input('resolutions');
@@ -303,11 +303,11 @@ class TorrentController extends \App\Http\Controllers\API\BaseController
             $torrent->where('torrents.size', '=', $size);
         }
         if ($request->has('info_hash') && $request->input('info_hash') != null) {
-            $torrent->where('torrents.info_hash', '=', $info_hash);
+            $torrent->where('torrents.info_hash', '=', $infoHash);
         }
         if ($request->has('file_name') && $request->input('file_name') != null) {
-            $torrent = $torrent->whereHas('files', function ($q) use ($file_name) {
-                $q->where('name', $file_name);
+            $torrent = $torrent->whereHas('files', function ($q) use ($fileName) {
+                $q->where('name', $fileName);
             });
         }
         if ($request->has('uploader') && $request->input('uploader') != null) {
@@ -333,7 +333,7 @@ class TorrentController extends \App\Http\Controllers\API\BaseController
             $torrent->orWhere('torrents.igdb', '=', $igdb);
         }
         if ($request->has('start_year') && $request->has('end_year') && $request->input('start_year') != null && $request->input('end_year') != null) {
-            $torrent->whereBetween('torrents.release_year', [$start_year, $end_year]);
+            $torrent->whereBetween('torrents.release_year', [$startYear, $endYear]);
         }
         if ($request->has('categories') && $request->input('categories') != null) {
             $torrent->whereIn('torrents.category_id', $categories);
@@ -397,15 +397,15 @@ class TorrentController extends \App\Http\Controllers\API\BaseController
         if ($mediainfo === null) {
             return;
         }
-        $complete_name_i = \strpos($mediainfo, 'Complete name');
-        if ($complete_name_i !== false) {
-            $path_i = \strpos($mediainfo, ': ', $complete_name_i);
-            if ($path_i !== false) {
-                $path_i += 2;
-                $end_i = \strpos($mediainfo, "\n", $path_i);
-                $path = \substr($mediainfo, $path_i, $end_i - $path_i);
-                $new_path = \App\Helpers\MediaInfo::stripPath($path);
-                return \substr_replace($mediainfo, $new_path, $path_i, \strlen($path));
+        $completeNameI = \strpos($mediainfo, 'Complete name');
+        if ($completeNameI !== false) {
+            $pathI = \strpos($mediainfo, ': ', $completeNameI);
+            if ($pathI !== false) {
+                $pathI += 2;
+                $endI = \strpos($mediainfo, "\n", $pathI);
+                $path = \substr($mediainfo, $pathI, $endI - $pathI);
+                $newPath = \App\Helpers\MediaInfo::stripPath($path);
+                return \substr_replace($mediainfo, $newPath, $pathI, \strlen($path));
             }
         }
         return $mediainfo;

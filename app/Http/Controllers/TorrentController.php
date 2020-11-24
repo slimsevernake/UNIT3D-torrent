@@ -110,9 +110,9 @@ class TorrentController extends \App\Http\Controllers\Controller
         $user = $request->user();
         $repository = $this->torrentFacetedRepository;
         $torrents = \App\Models\Torrent::with(['user:id,username', 'category', 'type', 'resolution'])->withCount(['thanks', 'comments'])->orderBy('sticky', 'desc')->orderBy('bumped_at', 'desc')->paginate(25);
-        $personal_freeleech = \App\Models\PersonalFreeleech::where('user_id', '=', $user->id)->first();
+        $personalFreeleech = \App\Models\PersonalFreeleech::where('user_id', '=', $user->id)->first();
         $bookmarks = \App\Models\Bookmark::where('user_id', $user->id)->get();
-        return \view('torrent.torrents', ['personal_freeleech' => $personal_freeleech, 'repository' => $repository, 'bookmarks' => $bookmarks, 'torrents' => $torrents, 'user' => $user, 'sorting' => '', 'direction' => 1, 'links' => null]);
+        return \view('torrent.torrents', ['personal_freeleech' => $personalFreeleech, 'repository' => $repository, 'bookmarks' => $bookmarks, 'torrents' => $torrents, 'user' => $user, 'sorting' => '', 'direction' => 1, 'links' => null]);
     }
     /**
      * Torrent Similar Results.
@@ -123,15 +123,15 @@ class TorrentController extends \App\Http\Controllers\Controller
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function similar(\Illuminate\Http\Request $request, $category_id, $tmdb)
+    public function similar(\Illuminate\Http\Request $request, $categoryId, $tmdb)
     {
         $user = $request->user();
-        $personal_freeleech = \App\Models\PersonalFreeleech::where('user_id', '=', $user->id)->first();
-        $torrents = \App\Models\Torrent::with(['user:id,username', 'category', 'type', 'resolution'])->withCount(['thanks', 'comments'])->where('category_id', '=', $category_id)->where('tmdb', '=', $tmdb)->get()->sortByDesc('name');
+        $personalFreeleech = \App\Models\PersonalFreeleech::where('user_id', '=', $user->id)->first();
+        $torrents = \App\Models\Torrent::with(['user:id,username', 'category', 'type', 'resolution'])->withCount(['thanks', 'comments'])->where('category_id', '=', $categoryId)->where('tmdb', '=', $tmdb)->get()->sortByDesc('name');
         if (!$torrents || $torrents->count() < 1) {
             \abort(404, 'No Similar Torrents Found');
         }
-        return \view('torrent.similar', ['user' => $user, 'personal_freeleech' => $personal_freeleech, 'torrents' => $torrents, 'tmdb' => $tmdb]);
+        return \view('torrent.similar', ['user' => $user, 'personal_freeleech' => $personalFreeleech, 'torrents' => $torrents, 'tmdb' => $tmdb]);
     }
     /**
      * Displays Torrent Cards View.
@@ -200,7 +200,7 @@ class TorrentController extends \App\Http\Controllers\Controller
     {
         $user = $request->user();
         $repository = $this->torrentFacetedRepository;
-        $personal_freeleech = \App\Models\PersonalFreeleech::where('user_id', '=', $user->id)->first();
+        $personalFreeleech = \App\Models\PersonalFreeleech::where('user_id', '=', $user->id)->first();
         $logger = null;
         $cache = [];
         $attributes = [];
@@ -269,7 +269,7 @@ class TorrentController extends \App\Http\Controllers\Controller
             }
         }
         $bookmarks = \App\Models\Bookmark::where('user_id', $user->id)->get();
-        return \view('torrent.groupings', ['torrents' => $torrents, 'user' => $user, 'sorting' => self::SORTING, 'direction' => self::DIRECTION, 'links' => $lengthAwarePaginator, 'totals' => $totals, 'personal_freeleech' => $personal_freeleech, 'repository' => $repository, 'attributes' => $attributes, 'bookmarks' => $bookmarks])->render();
+        return \view('torrent.groupings', ['torrents' => $torrents, 'user' => $user, 'sorting' => self::SORTING, 'direction' => self::DIRECTION, 'links' => $lengthAwarePaginator, 'totals' => $totals, 'personal_freeleech' => $personalFreeleech, 'repository' => $repository, 'attributes' => $attributes, 'bookmarks' => $bookmarks])->render();
     }
     /**
      * Uses Input's To Put Together A Search.
@@ -287,7 +287,7 @@ class TorrentController extends \App\Http\Controllers\Controller
     {
         $user = $request->user();
         $repository = $this->torrentFacetedRepository;
-        $personal_freeleech = \App\Models\PersonalFreeleech::where('user_id', '=', $user->id)->first();
+        $personalFreeleech = \App\Models\PersonalFreeleech::where('user_id', '=', $user->id)->first();
         $collection = null;
         $history = null;
         $nohistory = null;
@@ -328,8 +328,8 @@ class TorrentController extends \App\Http\Controllers\Controller
         $tmdb = $request->input('tmdb');
         $mal = $request->input('mal');
         $igdb = $request->input('igdb');
-        $start_year = $request->input('start_year');
-        $end_year = $request->input('end_year');
+        $startYear = $request->input('start_year');
+        $endYear = $request->input('end_year');
         $categories = $request->input('categories');
         $types = $request->input('types');
         $resolutions = $request->input('resolutions');
@@ -416,7 +416,7 @@ class TorrentController extends \App\Http\Controllers\Controller
                 $torrent->orWhere('torrentsl.igdb', '=', $igdb);
             }
             if ($request->has('start_year') && $request->has('end_year') && $request->input('start_year') != null && $request->input('end_year') != null) {
-                $torrent->whereBetween('torrentsl.release_year', [$start_year, $end_year]);
+                $torrent->whereBetween('torrentsl.release_year', [$startYear, $endYear]);
             }
             if ($request->has('categories') && $request->input('categories') != null) {
                 $torrent->whereIn('torrentsl.category_id', $categories);
@@ -535,7 +535,7 @@ class TorrentController extends \App\Http\Controllers\Controller
                 $torrent->where('torrents.igdb', '=', $igdb);
             }
             if ($request->has('start_year') && $request->has('end_year') && $request->input('start_year') != null && $request->input('end_year') != null) {
-                $torrent->whereBetween('torrents.release_year', [$start_year, $end_year]);
+                $torrent->whereBetween('torrents.release_year', [$startYear, $endYear]);
             }
             if ($request->has('categories') && $request->input('categories') != null) {
                 $torrent->whereIn('torrents.category_id', $categories);
@@ -697,7 +697,7 @@ class TorrentController extends \App\Http\Controllers\Controller
             $logger = 'torrent.results';
         }
         $bookmarks = \App\Models\Bookmark::where('user_id', $user->id)->get();
-        return \view($logger, ['torrents' => $torrents, 'user' => $user, 'personal_freeleech' => $personal_freeleech, 'sorting' => $sorting, 'direction' => $direction, 'links' => $links, 'totals' => $totals, 'repository' => $repository, 'attributes' => $attributes, 'bookmarks' => $bookmarks])->render();
+        return \view($logger, ['torrents' => $torrents, 'user' => $user, 'personal_freeleech' => $personalFreeleech, 'sorting' => $sorting, 'direction' => $direction, 'links' => $links, 'totals' => $totals, 'repository' => $repository, 'attributes' => $attributes, 'bookmarks' => $bookmarks])->render();
     }
     /**
      * Anonymize A Torrent Media Info.
@@ -711,15 +711,15 @@ class TorrentController extends \App\Http\Controllers\Controller
         if ($mediainfo === null) {
             return;
         }
-        $complete_name_i = \strpos($mediainfo, 'Complete name');
-        if ($complete_name_i !== false) {
-            $path_i = \strpos($mediainfo, ': ', $complete_name_i);
-            if ($path_i !== false) {
-                $path_i += 2;
-                $end_i = \strpos($mediainfo, "\n", $path_i);
-                $path = \substr($mediainfo, $path_i, $end_i - $path_i);
-                $new_path = \App\Helpers\MediaInfo::stripPath($path);
-                return \substr_replace($mediainfo, $new_path, $path_i, \strlen($path));
+        $completeNameI = \strpos($mediainfo, 'Complete name');
+        if ($completeNameI !== false) {
+            $pathI = \strpos($mediainfo, ': ', $completeNameI);
+            if ($pathI !== false) {
+                $pathI += 2;
+                $endI = \strpos($mediainfo, "\n", $pathI);
+                $path = \substr($mediainfo, $pathI, $endI - $pathI);
+                $newPath = \App\Helpers\MediaInfo::stripPath($path);
+                return \substr_replace($mediainfo, $newPath, $pathI, \strlen($path));
             }
         }
         return $mediainfo;
@@ -760,12 +760,12 @@ class TorrentController extends \App\Http\Controllers\Controller
         $torrent = \App\Models\Torrent::withAnyStatus()->with(['comments', 'category', 'type', 'resolution', 'subtitles'])->findOrFail($id);
         $uploader = $torrent->user;
         $user = $request->user();
-        $freeleech_token = \App\Models\FreeleechToken::where('user_id', '=', $user->id)->where('torrent_id', '=', $torrent->id)->first();
-        $personal_freeleech = \App\Models\PersonalFreeleech::where('user_id', '=', $user->id)->first();
+        $freeleechToken = \App\Models\FreeleechToken::where('user_id', '=', $user->id)->where('torrent_id', '=', $torrent->id)->first();
+        $personalFreeleech = \App\Models\PersonalFreeleech::where('user_id', '=', $user->id)->first();
         $comments = $torrent->comments()->latest()->paginate(5);
-        $total_tips = \App\Models\BonTransactions::where('torrent_id', '=', $id)->sum('cost');
-        $user_tips = \App\Models\BonTransactions::where('torrent_id', '=', $id)->where('sender', '=', $request->user()->id)->sum('cost');
-        $last_seed_activity = \App\Models\History::where('info_hash', '=', $torrent->info_hash)->where('seeder', '=', 1)->latest('updated_at')->first();
+        $totalTips = \App\Models\BonTransactions::where('torrent_id', '=', $id)->sum('cost');
+        $userTips = \App\Models\BonTransactions::where('torrent_id', '=', $id)->where('sender', '=', $request->user()->id)->sum('cost');
+        $lastSeedActivity = \App\Models\History::where('info_hash', '=', $torrent->info_hash)->where('seeder', '=', 1)->latest('updated_at')->first();
         $meta = null;
         if ($torrent->category->tv_meta) {
             if ($torrent->tmdb && $torrent->tmdb != 0) {
@@ -789,31 +789,31 @@ class TorrentController extends \App\Http\Controllers\Controller
         $video = null;
         $settings = null;
         $audio = null;
-        $general_crumbs = null;
-        $text_crumbs = null;
+        $generalCrumbs = null;
+        $textCrumbs = null;
         $subtitle = null;
-        $view_crumbs = null;
-        $video_crumbs = null;
+        $viewCrumbs = null;
+        $videoCrumbs = null;
         $settings = null;
-        $audio_crumbs = null;
+        $audioCrumbs = null;
         $subtitle = null;
-        $subtitle_crumbs = null;
+        $subtitleCrumbs = null;
         if ($torrent->mediainfo != null) {
             $mediaInfo = new \App\Helpers\MediaInfo();
             $parsed = $mediaInfo->parse($torrent->mediainfo);
-            $view_crumbs = $mediaInfo->prepareViewCrumbs($parsed);
+            $viewCrumbs = $mediaInfo->prepareViewCrumbs($parsed);
             $general = $parsed['general'];
-            $general_crumbs = $view_crumbs['general'];
+            $generalCrumbs = $viewCrumbs['general'];
             $video = $parsed['video'];
-            $video_crumbs = $view_crumbs['video'];
+            $videoCrumbs = $viewCrumbs['video'];
             $settings = $parsed['video'] !== null && isset($parsed['video'][0]) && isset($parsed['video'][0]['encoding_settings']) ? $parsed['video'][0]['encoding_settings'] : null;
             $audio = $parsed['audio'];
-            $audio_crumbs = $view_crumbs['audio'];
+            $audioCrumbs = $viewCrumbs['audio'];
             $subtitle = $parsed['text'];
-            $text_crumbs = $view_crumbs['text'];
+            $textCrumbs = $viewCrumbs['text'];
         }
         $playlists = $user->playlists;
-        return \view('torrent.torrent', ['torrent' => $torrent, 'comments' => $comments, 'user' => $user, 'personal_freeleech' => $personal_freeleech, 'freeleech_token' => $freeleech_token, 'meta' => $meta, 'characters' => $characters, 'total_tips' => $total_tips, 'user_tips' => $user_tips, 'featured' => $featured, 'general' => $general, 'general_crumbs' => $general_crumbs, 'video_crumbs' => $video_crumbs, 'audio_crumbs' => $audio_crumbs, 'text_crumbs' => $text_crumbs, 'video' => $video, 'audio' => $audio, 'subtitle' => $subtitle, 'settings' => $settings, 'uploader' => $uploader, 'last_seed_activity' => $last_seed_activity, 'playlists' => $playlists]);
+        return \view('torrent.torrent', ['torrent' => $torrent, 'comments' => $comments, 'user' => $user, 'personal_freeleech' => $personalFreeleech, 'freeleech_token' => $freeleechToken, 'meta' => $meta, 'characters' => $characters, 'total_tips' => $totalTips, 'user_tips' => $userTips, 'featured' => $featured, 'general' => $general, 'general_crumbs' => $generalCrumbs, 'video_crumbs' => $videoCrumbs, 'audio_crumbs' => $audioCrumbs, 'text_crumbs' => $textCrumbs, 'video' => $video, 'audio' => $audio, 'subtitle' => $subtitle, 'settings' => $settings, 'uploader' => $uploader, 'last_seed_activity' => $lastSeedActivity, 'playlists' => $playlists]);
     }
     /**
      * Torrent Edit Form.
@@ -867,15 +867,15 @@ class TorrentController extends \App\Http\Controllers\Controller
             return \redirect()->route('torrent', ['id' => $torrent->id])->withErrors($v->errors());
         }
         $torrent->save();
-        $client = new \App\Services\Tmdb\TMDBScraper();
+        $tmdbScraper = new \App\Services\Tmdb\TMDBScraper();
         if ($torrent->category->tv_meta) {
             if ($torrent->tmdb || $torrent->tmdb != 0) {
-                $client->tv($torrent->tmdb);
+                $tmdbScraper->tv($torrent->tmdb);
             }
         }
         if ($torrent->category->movie_meta) {
             if ($torrent->tmdb || $torrent->tmdb != 0) {
-                $client->movie($torrent->tmdb);
+                $tmdbScraper->movie($torrent->tmdb);
             }
         }
         return \redirect()->route('torrent', ['id' => $torrent->id])->withSuccess('Successfully Edited!');
@@ -899,14 +899,14 @@ class TorrentController extends \App\Http\Controllers\Controller
             if ($user->group->is_modo || $user->id == $torrent->user_id && \Carbon\Carbon::now()->lt($torrent->created_at->addDay())) {
                 $users = \App\Models\History::where('info_hash', '=', $torrent->info_hash)->get();
                 foreach ($users as $pm) {
-                    $pmuser = new \App\Models\PrivateMessage();
-                    $pmuser->sender_id = 1;
-                    $pmuser->receiver_id = $pm->user_id;
-                    $pmuser->subject = \sprintf('Torrent Deleted! - %s', $torrent->name);
-                    $pmuser->message = \sprintf('[b]Attention:[/b] Torrent %s has been removed from our site. Our system shows that you were either the uploader, a seeder or a leecher on said torrent. We just wanted to let you know you can safely remove it from your client.
+                    $privateMessage = new \App\Models\PrivateMessage();
+                    $privateMessage->sender_id = 1;
+                    $privateMessage->receiver_id = $pm->user_id;
+                    $privateMessage->subject = \sprintf('Torrent Deleted! - %s', $torrent->name);
+                    $privateMessage->message = \sprintf('[b]Attention:[/b] Torrent %s has been removed from our site. Our system shows that you were either the uploader, a seeder or a leecher on said torrent. We just wanted to let you know you can safely remove it from your client.
                                         [b]Removal Reason:[/b] %s
                                         [color=red][b]THIS IS AN AUTOMATED SYSTEM MESSAGE, PLEASE DO NOT REPLY![/b][/color]', $torrent->name, $request->message);
-                    $pmuser->save();
+                    $privateMessage->save();
                 }
                 // Reset Requests
                 $torrentRequest = \App\Models\TorrentRequest::where('filled_hash', '=', $torrent->info_hash)->get();
@@ -981,10 +981,10 @@ class TorrentController extends \App\Http\Controllers\Controller
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function uploadForm(\Illuminate\Http\Request $request, $category_id = 0, $title = '', $imdb = 0, $tmdb = 0)
+    public function uploadForm(\Illuminate\Http\Request $request, $categoryId = 0, $title = '', $imdb = 0, $tmdb = 0)
     {
         $user = $request->user();
-        return \view('torrent.upload', ['categories' => \App\Models\Category::all()->sortBy('position'), 'types' => \App\Models\Type::all()->sortBy('position'), 'resolutions' => \App\Models\Resolution::all()->sortBy('position'), 'user' => $user, 'category_id' => $category_id, 'title' => $title, 'imdb' => \str_replace('tt', '', $imdb), 'tmdb' => $tmdb]);
+        return \view('torrent.upload', ['categories' => \App\Models\Category::all()->sortBy('position'), 'types' => \App\Models\Type::all()->sortBy('position'), 'resolutions' => \App\Models\Resolution::all()->sortBy('position'), 'user' => $user, 'category_id' => $categoryId, 'title' => $title, 'imdb' => \str_replace('tt', '', $imdb), 'tmdb' => $tmdb]);
     }
     /**
      * Upload A Torrent.
@@ -1074,15 +1074,15 @@ class TorrentController extends \App\Http\Controllers\Controller
             $torrentFile->save();
             unset($torrentFile);
         }
-        $client = new \App\Services\Tmdb\TMDBScraper();
+        $tmdbScraper = new \App\Services\Tmdb\TMDBScraper();
         if ($torrent->category->tv_meta) {
             if ($torrent->tmdb || $torrent->tmdb != 0) {
-                $client->tv($torrent->tmdb);
+                $tmdbScraper->tv($torrent->tmdb);
             }
         }
         if ($torrent->category->movie_meta) {
             if ($torrent->tmdb || $torrent->tmdb != 0) {
-                $client->movie($torrent->tmdb);
+                $tmdbScraper->movie($torrent->tmdb);
             }
         }
         // Torrent Keywords System
@@ -1191,16 +1191,16 @@ class TorrentController extends \App\Http\Controllers\Controller
         $torrent->bumped_at = \Carbon\Carbon::now();
         $torrent->save();
         // Announce To Chat
-        $torrent_url = \href_torrent($torrent);
-        $profile_url = \href_profile($user);
-        $this->chatRepository->systemMessage(\sprintf('Attention, [url=%s]%s[/url] has been bumped to the top by [url=%s]%s[/url]! It could use more seeds!', $torrent_url, $torrent->name, $profile_url, $user->username));
+        $torrentUrl = \href_torrent($torrent);
+        $profileUrl = \href_profile($user);
+        $this->chatRepository->systemMessage(\sprintf('Attention, [url=%s]%s[/url] has been bumped to the top by [url=%s]%s[/url]! It could use more seeds!', $torrentUrl, $torrent->name, $profileUrl, $user->username));
         // Announce To IRC
         if (\config('irc-bot.enabled') == true) {
             $appname = \config('app.name');
             $ircAnnounceBot = new \App\Bots\IRCAnnounceBot();
             $ircAnnounceBot->message(\config('irc-bot.channel'), '[' . $appname . '] User ' . $user->username . ' has bumped ' . $torrent->name . ' , it could use more seeds!');
             $ircAnnounceBot->message(\config('irc-bot.channel'), '[Category: ' . $torrent->category->name . '] [Type: ' . $torrent->type->name . '] [Size:' . $torrent->getSize() . ']');
-            $ircAnnounceBot->message(\config('irc-bot.channel'), \sprintf('[Link: %s]', $torrent_url));
+            $ircAnnounceBot->message(\config('irc-bot.channel'), \sprintf('[Link: %s]', $torrentUrl));
         }
         return \redirect()->route('torrent', ['id' => $torrent->id])->withSuccess('Torrent Has Been Bumped To The Top Successfully!');
     }
@@ -1234,13 +1234,13 @@ class TorrentController extends \App\Http\Controllers\Controller
         $user = $request->user();
         \abort_unless($user->group->is_modo || $user->group->is_internal, 403);
         $torrent = \App\Models\Torrent::withAnyStatus()->findOrFail($id);
-        $torrent_url = \href_torrent($torrent);
+        $torrentUrl = \href_torrent($torrent);
         if ($torrent->free == 0) {
             $torrent->free = '1';
-            $this->chatRepository->systemMessage(\sprintf('Ladies and Gents, [url=%s]%s[/url] has been granted 100%% FreeLeech! Grab It While You Can! :fire:', $torrent_url, $torrent->name));
+            $this->chatRepository->systemMessage(\sprintf('Ladies and Gents, [url=%s]%s[/url] has been granted 100%% FreeLeech! Grab It While You Can! :fire:', $torrentUrl, $torrent->name));
         } else {
             $torrent->free = '0';
-            $this->chatRepository->systemMessage(\sprintf('Ladies and Gents, [url=%s]%s[/url] has been revoked of its 100%% FreeLeech! :poop:', $torrent_url, $torrent->name));
+            $this->chatRepository->systemMessage(\sprintf('Ladies and Gents, [url=%s]%s[/url] has been revoked of its 100%% FreeLeech! :poop:', $torrentUrl, $torrent->name));
         }
         $torrent->save();
         return \redirect()->route('torrent', ['id' => $torrent->id])->withSuccess('Torrent FL Has Been Adjusted!');
@@ -1267,9 +1267,9 @@ class TorrentController extends \App\Http\Controllers\Controller
             $featured->user_id = $user->id;
             $featured->torrent_id = $torrent->id;
             $featured->save();
-            $torrent_url = \href_torrent($torrent);
-            $profile_url = \href_profile($user);
-            $this->chatRepository->systemMessage(\sprintf('Ladies and Gents, [url=%s]%s[/url] has been added to the Featured Torrents Slider by [url=%s]%s[/url]! Grab It While You Can! :fire:', $torrent_url, $torrent->name, $profile_url, $user->username));
+            $torrentUrl = \href_torrent($torrent);
+            $profileUrl = \href_profile($user);
+            $this->chatRepository->systemMessage(\sprintf('Ladies and Gents, [url=%s]%s[/url] has been added to the Featured Torrents Slider by [url=%s]%s[/url]! Grab It While You Can! :fire:', $torrentUrl, $torrent->name, $profileUrl, $user->username));
             return \redirect()->route('torrent', ['id' => $torrent->id])->withSuccess('Torrent Is Now Featured!');
         }
         return \redirect()->route('torrent', ['id' => $torrent->id])->withErrors('Torrent Is Already Featured!');
@@ -1287,13 +1287,13 @@ class TorrentController extends \App\Http\Controllers\Controller
         $user = $request->user();
         \abort_unless($user->group->is_modo || $user->group->is_internal, 403);
         $torrent = \App\Models\Torrent::withAnyStatus()->findOrFail($id);
-        $torrent_url = \href_torrent($torrent);
+        $torrentUrl = \href_torrent($torrent);
         if ($torrent->doubleup == 0) {
             $torrent->doubleup = '1';
-            $this->chatRepository->systemMessage(\sprintf('Ladies and Gents, [url=%s]%s[/url] has been granted Double Upload! Grab It While You Can! :fire:', $torrent_url, $torrent->name));
+            $this->chatRepository->systemMessage(\sprintf('Ladies and Gents, [url=%s]%s[/url] has been granted Double Upload! Grab It While You Can! :fire:', $torrentUrl, $torrent->name));
         } else {
             $torrent->doubleup = '0';
-            $this->chatRepository->systemMessage(\sprintf('Ladies and Gents, [url=%s]%s[/url] has been revoked of its Double Upload! :poop:', $torrent_url, $torrent->name));
+            $this->chatRepository->systemMessage(\sprintf('Ladies and Gents, [url=%s]%s[/url] has been revoked of its Double Upload! :poop:', $torrentUrl, $torrent->name));
         }
         $torrent->save();
         return \redirect()->route('torrent', ['id' => $torrent->id])->withSuccess('Torrent DoubleUpload Has Been Adjusted!');
@@ -1317,9 +1317,9 @@ class TorrentController extends \App\Http\Controllers\Controller
             foreach ($reseed as $r) {
                 \App\Models\User::find($r->user_id)->notify(new \App\Notifications\NewReseedRequest($torrent));
             }
-            $torrent_url = \href_torrent($torrent);
-            $profile_url = \href_profile($user);
-            $this->chatRepository->systemMessage(\sprintf('Ladies and Gents, a reseed request was just placed on [url=%s]%s[/url] can you help out :question:', $torrent_url, $torrent->name));
+            $torrentUrl = \href_torrent($torrent);
+            $profileUrl = \href_profile($user);
+            $this->chatRepository->systemMessage(\sprintf('Ladies and Gents, a reseed request was just placed on [url=%s]%s[/url] can you help out :question:', $torrentUrl, $torrent->name));
             return \redirect()->route('torrent', ['id' => $torrent->id])->withSuccess('A notification has been sent to all users that downloaded this torrent along with original uploader!');
         }
         return \redirect()->route('torrent', ['id' => $torrent->id])->withErrors('This torrent doesnt meet the rules for a reseed request.');
@@ -1336,8 +1336,8 @@ class TorrentController extends \App\Http\Controllers\Controller
     {
         $user = $request->user();
         $torrent = \App\Models\Torrent::withAnyStatus()->findOrFail($id);
-        $active_token = \App\Models\FreeleechToken::where('user_id', '=', $user->id)->where('torrent_id', '=', $torrent->id)->first();
-        if ($user->fl_tokens >= 1 && !$active_token) {
+        $activeToken = \App\Models\FreeleechToken::where('user_id', '=', $user->id)->where('torrent_id', '=', $torrent->id)->first();
+        if ($user->fl_tokens >= 1 && !$activeToken) {
             $freeleechToken = new \App\Models\FreeleechToken();
             $freeleechToken->user_id = $user->id;
             $freeleechToken->torrent_id = $torrent->id;

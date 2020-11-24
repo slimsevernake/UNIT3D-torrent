@@ -129,15 +129,15 @@ class AnnounceController extends \App\Http\Controllers\Controller
             /**
              * Generate A Response For The Torrent Clent.
              */
-            $rep_dict = $this->generateSuccessAnnounceResponse($queries, $torrent, $user);
+            $repDict = $this->generateSuccessAnnounceResponse($queries, $torrent, $user);
             /**
              * Dispatch The Specfic Annnounce Event Job.
              */
             $this->sendAnnounceJob($queries, $user, $torrent);
         } catch (\App\Exceptions\TrackerException $trackerException) {
-            $rep_dict = $this->generateFailedAnnounceResponse($trackerException);
+            $repDict = $this->generateFailedAnnounceResponse($trackerException);
         } finally {
-            return $this->sendFinalAnnounceResponse($rep_dict);
+            return $this->sendFinalAnnounceResponse($repDict);
         }
     }
     /**
@@ -157,13 +157,13 @@ class AnnounceController extends \App\Http\Controllers\Controller
         if ($request->header('accept-language') || $request->header('referer') || $request->header('accept-charset') || $request->header('want-digest')) {
             throw new \App\Exceptions\TrackerException(122);
         }
-        $user_agent = $request->header('User-Agent');
+        $userAgent = $request->header('User-Agent');
         // Should also Block those too long User-Agent. ( For Database reason
-        if (\strlen($user_agent) > 64) {
+        if (\strlen($userAgent) > 64) {
             throw new \App\Exceptions\TrackerException(123);
         }
         // Block Browser by check it's User-Agent
-        if (\preg_match('#(Mozilla|Browser|Chrome|Safari|AppleWebKit|Opera|Links|Lynx|Bot|Unknown)#i', $user_agent)) {
+        if (\preg_match('#(Mozilla|Browser|Chrome|Safari|AppleWebKit|Opera|Links|Lynx|Bot|Unknown)#i', $userAgent)) {
             throw new \App\Exceptions\TrackerException(121);
         }
     }
@@ -203,9 +203,9 @@ class AnnounceController extends \App\Http\Controllers\Controller
         $queries = ['timestamp' => $request->server->get('REQUEST_TIME_FLOAT')];
         // Part.1 check Announce **Need** Fields
         foreach (['info_hash', 'peer_id', 'port', 'uploaded', 'downloaded', 'left'] as $item) {
-            $item_data = $request->query->get($item);
-            if (!\is_null($item_data)) {
-                $queries[$item] = $item_data;
+            $itemData = $request->query->get($item);
+            if (!\is_null($itemData)) {
+                $queries[$item] = $itemData;
             } else {
                 throw new \App\Exceptions\TrackerException(130, [':attribute' => $item]);
             }
@@ -216,8 +216,8 @@ class AnnounceController extends \App\Http\Controllers\Controller
             }
         }
         foreach (['uploaded', 'downloaded', 'left'] as $item) {
-            $item_data = $queries[$item];
-            if (!\is_numeric($item_data) || $item_data < 0) {
+            $itemData = $queries[$item];
+            if (!\is_numeric($itemData) || $itemData < 0) {
                 throw new \App\Exceptions\TrackerException(134, [':attribute' => $item]);
             }
         }
@@ -266,9 +266,9 @@ class AnnounceController extends \App\Http\Controllers\Controller
     protected function checkUser($passkey, $queries): object
     {
         // Caached System Required Groups
-        $banned_group = \cache()->rememberForever('banned_group', fn() => \App\Models\Group::where('slug', '=', 'banned')->pluck('id'));
-        $validating_group = \cache()->rememberForever('validating_group', fn() => \App\Models\Group::where('slug', '=', 'validating')->pluck('id'));
-        $disabled_group = \cache()->rememberForever('disabled_group', fn() => \App\Models\Group::where('slug', '=', 'disabled')->pluck('id'));
+        $bannedGroup = \cache()->rememberForever('banned_group', fn() => \App\Models\Group::where('slug', '=', 'banned')->pluck('id'));
+        $validatingGroup = \cache()->rememberForever('validating_group', fn() => \App\Models\Group::where('slug', '=', 'validating')->pluck('id'));
+        $disabledGroup = \cache()->rememberForever('disabled_group', fn() => \App\Models\Group::where('slug', '=', 'disabled')->pluck('id'));
         // Check Passkey Against Users Table
         $user = \App\Models\User::where('passkey', '=', $passkey)->first();
         // If User Doesn't Exist Return Error to Client
@@ -276,7 +276,7 @@ class AnnounceController extends \App\Http\Controllers\Controller
             throw new \App\Exceptions\TrackerException(140);
         }
         // If User Account Is Unactivated/Validating Return Error to Client
-        if ($user->active === 0 || $user->group_id === $validating_group[0]) {
+        if ($user->active === 0 || $user->group_id === $validatingGroup[0]) {
             throw new \App\Exceptions\TrackerException(141, [':status' => 'Unactivated/Validating']);
         }
         // If User Download Rights Are Disabled Return Error to Client
@@ -284,11 +284,11 @@ class AnnounceController extends \App\Http\Controllers\Controller
             throw new \App\Exceptions\TrackerException(142);
         }
         // If User Is Banned Return Error to Client
-        if ($user->group_id === $banned_group[0]) {
+        if ($user->group_id === $bannedGroup[0]) {
             throw new \App\Exceptions\TrackerException(141, [':status' => 'Banned']);
         }
         // If User Is Disabled Return Error to Client
-        if ($user->group_id === $disabled_group[0]) {
+        if ($user->group_id === $disabledGroup[0]) {
             throw new \App\Exceptions\TrackerException(141, [':status' => 'Disabled']);
         }
         return $user;
@@ -300,10 +300,10 @@ class AnnounceController extends \App\Http\Controllers\Controller
      *
      * @return object
      */
-    protected function checkTorrent($info_hash): object
+    protected function checkTorrent($infoHash): object
     {
         // Check Info Hash Against Torrents Table
-        $torrent = \App\Models\Torrent::withAnyStatus()->where('info_hash', '=', $info_hash)->first();
+        $torrent = \App\Models\Torrent::withAnyStatus()->where('info_hash', '=', $infoHash)->first();
         // If Torrent Doesnt Exsist Return Error to Client
         if ($torrent === null) {
             throw new \App\Exceptions\TrackerException(150);
@@ -330,9 +330,9 @@ class AnnounceController extends \App\Http\Controllers\Controller
      */
     private function checkMinInterval($queries, $user): void
     {
-        $prev_announce = \App\Models\Peer::where('info_hash', '=', $queries['info_hash'])->where('peer_id', '=', $queries['peer_id'])->where('user_id', '=', $user->id)->pluck('updated_at');
+        $prevAnnounce = \App\Models\Peer::where('info_hash', '=', $queries['info_hash'])->where('peer_id', '=', $queries['peer_id'])->where('user_id', '=', $user->id)->pluck('updated_at');
         $carbon = new \Carbon\Carbon();
-        if ($prev_announce < $carbon->copy()->subSeconds(self::MIN)->toDateTimeString() && \strtolower($queries['event']) !== 'completed') {
+        if ($prevAnnounce < $carbon->copy()->subSeconds(self::MIN)->toDateTimeString() && \strtolower($queries['event']) !== 'completed') {
             throw new \App\Exceptions\TrackerException(162, [':min' => self::MIN]);
         }
     }
@@ -380,7 +380,7 @@ class AnnounceController extends \App\Http\Controllers\Controller
     private function generateSuccessAnnounceResponse($queries, $torrent, $user): array
     {
         // Build Response For Bittorrent Client
-        $rep_dict = ['interval' => \rand(self::MIN, self::MAX), 'min interval' => self::MIN, 'complete' => $torrent->seeders, 'incomplete' => $torrent->leechers];
+        $repDict = ['interval' => \rand(self::MIN, self::MAX), 'min interval' => self::MIN, 'complete' => $torrent->seeders, 'incomplete' => $torrent->leechers];
         /**
          * For non `stopped` event only
          * We query peers from database and send peerlist, otherwise just quick return.
@@ -389,10 +389,10 @@ class AnnounceController extends \App\Http\Controllers\Controller
             $limit = $queries['numwant'] <= 50 ? $queries['numwant'] : 50;
             // Get Torrents Peers
             $peers = \App\Models\Peer::where('torrent_id', '=', $torrent->id)->where('user_id', '!=', $user->id)->take($limit)->get()->toArray();
-            $rep_dict['peers'] = $this->givePeers($peers, $queries['compact'], $queries['no_peer_id'], FILTER_FLAG_IPV4);
-            $rep_dict['peers6'] = $this->givePeers($peers, $queries['compact'], $queries['no_peer_id'], FILTER_FLAG_IPV6);
+            $repDict['peers'] = $this->givePeers($peers, $queries['compact'], $queries['no_peer_id'], FILTER_FLAG_IPV4);
+            $repDict['peers6'] = $this->givePeers($peers, $queries['compact'], $queries['no_peer_id'], FILTER_FLAG_IPV6);
         }
-        return $rep_dict;
+        return $repDict;
     }
     /**
      * @param $queries
@@ -427,9 +427,9 @@ class AnnounceController extends \App\Http\Controllers\Controller
      *
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
      */
-    protected function sendFinalAnnounceResponse($rep_dict)
+    protected function sendFinalAnnounceResponse($repDict)
     {
-        return \response(\App\Helpers\Bencode::bencode($rep_dict))->withHeaders(['Content-Type' => 'text/plain; charset=utf-8'])->withHeaders(['Connection' => 'close'])->withHeaders(['Pragma' => 'no-cache']);
+        return \response(\App\Helpers\Bencode::bencode($repDict))->withHeaders(['Content-Type' => 'text/plain; charset=utf-8'])->withHeaders(['Connection' => 'close'])->withHeaders(['Pragma' => 'no-cache']);
     }
     /**
      * @param $peers
@@ -439,19 +439,19 @@ class AnnounceController extends \App\Http\Controllers\Controller
      *
      * @return string
      */
-    private function givePeers($peers, $compact, $no_peer_id, $filter_flag = FILTER_FLAG_IPV4): string
+    private function givePeers($peers, $compact, $noPeerId, $filterFlag = FILTER_FLAG_IPV4): string
     {
         if ($compact) {
             $pcomp = '';
             foreach ($peers as $p) {
-                if (isset($p['ip'], $p['port']) && \filter_var($p['ip'], FILTER_VALIDATE_IP, $filter_flag)) {
+                if (isset($p['ip'], $p['port']) && \filter_var($p['ip'], FILTER_VALIDATE_IP, $filterFlag)) {
                     $pcomp .= \inet_pton($p['ip']);
                     $pcomp .= \pack('n', (int) $p['port']);
                 }
             }
             return $pcomp;
         }
-        if ($no_peer_id) {
+        if ($noPeerId) {
             foreach ($peers as &$p) {
                 unset($p['peer_id']);
             }

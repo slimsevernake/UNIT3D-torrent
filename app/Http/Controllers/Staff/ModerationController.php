@@ -64,7 +64,7 @@ class ModerationController extends \App\Http\Controllers\Controller
         if ($torrent->status !== 1) {
             $appurl = \config('app.url');
             $user = $torrent->user;
-            $user_id = $user->id;
+            $userId = $user->id;
             $username = $user->username;
             $anon = $torrent->anon;
             // Announce To Shoutbox

@@ -68,9 +68,9 @@ class BonusController extends \App\Http\Controllers\Controller
         $gifttransactions = \App\Models\BonTransactions::with(['senderObj', 'receiverObj'])->where(function ($query) use ($user) {
             $query->where('sender', '=', $user->id)->orwhere('receiver', '=', $user->id);
         })->where('name', '=', 'gift')->orderBy('date_actioned', 'DESC')->paginate(25);
-        $gifts_sent = \App\Models\BonTransactions::where('sender', '=', $user->id)->where('name', '=', 'gift')->sum('cost');
-        $gifts_received = \App\Models\BonTransactions::where('receiver', '=', $user->id)->where('name', '=', 'gift')->sum('cost');
-        return \view('bonus.gifts', ['user' => $user, 'gifttransactions' => $gifttransactions, 'userbon' => $userbon, 'gifts_sent' => $gifts_sent, 'gifts_received' => $gifts_received]);
+        $giftsSent = \App\Models\BonTransactions::where('sender', '=', $user->id)->where('name', '=', 'gift')->sum('cost');
+        $giftsReceived = \App\Models\BonTransactions::where('receiver', '=', $user->id)->where('name', '=', 'gift')->sum('cost');
+        return \view('bonus.gifts', ['user' => $user, 'gifttransactions' => $gifttransactions, 'userbon' => $userbon, 'gifts_sent' => $giftsSent, 'gifts_received' => $giftsReceived]);
     }
     /**
      * Show Bonus Tips System.
@@ -86,9 +86,9 @@ class BonusController extends \App\Http\Controllers\Controller
         $bontransactions = \App\Models\BonTransactions::with(['senderObj', 'receiverObj'])->where(function ($query) use ($user) {
             $query->where('sender', '=', $user->id)->orwhere('receiver', '=', $user->id);
         })->where('name', '=', 'tip')->orderBy('date_actioned', 'DESC')->paginate(25);
-        $tips_sent = \App\Models\BonTransactions::where('sender', '=', $user->id)->where('name', '=', 'tip')->sum('cost');
-        $tips_received = \App\Models\BonTransactions::where('receiver', '=', $user->id)->where('name', '=', 'tip')->sum('cost');
-        return \view('bonus.tips', ['user' => $user, 'bontransactions' => $bontransactions, 'userbon' => $userbon, 'tips_sent' => $tips_sent, 'tips_received' => $tips_received]);
+        $tipsSent = \App\Models\BonTransactions::where('sender', '=', $user->id)->where('name', '=', 'tip')->sum('cost');
+        $tipsReceived = \App\Models\BonTransactions::where('receiver', '=', $user->id)->where('name', '=', 'tip')->sum('cost');
+        return \view('bonus.tips', ['user' => $user, 'bontransactions' => $bontransactions, 'userbon' => $userbon, 'tips_sent' => $tipsSent, 'tips_received' => $tipsReceived]);
     }
     /**
      * Show Bonus Store System.
@@ -205,28 +205,28 @@ class BonusController extends \App\Http\Controllers\Controller
     {
         $current = \Carbon\Carbon::now();
         $item = \App\Models\BonExchange::where('id', '=', $itemID)->get()->toArray()[0];
-        $user_acc = \App\Models\User::findOrFail($userID);
-        $activefl = \App\Models\PersonalFreeleech::where('user_id', '=', $user_acc->id)->first();
-        $bon_transactions = \resolve(\App\Models\BonTransactions::class);
+        $userAcc = \App\Models\User::findOrFail($userID);
+        $activefl = \App\Models\PersonalFreeleech::where('user_id', '=', $userAcc->id)->first();
+        $bonTransactions = \resolve(\App\Models\BonTransactions::class);
         if ($item['upload'] == true) {
-            $user_acc->uploaded += $item['value'];
-            $user_acc->save();
+            $userAcc->uploaded += $item['value'];
+            $userAcc->save();
         } elseif ($item['download'] == true) {
-            if ($user_acc->downloaded >= $item['value']) {
-                $user_acc->downloaded -= $item['value'];
-                $user_acc->save();
+            if ($userAcc->downloaded >= $item['value']) {
+                $userAcc->downloaded -= $item['value'];
+                $userAcc->save();
             } else {
                 return false;
             }
         } elseif ($item['personal_freeleech'] == true) {
             if (!$activefl) {
                 $personalFreeleech = new \App\Models\PersonalFreeleech();
-                $personalFreeleech->user_id = $user_acc->id;
+                $personalFreeleech->user_id = $userAcc->id;
                 $personalFreeleech->save();
                 // Send Private Message
                 $privateMessage = new \App\Models\PrivateMessage();
                 $privateMessage->sender_id = 1;
-                $privateMessage->receiver_id = $user_acc->id;
+                $privateMessage->receiver_id = $userAcc->id;
                 $privateMessage->subject = 'Personal 24 Hour Freeleech Activated';
                 $privateMessage->message = \sprintf('Your [b]Personal 24 Hour Freeleech[/b] session has started! It will expire on %s [b]', $current->addDays(1)->toDayDateTimeString()) . \config('app.timezone') . '[/b]! 
                 [color=red][b]THIS IS AN AUTOMATED SYSTEM MESSAGE, PLEASE DO NOT REPLY![/b][/color]';
@@ -235,19 +235,19 @@ class BonusController extends \App\Http\Controllers\Controller
                 return false;
             }
         } elseif ($item['invite'] == true) {
-            if ($user_acc->invites += $item['value']) {
-                $user_acc->save();
+            if ($userAcc->invites += $item['value']) {
+                $userAcc->save();
             } else {
                 return false;
             }
         }
-        $bon_transactions->itemID = $item['id'];
-        $bon_transactions->name = $item['description'];
-        $bon_transactions->cost = $item['value'];
-        $bon_transactions->sender = $userID;
-        $bon_transactions->comment = $item['description'];
-        $bon_transactions->torrent_id = null;
-        $bon_transactions->save();
+        $bonTransactions->itemID = $item['id'];
+        $bonTransactions->name = $item['description'];
+        $bonTransactions->cost = $item['value'];
+        $bonTransactions->sender = $userID;
+        $bonTransactions->comment = $item['description'];
+        $bonTransactions->torrent_id = null;
+        $bonTransactions->save();
         return true;
     }
     /**
@@ -287,9 +287,9 @@ class BonusController extends \App\Http\Controllers\Controller
             if ($user->id != $recipient->id && $recipient->acceptsNotification($request->user(), $recipient, 'bon', 'show_bon_gift')) {
                 $recipient->notify(new \App\Notifications\NewBon('gift', $user->username, $bonTransactions));
             }
-            $profile_url = \href_profile($user);
-            $recipient_url = \href_profile($recipient);
-            $this->chatRepository->systemMessage(\sprintf('[url=%s]%s[/url] has gifted %s BON to [url=%s]%s[/url]', $profile_url, $user->username, $value, $recipient_url, $recipient->username));
+            $profileUrl = \href_profile($user);
+            $recipientUrl = \href_profile($recipient);
+            $this->chatRepository->systemMessage(\sprintf('[url=%s]%s[/url] has gifted %s BON to [url=%s]%s[/url]', $profileUrl, $user->username, $value, $recipientUrl, $recipient->username));
             if ($dest == 'profile') {
                 return \redirect()->route('users.show', ['username' => $recipient->username])->withSuccess('Gift Sent');
             }
@@ -321,31 +321,31 @@ class BonusController extends \App\Http\Controllers\Controller
         $user = $request->user();
         $torrent = \App\Models\Torrent::withAnyStatus()->findOrFail($id);
         $uploader = \App\Models\User::where('id', '=', $torrent->user_id)->first();
-        $tip_amount = $request->input('tip');
-        if ($tip_amount > $user->seedbonus) {
+        $tipAmount = $request->input('tip');
+        if ($tipAmount > $user->seedbonus) {
             return \redirect()->route('torrent', ['id' => $torrent->id])->withErrors('Your To Broke To Tip The Uploader!');
         }
         if ($user->id == $torrent->user_id) {
             return \redirect()->route('torrent', ['id' => $torrent->id])->withErrors('You Cannot Tip Yourself!');
         }
-        if ($tip_amount <= 0) {
+        if ($tipAmount <= 0) {
             return \redirect()->route('torrent', ['id' => $torrent->id])->withErrors('You Cannot Tip A Negative Amount!');
         }
-        $uploader->seedbonus += $tip_amount;
+        $uploader->seedbonus += $tipAmount;
         $uploader->save();
-        $user->seedbonus -= $tip_amount;
+        $user->seedbonus -= $tipAmount;
         $user->save();
         $bonTransactions = new \App\Models\BonTransactions();
         $bonTransactions->itemID = 0;
         $bonTransactions->name = 'tip';
-        $bonTransactions->cost = $tip_amount;
+        $bonTransactions->cost = $tipAmount;
         $bonTransactions->sender = $user->id;
         $bonTransactions->receiver = $uploader->id;
         $bonTransactions->comment = 'tip';
         $bonTransactions->torrent_id = $torrent->id;
         $bonTransactions->save();
         if ($uploader->acceptsNotification($request->user(), $uploader, 'torrent', 'show_torrent_tip')) {
-            $uploader->notify(new \App\Notifications\NewUploadTip('torrent', $user->username, $tip_amount, $torrent));
+            $uploader->notify(new \App\Notifications\NewUploadTip('torrent', $user->username, $tipAmount, $torrent));
         }
         return \redirect()->route('torrent', ['id' => $torrent->id])->withSuccess('Your Tip Was Successfully Applied!');
     }
@@ -365,30 +365,30 @@ class BonusController extends \App\Http\Controllers\Controller
         } else {
             \abort(404);
         }
-        $tip_amount = $request->input('tip');
-        if ($tip_amount > $user->seedbonus) {
+        $tipAmount = $request->input('tip');
+        if ($tipAmount > $user->seedbonus) {
             return \redirect()->route('forum_topic', ['id' => $post->topic->id])->withErrors('You Are To Broke To Tip The Poster!');
         }
         if ($user->id == $poster->id) {
             return \redirect()->route('forum_topic', ['id' => $post->topic->id])->withErrors('You Cannot Tip Yourself!');
         }
-        if ($tip_amount <= 0) {
+        if ($tipAmount <= 0) {
             return \redirect()->route('forum_topic', ['id' => $post->topic->id])->withErrors('You Cannot Tip A Negative Amount!');
         }
-        $poster->seedbonus += $tip_amount;
+        $poster->seedbonus += $tipAmount;
         $poster->save();
-        $user->seedbonus -= $tip_amount;
+        $user->seedbonus -= $tipAmount;
         $user->save();
         $bonTransactions = new \App\Models\BonTransactions();
         $bonTransactions->itemID = 0;
         $bonTransactions->name = 'tip';
-        $bonTransactions->cost = $tip_amount;
+        $bonTransactions->cost = $tipAmount;
         $bonTransactions->sender = $user->id;
         $bonTransactions->receiver = $poster->id;
         $bonTransactions->comment = 'tip';
         $bonTransactions->post_id = $post->id;
         $bonTransactions->save();
-        $poster->notify(new \App\Notifications\NewPostTip('forum', $user->username, $tip_amount, $post));
+        $poster->notify(new \App\Notifications\NewPostTip('forum', $user->username, $tipAmount, $post));
         return \redirect()->route('forum_topic', ['id' => $post->topic->id])->withSuccess('Your Tip Was Successfully Applied!');
     }
     /**

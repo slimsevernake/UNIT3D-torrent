@@ -55,7 +55,7 @@ class HomeController extends \App\Http\Controllers\Controller
             $article->newNews = $user->updated_at->subDays(3)->getTimestamp() < $article->created_at->getTimestamp() ? 1 : 0;
         }
         // Latest Torrents Block
-        $personal_freeleech = \App\Models\PersonalFreeleech::where('user_id', '=', $user->id)->first();
+        $personalFreeleech = \App\Models\PersonalFreeleech::where('user_id', '=', $user->id)->first();
         $newest = \cache()->remember('newest_torrents', $expiresAt, fn() => \App\Models\Torrent::with(['user', 'category', 'type'])->withCount(['thanks', 'comments'])->latest()->take(5)->get());
         $seeded = \cache()->remember('seeded_torrents', $expiresAt, fn() => \App\Models\Torrent::with(['user', 'category', 'type'])->withCount(['thanks', 'comments'])->latest('seeders')->take(5)->get());
         $leeched = \cache()->remember('leeched_torrents', $expiresAt, fn() => \App\Models\Torrent::with(['user', 'category', 'type'])->withCount(['thanks', 'comments'])->latest('leechers')->take(5)->get());
@@ -76,9 +76,9 @@ class HomeController extends \App\Http\Controllers\Controller
         $poll = \cache()->remember('latest_poll', $expiresAt, fn() => \App\Models\Poll::latest()->first());
         // Top Uploaders Block
         $uploaders = \cache()->remember('top_uploaders', $expiresAt, fn() => \App\Models\Torrent::with('user')->select(\Illuminate\Support\Facades\DB::raw('user_id, count(*) as value'))->groupBy('user_id')->latest('value')->take(10)->get());
-        $past_uploaders = \cache()->remember('month_uploaders', $expiresAt, fn() => \App\Models\Torrent::with('user')->where('created_at', '>', $current->copy()->subDays(30)->toDateTimeString())->select(\Illuminate\Support\Facades\DB::raw('user_id, count(*) as value'))->groupBy('user_id')->latest('value')->take(10)->get());
-        $freeleech_tokens = \App\Models\FreeleechToken::where('user_id', $user->id)->get();
+        $pastUploaders = \cache()->remember('month_uploaders', $expiresAt, fn() => \App\Models\Torrent::with('user')->where('created_at', '>', $current->copy()->subDays(30)->toDateTimeString())->select(\Illuminate\Support\Facades\DB::raw('user_id, count(*) as value'))->groupBy('user_id')->latest('value')->take(10)->get());
+        $freeleechTokens = \App\Models\FreeleechToken::where('user_id', $user->id)->get();
         $bookmarks = \App\Models\Bookmark::where('user_id', $user->id)->get();
-        return \view('home.index', ['user' => $user, 'personal_freeleech' => $personal_freeleech, 'users' => $users, 'groups' => $groups, 'articles' => $articles, 'newest' => $newest, 'seeded' => $seeded, 'dying' => $dying, 'leeched' => $leeched, 'dead' => $dead, 'topics' => $topics, 'posts' => $posts, 'featured' => $featured, 'poll' => $poll, 'uploaders' => $uploaders, 'past_uploaders' => $past_uploaders, 'freeleech_tokens' => $freeleech_tokens, 'bookmarks' => $bookmarks]);
+        return \view('home.index', ['user' => $user, 'personal_freeleech' => $personalFreeleech, 'users' => $users, 'groups' => $groups, 'articles' => $articles, 'newest' => $newest, 'seeded' => $seeded, 'dying' => $dying, 'leeched' => $leeched, 'dead' => $dead, 'topics' => $topics, 'posts' => $posts, 'featured' => $featured, 'poll' => $poll, 'uploaders' => $uploaders, 'past_uploaders' => $pastUploaders, 'freeleech_tokens' => $freeleechTokens, 'bookmarks' => $bookmarks]);
     }
 }
