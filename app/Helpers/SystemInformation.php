@@ -85,7 +85,7 @@ class SystemInformation
 
     private function getDatabase()
     {
-        if (!\in_array(\config('database.default'), self::KNOWN_DATABASES, true)) {
+        if (! \in_array(\config('database.default'), self::KNOWN_DATABASES, true)) {
             return 'Unkown';
         }
         $results = \Illuminate\Support\Facades\DB::select(\Illuminate\Support\Facades\DB::raw('select version()'));
