@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
@@ -107,8 +108,9 @@ class ImageController extends Controller
      * @param \Illuminate\Http\Request $request
      * @param \App\Models\Image        $id
      *
-     * @return \Illuminate\Http\RedirectResponse
      * @throws \Exception
+     *
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(Request $request, Image $id)
     {

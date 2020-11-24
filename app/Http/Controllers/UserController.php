@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
@@ -1175,8 +1176,9 @@ class UserController extends Controller
      * @param \Illuminate\Http\Request $request
      * @param \App\Models\User         $username
      *
-     * @return array|false
      * @throws \Throwable
+     *
+     * @return array|false
      */
     public function myFilter(Request $request, User $username)
     {

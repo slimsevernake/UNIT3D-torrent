@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
@@ -42,8 +43,9 @@ class EmailBlacklistValidator
      *
      * @param string $value
      *
-     * @return bool.
      * @throws \Exception
+     *
+     * @return bool.
      */
     public function validate(string $value)
     {

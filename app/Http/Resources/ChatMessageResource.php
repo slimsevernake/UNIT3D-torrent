@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
@@ -25,8 +26,9 @@ class ChatMessageResource extends JsonResource
      *
      * @param \Illuminate\Http\Request $request
      *
-     * @return array
      * @throws \Illuminate\Contracts\Container\BindingResolutionException
+     *
+     * @return array
      */
     public function toArray(\Illuminate\Http\Request $request)
     {

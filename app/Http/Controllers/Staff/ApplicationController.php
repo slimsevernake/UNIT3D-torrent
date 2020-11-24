@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
@@ -53,8 +54,9 @@ class ApplicationController extends \App\Http\Controllers\Controller
      * @param \Illuminate\Http\Request $request
      * @param \App\Models\Application  $id
      *
-     * @return \Illuminate\Http\RedirectResponse
      * @throws \Exception
+     *
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function approve(\Illuminate\Http\Request $request, Application $id)
     {

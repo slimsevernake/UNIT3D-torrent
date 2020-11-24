@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
@@ -18,7 +19,6 @@ use App\Models\Category;
 use App\Models\FreeleechToken;
 use App\Models\History;
 use App\Models\Torrent;
-use App\Models\TorrentFile;
 use App\Models\User;
 use App\Repositories\ChatRepository;
 use App\Repositories\TorrentFacetedRepository;
@@ -170,11 +170,11 @@ class TorrentController extends \App\Http\Controllers\Controller
      *
      * @param \Illuminate\Http\Request $request
      *
-     * @return array|\Illuminate\Contracts\View\Factory|\Illuminate\View\View|string
      *@throws \HttpInvalidParamException
      * @throws \Throwable
-     *
      * @throws \ErrorException
+     *
+     * @return array|\Illuminate\Contracts\View\Factory|\Illuminate\View\View|string
      */
     public function groupingLayout(\Illuminate\Http\Request $request)
     {
@@ -739,9 +739,10 @@ class TorrentController extends \App\Http\Controllers\Controller
      * @param \Illuminate\Http\Request $request
      * @param \App\Models\Torrent      $id
      *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      * @throws \ErrorException
      * @throws \HttpInvalidParamException
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function torrent(\Illuminate\Http\Request $request, Torrent $id)
     {
@@ -824,9 +825,10 @@ class TorrentController extends \App\Http\Controllers\Controller
      * @param \Illuminate\Http\Request $request
      * @param \App\Models\Torrent      $id
      *
-     * @return \Illuminate\Http\RedirectResponse
      * @throws \ErrorException
      * @throws \HttpInvalidParamException
+     *
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function edit(\Illuminate\Http\Request $request, Torrent $id)
     {

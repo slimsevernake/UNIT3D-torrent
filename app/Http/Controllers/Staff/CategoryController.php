@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
@@ -169,8 +170,9 @@ class CategoryController extends Controller
      *
      * @param \App\Models\Category $id
      *
-     * @return \Illuminate\Http\RedirectResponse
      * @throws \Exception
+     *
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(Category $id)
     {

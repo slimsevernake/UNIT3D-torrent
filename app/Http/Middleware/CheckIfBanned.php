@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
@@ -25,8 +26,9 @@ class CheckIfBanned
      * @param \Illuminate\Http\Request $request
      * @param \Closure                 $next
      *
-     * @return mixed
      * @throws \Exception
+     *
+     * @return mixed
      */
     public function handle(\Illuminate\Http\Request $request, Closure $next)
     {

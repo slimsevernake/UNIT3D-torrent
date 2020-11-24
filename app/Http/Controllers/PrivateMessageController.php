@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
@@ -233,8 +234,9 @@ class PrivateMessageController extends Controller
      * @param \Illuminate\Http\Request   $request
      * @param \App\Models\PrivateMessage $id
      *
-     * @return \Illuminate\Http\RedirectResponse
      * @throws \Exception
+     *
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function deletePrivateMessage(Request $request, PrivateMessage $id)
     {

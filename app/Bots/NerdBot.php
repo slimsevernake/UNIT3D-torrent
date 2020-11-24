@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
@@ -65,8 +66,9 @@ class NerdBot
     /**
      * Get Banker.
      *
-     * @return string
      * @throws \Exception
+     *
+     * @return string
      */
     public function getBanker()
     {
@@ -82,8 +84,9 @@ class NerdBot
     /**
      * Get Snatched.
      *
-     * @return string
      * @throws \Exception
+     *
+     * @return string
      */
     public function getSnatched()
     {
@@ -99,8 +102,9 @@ class NerdBot
     /**
      * Get Leeched.
      *
-     * @return string
      * @throws \Exception
+     *
+     * @return string
      */
     public function getLeeched()
     {
@@ -116,8 +120,9 @@ class NerdBot
     /**
      * Get Seeded.
      *
-     * @return string
      * @throws \Exception
+     *
+     * @return string
      */
     public function getSeeded()
     {
@@ -133,8 +138,9 @@ class NerdBot
     /**
      * Get FL.
      *
-     * @return string
      * @throws \Exception
+     *
+     * @return string
      */
     public function getFreeleech()
     {
@@ -150,8 +156,9 @@ class NerdBot
     /**
      * Get DU.
      *
-     * @return string
      * @throws \Exception
+     *
+     * @return string
      */
     public function getDoubleUpload()
     {
@@ -167,8 +174,9 @@ class NerdBot
     /**
      * Get Peers.
      *
-     * @return string
      * @throws \Exception
+     *
+     * @return string
      */
     public function getPeers()
     {
@@ -184,8 +192,9 @@ class NerdBot
     /**
      * Get Bans.
      *
-     * @return string
      * @throws \Exception
+     *
+     * @return string
      */
     public function getBans()
     {
@@ -201,8 +210,9 @@ class NerdBot
     /**
      * Get Warnings.
      *
-     * @return string
      * @throws \Exception
+     *
+     * @return string
      */
     public function getWarnings()
     {
@@ -218,8 +228,9 @@ class NerdBot
     /**
      * Get Uploads.
      *
-     * @return string
      * @throws \Exception
+     *
+     * @return string
      */
     public function getUploads()
     {
@@ -235,8 +246,9 @@ class NerdBot
     /**
      * Get Logins.
      *
-     * @return string
      * @throws \Exception
+     *
+     * @return string
      */
     public function getLogins()
     {
@@ -252,8 +264,9 @@ class NerdBot
     /**
      * Get Registrations.
      *
-     * @return string
      * @throws \Exception
+     *
+     * @return string
      */
     public function getRegistrations()
     {
@@ -269,8 +282,9 @@ class NerdBot
     /**
      * Get Bot Donations.
      *
-     * @return string
      * @throws \Exception
+     *
+     * @return string
      */
     public function getDonations()
     {
@@ -317,7 +331,7 @@ class NerdBot
      */
     public function putDonate($amount = 0, $note = '')
     {
-        $output = \implode((array)' ', $note);
+        $output = \implode((array) ' ', $note);
         $v = \validator(['bot_id' => $this->bot->id, 'amount' => $amount, 'note' => $output], ['bot_id' => 'required|exists:bots,id|max:999', 'amount' => \sprintf('required|numeric|min:1|max:%s', $this->target->seedbonus), 'note' => 'required|string']);
         if ($v->passes()) {
             $value = $amount;

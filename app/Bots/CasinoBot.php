@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
@@ -74,7 +75,7 @@ class CasinoBot
      */
     public function putDonate($amount = 0, $note = '')
     {
-        $output = \implode((array)' ', $note);
+        $output = \implode((array) ' ', $note);
         $v = \validator(['bot_id' => $this->bot->id, 'amount' => $amount, 'note' => $output], ['bot_id' => 'required|exists:bots,id|max:999', 'amount' => \sprintf('required|numeric|min:1|max:%s', $this->target->seedbonus), 'note' => 'required|string']);
         if ($v->passes()) {
             $value = $amount;
@@ -102,8 +103,9 @@ class CasinoBot
     /**
      * Get Bot Donations.
      *
-     * @return string
      * @throws \Exception
+     *
+     * @return string
      */
     public function getDonations()
     {

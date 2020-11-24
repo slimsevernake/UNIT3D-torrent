@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
@@ -97,8 +98,9 @@ class AlbumController extends \App\Http\Controllers\Controller
      * @param \Illuminate\Http\Request $request
      * @param \App\Models\Album        $id
      *
-     * @return \Illuminate\Http\RedirectResponse
      * @throws \Exception
+     *
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(\Illuminate\Http\Request $request, Album $id)
     {

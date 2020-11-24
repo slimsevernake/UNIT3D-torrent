@@ -81,8 +81,9 @@ class AnnounceController extends \App\Http\Controllers\Controller
      * @param \Illuminate\Http\Request $request
      * @param \App\Models\User         $passkey
      *
-     * @return string
      * @throws \Exception
+     *
+     * @return string
      */
     public function index(\Illuminate\Http\Request $request, User $passkey)
     {

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
@@ -41,8 +42,9 @@ class VerifyCsrfToken extends BaseVerifier
      * @param \Illuminate\Http\Request $request
      * @param \Closure                 $next
      *
-     * @return mixed
      * @throws \Illuminate\Session\TokenMismatchException
+     *
+     * @return mixed
      */
     public function handle(\Illuminate\Http\Request $request, Closure $next)
     {

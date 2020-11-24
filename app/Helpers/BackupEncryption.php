@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
@@ -51,7 +52,7 @@ class BackupEncryption
      * @var array
      */
     private array $zipArchiveOptions = [
-        self::ENCRYPTION_DEFAULT => '257',
+        self::ENCRYPTION_DEFAULT        => '257',
         self::ENCRYPTION_WINZIP_AES_128 => '257',
         self::ENCRYPTION_WINZIP_AES_192 => '258',
         self::ENCRYPTION_WINZIP_AES_256 => '259',
@@ -63,7 +64,7 @@ class BackupEncryption
      * @var array
      */
     private array $zipFileOptions = [
-        self::ENCRYPTION_DEFAULT => \PhpZip\Constants\ZipEncryptionMethod::PKWARE,
+        self::ENCRYPTION_DEFAULT        => \PhpZip\Constants\ZipEncryptionMethod::PKWARE,
         self::ENCRYPTION_WINZIP_AES_128 => \PhpZip\Constants\ZipEncryptionMethod::WINZIP_AES_128,
         self::ENCRYPTION_WINZIP_AES_192 => \PhpZip\Constants\ZipEncryptionMethod::WINZIP_AES_192,
         self::ENCRYPTION_WINZIP_AES_256 => \PhpZip\Constants\ZipEncryptionMethod::WINZIP_AES_256,
@@ -75,8 +76,9 @@ class BackupEncryption
      * @param string $type
      * @param string $engine
      *
-     * @return mixed
      * @throws \Exception
+     *
+     * @return mixed
      */
     public function getEncryptionConstant(string $type, string $engine)
     {

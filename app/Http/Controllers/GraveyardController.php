@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
@@ -158,8 +159,9 @@ class GraveyardController extends \App\Http\Controllers\Controller
      * @param \Illuminate\Http\Request $request
      * @param int                      $id
      *
-     * @return \Illuminate\Http\RedirectResponse
      * @throws \Exception
+     *
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(\Illuminate\Http\Request $request, int $id)
     {

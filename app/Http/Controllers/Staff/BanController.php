@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
@@ -41,8 +42,9 @@ class BanController extends \App\Http\Controllers\Controller
      * @param \Illuminate\Http\Request $request
      * @param \App\Models\User         $username
      *
-     * @return \Illuminate\Http\RedirectResponse
      * @throws \Exception
+     *
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(\Illuminate\Http\Request $request, User $username)
     {

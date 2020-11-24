@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
@@ -910,17 +911,17 @@ class Markdown
     //
 
     protected array $InlineTypes = [
-        '"' => ['SpecialCharacter'],
-        '!' => ['Image'],
-        '&' => ['SpecialCharacter'],
-        '*' => ['Emphasis'],
-        ':' => ['Url'],
-        '<' => ['UrlTag', 'EmailTag', 'Markup', 'SpecialCharacter'],
-        '>' => ['SpecialCharacter'],
-        '[' => ['Link'],
-        '_' => ['Emphasis'],
-        '`' => ['Code'],
-        '~' => ['Strikethrough'],
+        '"'  => ['SpecialCharacter'],
+        '!'  => ['Image'],
+        '&'  => ['SpecialCharacter'],
+        '*'  => ['Emphasis'],
+        ':'  => ['Url'],
+        '<'  => ['UrlTag', 'EmailTag', 'Markup', 'SpecialCharacter'],
+        '>'  => ['SpecialCharacter'],
+        '['  => ['Link'],
+        '_'  => ['Emphasis'],
+        '`'  => ['Code'],
+        '~'  => ['Strikethrough'],
         '\\' => ['EscapeSequence'],
     ];
 

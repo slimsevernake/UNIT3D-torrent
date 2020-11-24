@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
@@ -169,8 +170,9 @@ class RssController extends Controller
      * @param int    $id
      * @param string $rsskey
      *
-     * @return array|\Illuminate\Http\Response
      * @throws \Exception
+     *
+     * @return array|\Illuminate\Http\Response
      */
     public function show(int $id, string $rsskey)
     {
@@ -431,8 +433,9 @@ class RssController extends Controller
      *
      * @param int $id
      *
-     * @return \Illuminate\Http\Response
      * @throws \Exception
+     *
+     * @return \Illuminate\Http\Response
      */
     public function destroy(int $id)
     {

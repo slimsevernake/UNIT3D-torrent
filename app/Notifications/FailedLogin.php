@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
@@ -37,7 +38,6 @@ class FailedLogin extends \Illuminate\Notifications\Notification implements \Ill
      * Create a new notification instance.
      *
      * @param string $ip
-     *
      */
     public function __construct(string $ip)
     {

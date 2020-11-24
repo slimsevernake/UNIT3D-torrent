@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
@@ -47,8 +48,9 @@ trait TwoStep
      *
      * @param collection $twoStepAuth
      *
-     * @return bool
      * @throws \Exception
+     *
+     * @return bool
      */
     private function checkTimeSinceVerified(collection $twoStepAuth)
     {
@@ -71,8 +73,9 @@ trait TwoStep
      *
      * @param collection $twoStepAuth
      *
-     * @return collection
      * @throws \Exception
+     *
+     * @return collection
      */
     private function resetAuthStatus(collection $twoStepAuth)
     {
@@ -183,8 +186,9 @@ trait TwoStep
      *
      * @param collection $twoStepEntry
      *
-     * @return collection
      * @throws \Exception
+     *
+     * @return collection
      */
     protected function resetExceededTime(collection $twoStepEntry)
     {
@@ -200,8 +204,9 @@ trait TwoStep
      *
      * @param collection $twoStepAuth
      *
-     * @return void
      * @throws \Exception
+     *
+     * @return void
      */
     protected function resetActivationCountdown(collection $twoStepAuth)
     {

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
@@ -126,9 +127,10 @@ class PlaylistController extends Controller
      *
      * @param \App\Playlist $id
      *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      * @throws \ErrorException
      * @throws \HttpInvalidParamException
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function show(\App\Playlist $id)
     {
@@ -224,8 +226,9 @@ class PlaylistController extends Controller
      *
      * @param \App\Playlist $id
      *
-     * @return \Illuminate\Http\RedirectResponse
      * @throws \Exception
+     *
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(\App\Playlist $id)
     {
@@ -243,7 +246,7 @@ class PlaylistController extends Controller
     /**
      * Download All History Torrents.
      *
-     * @param                          $id
+     * @param $id
      *
      * @return \Illuminate\Http\RedirectResponse|\Symfony\Component\HttpFoundation\BinaryFileResponse
      */

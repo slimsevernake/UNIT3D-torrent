@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
@@ -65,8 +66,9 @@ class Handler extends ExceptionHandler
      * @param \Illuminate\Http\Request $request
      * @param \Throwable               $throwable
      *
-     * @return \Illuminate\Http\Response
      * @throws \Throwable
+     *
+     * @return \Illuminate\Http\Response
      */
     public function render(\Illuminate\Http\Request $request, Throwable $throwable)
     {

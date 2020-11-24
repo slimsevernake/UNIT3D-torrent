@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
@@ -331,8 +332,9 @@ class TopicController extends Controller
      * @param \Illuminate\Http\Request $request
      * @param \App\Models\Topic        $id
      *
-     * @return \Illuminate\Http\RedirectResponse
      * @throws \Exception
+     *
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function deleteTopic(Request $request, Topic $id)
     {

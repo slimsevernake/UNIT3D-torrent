@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
@@ -169,9 +170,10 @@ class RequestController extends \App\Http\Controllers\Controller
      * @param \Illuminate\Http\Request   $request
      * @param \App\Models\TorrentRequest $id
      *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      * @throws \ErrorException
      * @throws \HttpInvalidParamException
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function request(\Illuminate\Http\Request $request, TorrentRequest $id)
     {
@@ -547,8 +549,9 @@ class RequestController extends \App\Http\Controllers\Controller
      * @param \Illuminate\Http\Request   $request
      * @param \App\Models\TorrentRequest $id
      *
-     * @return \Illuminate\Http\RedirectResponse
      * @throws \Exception
+     *
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function deleteRequest(\Illuminate\Http\Request $request, TorrentRequest $id)
     {
@@ -602,8 +605,9 @@ class RequestController extends \App\Http\Controllers\Controller
      * @param \Illuminate\Http\Request   $request
      * @param \App\Models\TorrentRequest $id
      *
-     * @return \Illuminate\Http\RedirectResponse
      * @throws \Exception
+     *
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function unclaimRequest(\Illuminate\Http\Request $request, TorrentRequest $id)
     {

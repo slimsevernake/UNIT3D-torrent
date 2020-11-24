@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
@@ -77,7 +78,7 @@ class SystemBot
      */
     public function putGift($receiver = '', $amount = 0, $note = '')
     {
-        $output = \implode((array)' ', $note);
+        $output = \implode((array) ' ', $note);
         $v = \validator(['receiver' => $receiver, 'amount' => $amount, 'note' => $output], ['receiver' => 'required|string|exists:users,username', 'amount' => \sprintf('required|numeric|min:1|max:%s', $this->target->seedbonus), 'note' => 'required|string']);
         if ($v->passes()) {
             $recipient = \App\Models\User::where('username', 'LIKE', $receiver)->first();
