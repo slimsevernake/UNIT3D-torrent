@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
  *
@@ -22,19 +23,16 @@ class EmailBlacklistValidator
     /**
      * Array of blacklisted domains.
      */
-    private $domains = [];
+    private array $domains = [];
 
     /**
      * Generate the error message on validation failure.
      *
-     * @param $message
      * @param $attribute
-     * @param $rule
-     * @param $parameters
      *
      * @return string
      */
-    public function message($message, $attribute, $rule, $parameters)
+    public function message($attribute)
     {
         return \sprintf('%s domain is not allowed. Throwaway email providers are blacklisted.', $attribute);
     }
@@ -42,15 +40,12 @@ class EmailBlacklistValidator
     /**
      * Execute the validation routine.
      *
-     * @param string $attribute
      * @param string $value
-     * @param array  $parameters
-     *
-     * @throws \Exception
      *
      * @return bool.
+     * @throws \Exception
      */
-    public function validate($attribute, $value, $parameters)
+    public function validate(string $value)
     {
         // Load blacklisted domains
         $this->refresh();

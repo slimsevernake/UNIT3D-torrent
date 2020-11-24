@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
  *
@@ -46,11 +47,10 @@ trait TwoStep
      *
      * @param collection $twoStepAuth
      *
-     * @throws \Exception
-     *
      * @return bool
+     * @throws \Exception
      */
-    private function checkTimeSinceVerified($twoStepAuth)
+    private function checkTimeSinceVerified(collection $twoStepAuth)
     {
         $expireMinutes = \config('auth.TwoStepVerifiedLifetimeMinutes');
         $now = Carbon::now();
@@ -71,11 +71,10 @@ trait TwoStep
      *
      * @param collection $twoStepAuth
      *
-     * @throws \Exception
-     *
      * @return collection
+     * @throws \Exception
      */
-    private function resetAuthStatus($twoStepAuth)
+    private function resetAuthStatus(collection $twoStepAuth)
     {
         $twoStepAuth->authCode = $this->generateCode();
         $twoStepAuth->authCount = 0;
@@ -150,7 +149,7 @@ trait TwoStep
      *
      * @return \Illuminate\Support\Collection
      */
-    protected function exceededTimeParser($time)
+    protected function exceededTimeParser(string $time)
     {
         $tomorrow = Carbon::parse($time)->addMinutes(\config('auth.TwoStepExceededCountdownMinutes'))->format('l, F jS Y h:i:sa');
         $remaining = $time->addMinutes(\config('auth.TwoStepExceededCountdownMinutes'))->diffForHumans(null, true);
@@ -170,7 +169,7 @@ trait TwoStep
      *
      * @return bool
      */
-    protected function checkExceededTime($time)
+    protected function checkExceededTime(datetime $time)
     {
         $now = Carbon::now();
         $expire = Carbon::parse($time)->addMinutes(\config('auth.TwoStepExceededCountdownMinutes'));
@@ -184,11 +183,10 @@ trait TwoStep
      *
      * @param collection $twoStepEntry
      *
-     * @throws \Exception
-     *
      * @return collection
+     * @throws \Exception
      */
-    protected function resetExceededTime($twoStepEntry)
+    protected function resetExceededTime(collection $twoStepEntry)
     {
         $twoStepEntry->authCount = 0;
         $twoStepEntry->authCode = $this->generateCode();
@@ -202,11 +200,10 @@ trait TwoStep
      *
      * @param collection $twoStepAuth
      *
-     * @throws \Exception
-     *
      * @return void
+     * @throws \Exception
      */
-    protected function resetActivationCountdown($twoStepAuth)
+    protected function resetActivationCountdown(collection $twoStepAuth)
     {
         $twoStepAuth->authCode = $this->generateCode();
         $twoStepAuth->authCount = 0;

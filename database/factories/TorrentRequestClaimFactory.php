@@ -14,7 +14,7 @@ class TorrentRequestClaimFactory extends Factory
      *
      * @var string
      */
-    protected $model = TorrentRequestClaim::class;
+    protected string $model = TorrentRequestClaim::class;
 
     /**
      * Define the model's default state.

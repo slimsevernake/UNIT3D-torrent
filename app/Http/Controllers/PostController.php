@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
  *
@@ -39,12 +40,12 @@ class PostController extends Controller
     /**
      * @var TaggedUserRepository
      */
-    private $taggedUserRepository;
+    private TaggedUserRepository $taggedUserRepository;
 
     /**
      * @var ChatRepository
      */
-    private $chatRepository;
+    private ChatRepository $chatRepository;
 
     /**
      * ForumController Constructor.
@@ -66,7 +67,7 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function reply(Request $request, $id)
+    public function reply(Request $request, Topic $id)
     {
         $user = $request->user();
         $topic = Topic::findOrFail($id);
@@ -186,7 +187,7 @@ class PostController extends Controller
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function postEditForm($id, $postId)
+    public function postEditForm(Topic $id, Post $postId)
     {
         $topic = Topic::findOrFail($id);
         $forum = $topic->forum;
@@ -209,7 +210,7 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function postEdit(Request $request, $postId)
+    public function postEdit(Request $request, Post $postId)
     {
         $user = $request->user();
         $post = Post::findOrFail($postId);
@@ -229,11 +230,10 @@ class PostController extends Controller
      * @param \Illuminate\Http\Request $request
      * @param \App\Models\Post         $postId
      *
-     * @throws \Exception
-     *
      * @return \Illuminate\Http\RedirectResponse
+     * @throws \Exception
      */
-    public function postDelete(Request $request, $postId)
+    public function postDelete(Request $request, Post $postId)
     {
         $user = $request->user();
         $post = Post::with('topic')->findOrFail($postId);

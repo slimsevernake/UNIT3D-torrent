@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
  *
@@ -30,7 +31,7 @@ class SeedboxController extends Controller
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function index(Request $request, $username)
+    public function index(Request $request, User $username)
     {
         $user = User::where('username', '=', $username)->firstOrFail();
 
@@ -78,11 +79,10 @@ class SeedboxController extends Controller
      * @param \Illuminate\Http\Request $request
      * @param \App\Models\Seedbox      $id
      *
-     * @throws \Exception
-     *
      * @return \Illuminate\Http\RedirectResponse
+     * @throws \Exception
      */
-    protected function destroy(Request $request, $id)
+    protected function destroy(Request $request, Seedbox $id)
     {
         $user = $request->user();
         $seedbox = Seedbox::findOrFail($id);

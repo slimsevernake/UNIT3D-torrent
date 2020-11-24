@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
  *
@@ -61,7 +62,7 @@ class UserController extends Controller
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function settings($username)
+    public function settings(User $username)
     {
         $user = User::where('username', '=', $username)->firstOrFail();
         $groups = Group::all();
@@ -82,7 +83,7 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function edit(Request $request, $username)
+    public function edit(Request $request, User $username)
     {
         $user = User::with('group')->where('username', '=', $username)->firstOrFail();
         $staff = $request->user();
@@ -135,7 +136,7 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function permissions(Request $request, $username)
+    public function permissions(Request $request, User $username)
     {
         $user = User::where('username', '=', $username)->firstOrFail();
         $staff = $request->user();
@@ -160,7 +161,7 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    protected function password(Request $request, $username)
+    protected function password(Request $request, User $username)
     {
         $user = User::where('username', '=', $username)->firstOrFail();
         $staff = \auth()->user();
@@ -180,7 +181,7 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    protected function destroy($username)
+    protected function destroy(User $username)
     {
         $user = User::where('username', '=', $username)->firstOrFail();
         $staff = \auth()->user();

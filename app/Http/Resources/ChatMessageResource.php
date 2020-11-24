@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
  *
@@ -24,11 +25,10 @@ class ChatMessageResource extends JsonResource
      *
      * @param \Illuminate\Http\Request $request
      *
-     * @throws \Illuminate\Contracts\Container\BindingResolutionException
-     *
      * @return array
+     * @throws \Illuminate\Contracts\Container\BindingResolutionException
      */
-    public function toArray($request)
+    public function toArray(\Illuminate\Http\Request $request)
     {
         $emojiOne = \app()->make(LaravelEmojiOne::class);
 

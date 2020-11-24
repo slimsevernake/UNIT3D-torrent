@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
  *
@@ -23,11 +24,11 @@ class NewTopic extends Notification implements ShouldQueue
 {
     use Queueable;
 
-    public $type;
+    public string $type;
 
-    public $poster;
+    public User $poster;
 
-    public $topic;
+    public Topic $topic;
 
     /**
      * Create a new notification instance.
@@ -46,11 +47,9 @@ class NewTopic extends Notification implements ShouldQueue
     /**
      * Get the notification's delivery channels.
      *
-     * @param mixed $notifiable
-     *
      * @return array
      */
-    public function via($notifiable)
+    public function via()
     {
         return ['database'];
     }
@@ -58,11 +57,9 @@ class NewTopic extends Notification implements ShouldQueue
     /**
      * Get the array representation of the notification.
      *
-     * @param mixed $notifiable
-     *
      * @return array
      */
-    public function toArray($notifiable)
+    public function toArray()
     {
         $appurl = \config('app.url');
 

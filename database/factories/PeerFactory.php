@@ -16,7 +16,7 @@ class PeerFactory extends Factory
      *
      * @var string
      */
-    protected $model = Peer::class;
+    protected string $model = Peer::class;
 
     /**
      * Define the model's default state.

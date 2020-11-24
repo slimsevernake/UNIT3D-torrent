@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
  *
@@ -21,9 +22,9 @@ class NewComment extends Notification
 {
     use Queueable;
 
-    public $type;
+    public string $type;
 
-    public $comment;
+    public Comment $comment;
 
     /**
      * Create a new notification instance.
@@ -40,11 +41,9 @@ class NewComment extends Notification
     /**
      * Get the notification's delivery channels.
      *
-     * @param mixed $notifiable
-     *
      * @return array
      */
-    public function via($notifiable)
+    public function via()
     {
         return ['database'];
     }
@@ -52,11 +51,9 @@ class NewComment extends Notification
     /**
      * Get the array representation of the notification.
      *
-     * @param mixed $notifiable
-     *
      * @return array
      */
-    public function toArray($notifiable)
+    public function toArray()
     {
         $appurl = \config('app.url');
         if ($this->type === 'torrent') {

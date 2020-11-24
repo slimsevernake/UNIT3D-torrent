@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
  *
@@ -30,7 +31,7 @@ class LikeController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(Request $request, $postId)
+    public function store(Request $request, Post $postId)
     {
         $post = Post::findOrFail($postId);
         $postUrl = \sprintf('forums/topics/%s?page=%s#post-%s', $post->topic->id, $post->getPageNumber(), $postId);
@@ -65,7 +66,7 @@ class LikeController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function destroy(Request $request, $postId)
+    public function destroy(Request $request, Post $postId)
     {
         $post = Post::findOrFail($postId);
         $postUrl = \sprintf('forums/topics/%s?page=%s#post-%s', $post->topic->id, $post->getPageNumber(), $postId);

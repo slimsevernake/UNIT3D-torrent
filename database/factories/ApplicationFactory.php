@@ -15,7 +15,7 @@ class ApplicationFactory extends Factory
      *
      * @var string
      */
-    protected $model = Application::class;
+    protected string $model = Application::class;
 
     /**
      * Define the model's default state.

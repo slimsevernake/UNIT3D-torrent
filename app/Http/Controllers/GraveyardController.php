@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
  *
@@ -25,7 +26,7 @@ class GraveyardController extends \App\Http\Controllers\Controller
     /**
      * @var TorrentFacetedRepository
      */
-    private $torrentFacetedRepository;
+    private TorrentFacetedRepository $torrentFacetedRepository;
 
     /**
      * GraveyardController Constructor.
@@ -127,7 +128,7 @@ class GraveyardController extends \App\Http\Controllers\Controller
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(\Illuminate\Http\Request $request, $id)
+    public function store(\Illuminate\Http\Request $request, Torrent $id)
     {
         $user = $request->user();
         $torrent = \App\Models\Torrent::findOrFail($id);
@@ -157,11 +158,10 @@ class GraveyardController extends \App\Http\Controllers\Controller
      * @param \Illuminate\Http\Request $request
      * @param int                      $id
      *
-     * @throws \Exception
-     *
      * @return \Illuminate\Http\RedirectResponse
+     * @throws \Exception
      */
-    public function destroy(\Illuminate\Http\Request $request, $id)
+    public function destroy(\Illuminate\Http\Request $request, int $id)
     {
         $user = $request->user();
         $resurrection = \App\Models\Graveyard::findOrFail($id);

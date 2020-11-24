@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
  *
@@ -32,60 +33,58 @@ class VendorCleanup extends Command
      */
     protected $description = 'Cleans up useless files from  vendor folder.';
 
-    protected $patterns =
-        [
-            'test',
-            'tests',
-            '.github',
-            'README',
-            'CHANGELOG',
-            'FAQ',
-            'CONTRIBUTING',
-            'HISTORY',
-            'UPGRADING',
-            'UPGRADE',
-            'demo',
-            'example',
-            'examples',
-            '.doc',
-            'readme',
-            'changelog',
-            'composer',
-            '.git',
-            '.gitignore',
-            '*.md',
-            '.*.yml',
-            '*.yml',
-            '*.txt',
-            '*.dist',
-            'LICENSE',
-            'AUTHORS',
-            '.eslintrc',
-            'ChangeLog',
-            '.editorconfig',
-            '*.xml',
-            '.npmignore',
-            '.jshintrc',
-            'Makefile',
-            '.keep',
-        ];
+    protected array $patterns = [
+        'test',
+        'tests',
+        '.github',
+        'README',
+        'CHANGELOG',
+        'FAQ',
+        'CONTRIBUTING',
+        'HISTORY',
+        'UPGRADING',
+        'UPGRADE',
+        'demo',
+        'example',
+        'examples',
+        '.doc',
+        'readme',
+        'changelog',
+        'composer',
+        '.git',
+        '.gitignore',
+        '*.md',
+        '.*.yml',
+        '*.yml',
+        '*.txt',
+        '*.dist',
+        'LICENSE',
+        'AUTHORS',
+        '.eslintrc',
+        'ChangeLog',
+        '.editorconfig',
+        '*.xml',
+        '.npmignore',
+        '.jshintrc',
+        'Makefile',
+        '.keep',
+    ];
 
     /**
      * List of File and Folders Patters Going To Be Excluded.
      *
      * @return void
      */
-    protected $excluded =
-        [
-            /**List of  Folders*/
-            'src',
-            /**List of  Files*/
-            '*.php',
-            '*.stub',
-            '*.js',
-            '*.json',
-            '.gitignore',
-        ];
+    protected array $excluded = [
+        /**List of  Folders*/
+        'src',
+        /**List of  Files*/
+        '*.php',
+        '*.stub',
+        '*.js',
+        '*.json',
+        '.gitignore',
+    ];
 
     /**
      * Execute the console command.
@@ -147,7 +146,7 @@ class VendorCleanup extends Command
      *
      * @return array
      */
-    protected function expandDirectoryTree($dir)
+    protected function expandDirectoryTree(string $dir)
     {
         $directories = [];
         $files = \array_diff(\scandir($dir), ['.', '..']);
@@ -169,7 +168,7 @@ class VendorCleanup extends Command
      *
      * @return bool
      */
-    protected function delTree($dir)
+    protected function delTree(string $dir)
     {
         if (! \file_exists($dir) || ! \is_dir($dir)) {
             return false;
@@ -195,7 +194,7 @@ class VendorCleanup extends Command
      *
      * @return string
      */
-    protected function prepareWord($matches)
+    protected function prepareWord(string $matches)
     {
         return '['.\strtolower($matches[1]).\strtoupper($matches[1]).']';
     }

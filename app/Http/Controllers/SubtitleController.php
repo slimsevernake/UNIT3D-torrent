@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
  *
@@ -38,7 +39,7 @@ class SubtitleController extends Controller
     /**
      * @var ChatRepository
      */
-    private $chatRepository;
+    private ChatRepository $chatRepository;
 
     /**
      * SubtitleController Constructor.
@@ -67,7 +68,7 @@ class SubtitleController extends Controller
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function create($torrentId)
+    public function create(Torrent $torrentId)
     {
         $torrent = Torrent::findOrFail($torrentId);
         $mediaLanguages = MediaLanguage::all()->sortBy('name');
@@ -163,7 +164,7 @@ class SubtitleController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Subtitle $id)
     {
         $subtitle = Subtitle::findOrFail($id);
 
@@ -193,11 +194,10 @@ class SubtitleController extends Controller
      * @param \Illuminate\Http\Request $request
      * @param \App\Models\Subtitle     $id
      *
-     * @throws \Exception
-     *
      * @return \Illuminate\Http\RedirectResponse
+     * @throws \Exception
      */
-    public function destroy(Request $request, $id)
+    public function destroy(Request $request, Subtitle $id)
     {
         $subtitle = Subtitle::findOrFail($id);
 
@@ -222,7 +222,7 @@ class SubtitleController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse|\Symfony\Component\HttpFoundation\BinaryFileResponse
      */
-    public function download(Request $request, $id)
+    public function download(Request $request, Subtitle $id)
     {
         $subtitle = Subtitle::findOrFail($id);
         $user = $request->user();

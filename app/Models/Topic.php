@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
  *
@@ -141,12 +142,11 @@ class Topic extends \Illuminate\Database\Eloquent\Model
      * Notify Staffers When New Staff Post Is Made.
      *
      * @param $poster
-     * @param $topic
      * @param $post
      *
      * @return string
      */
-    public function notifyStaffers($poster, $topic, $post)
+    public function notifyStaffers($poster, $post)
     {
         $staffers = \App\Models\User::leftJoin('groups', 'users.group_id', '=', 'groups.id')->select('users.id')->where('users.id', '<>', $poster->id)->where('groups.is_modo', 1)->get();
         foreach ($staffers as $staffer) {

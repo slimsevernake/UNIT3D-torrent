@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
  *
@@ -30,7 +31,7 @@ class TorrentController extends \App\Http\Controllers\API\BaseController
     /**
      * @var ChatRepository
      */
-    private $chatRepository;
+    private ChatRepository $chatRepository;
 
     /**
      * RequestController Constructor.
@@ -205,7 +206,7 @@ class TorrentController extends \App\Http\Controllers\API\BaseController
      *
      * @return TorrentResource
      */
-    public function show($id)
+    public function show(int $id)
     {
         $torrent = \App\Models\Torrent::findOrFail($id);
         \App\Http\Resources\TorrentResource::withoutWrapping();
@@ -221,7 +222,7 @@ class TorrentController extends \App\Http\Controllers\API\BaseController
      *
      * @return void
      */
-    public function update(\Illuminate\Http\Request $request, $id)
+    public function update(\Illuminate\Http\Request $request, int $id)
     {
         //
     }
@@ -233,7 +234,7 @@ class TorrentController extends \App\Http\Controllers\API\BaseController
      *
      * @return void
      */
-    public function destroy($id)
+    public function destroy(int $id)
     {
         //
     }
@@ -244,7 +245,7 @@ class TorrentController extends \App\Http\Controllers\API\BaseController
      * @param \Illuminate\Http\Request $request
      * @param \App\Models\Torrent      $torrent
      *
-     * @return TorrentsResource
+     * @return \Illuminate\Http\JsonResponse
      */
     public function filter(\Illuminate\Http\Request $request, \App\Models\Torrent $torrent)
     {
@@ -394,7 +395,7 @@ class TorrentController extends \App\Http\Controllers\API\BaseController
      *
      * @param $mediainfo
      *
-     * @return array
+     * @return array|void
      */
     private static function anonymizeMediainfo($mediainfo)
     {

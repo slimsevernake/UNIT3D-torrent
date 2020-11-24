@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
  *
@@ -207,11 +208,8 @@ class MediaInfo
                                 $output['format_profile'] = $value;
 
                                 break;
-                            case 'title':
-                                $output['title'] = $value;
-
-                                break;
                             case 'color primaries':
+                            case 'title':
                                 $output['title'] = $value;
 
                                 break;
@@ -434,10 +432,6 @@ class MediaInfo
         }
 
         return $output;
-    }
-
-    private function parseAudioFormat($string)
-    {
     }
 
     private function computerSize($number, $size)

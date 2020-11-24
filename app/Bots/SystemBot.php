@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
  *
@@ -16,7 +17,7 @@ namespace App\Bots;
 class SystemBot
 {
     private $bot;
-    private $chat;
+    private \App\Repositories\ChatRepository $chat;
     private $target;
     private $type;
     private $message;
@@ -76,7 +77,7 @@ class SystemBot
      */
     public function putGift($receiver = '', $amount = 0, $note = '')
     {
-        $output = \implode(' ', $note);
+        $output = \implode((array)' ', $note);
         $v = \validator(['receiver' => $receiver, 'amount' => $amount, 'note' => $output], ['receiver' => 'required|string|exists:users,username', 'amount' => \sprintf('required|numeric|min:1|max:%s', $this->target->seedbonus), 'note' => 'required|string']);
         if ($v->passes()) {
             $recipient = \App\Models\User::where('username', 'LIKE', $receiver)->first();
@@ -163,9 +164,6 @@ class SystemBot
         $txt = $this->log;
         $message = $this->message;
         $targeted = $this->targeted;
-        if ($targeted) {
-            // future holder
-        }
         if ($type === 'message' || $type === 'private') {
             $receiverDirty = 0;
             $receiverEchoes = \cache()->get('user-echoes'.$target->id);
@@ -217,8 +215,8 @@ class SystemBot
             }
             if ($txt != '') {
                 $roomId = 0;
-                $message = $this->chat->privateMessage($target->id, $roomId, $message, 1, $this->bot->id);
-                $message = $this->chat->privateMessage(1, $roomId, $txt, $target->id, $this->bot->id);
+                $message = $this->chat->privateMessage($target->id, $message, 1, $this->bot->id);
+                $message = $this->chat->privateMessage(1, $txt, $target->id, $this->bot->id);
             }
 
             return \response('success');
@@ -226,7 +224,7 @@ class SystemBot
         if ($type === 'echo') {
             if ($txt != '') {
                 $roomId = 0;
-                $message = $this->chat->botMessage($this->bot->id, $roomId, $txt, $target->id);
+                $message = $this->chat->botMessage($this->bot->id, $txt, $target->id);
             }
 
             return \response('success');

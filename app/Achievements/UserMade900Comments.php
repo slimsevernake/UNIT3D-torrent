@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
  *
@@ -20,15 +21,15 @@ class UserMade900Comments extends Achievement
     /*
      * The achievement name
      */
-    public $name = '900Comments';
+    public string $name = '900Comments';
 
     /*
      * A small description for the achievement
      */
-    public $description = 'DAMN BRO! You have made 900 comments!';
+    public string $description = 'DAMN BRO! You have made 900 comments!';
 
     /*
      * The amount of "points" this user need to obtain in order to complete this achievement
      */
-    public $points = 900;
+    public int $points = 900;
 }

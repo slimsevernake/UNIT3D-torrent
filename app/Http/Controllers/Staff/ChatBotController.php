@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
  *
@@ -26,11 +27,9 @@ class ChatBotController extends Controller
     /**
      * Display a listing of the Bots resource.
      *
-     * @param string $hash
-     *
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function index($hash = null)
+    public function index()
     {
         $bots = Bot::orderBy('position', 'ASC')->get();
 
@@ -47,7 +46,7 @@ class ChatBotController extends Controller
      *
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function edit(Request $request, $id)
+    public function edit(Request $request, int $id)
     {
         $user = $request->user();
         $bot = Bot::findOrFail($id);
@@ -64,9 +63,9 @@ class ChatBotController extends Controller
      * @param \Illuminate\Http\Request $request
      * @param int                      $id
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, int $id)
     {
         $user = $request->user();
         $bot = Bot::findOrFail($id);
@@ -134,11 +133,10 @@ class ChatBotController extends Controller
      *
      * @param int $id
      *
-     * @throws \Exception
-     *
      * @return \Illuminate\Http\Response
+     * @throws \Exception
      */
-    public function destroy($id)
+    public function destroy(int $id)
     {
         $bot = Bot::where('is_protected', '=', 0)->findOrFail($id);
         $bot->delete();
@@ -154,7 +152,7 @@ class ChatBotController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function disable($id)
+    public function disable(int $id)
     {
         $bot = Bot::findOrFail($id);
         $bot->active = 0;
@@ -171,7 +169,7 @@ class ChatBotController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function enable($id)
+    public function enable(int $id)
     {
         $bot = Bot::findOrFail($id);
         $bot->active = 1;

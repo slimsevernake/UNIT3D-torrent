@@ -14,7 +14,7 @@ class TypeFactory extends Factory
      *
      * @var string
      */
-    protected $model = Type::class;
+    protected string $model = Type::class;
 
     /**
      * Define the model's default state.

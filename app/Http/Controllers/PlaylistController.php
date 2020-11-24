@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
  *
@@ -33,7 +34,7 @@ class PlaylistController extends Controller
     /**
      * @var ChatRepository
      */
-    private $chatRepository;
+    private ChatRepository $chatRepository;
 
     /**
      * PlaylistController Constructor.
@@ -125,12 +126,11 @@ class PlaylistController extends Controller
      *
      * @param \App\Playlist $id
      *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      * @throws \ErrorException
      * @throws \HttpInvalidParamException
-     *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function show($id)
+    public function show(\App\Playlist $id)
     {
         $playlist = Playlist::findOrFail($id);
 
@@ -162,7 +162,7 @@ class PlaylistController extends Controller
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function edit($id)
+    public function edit(\App\Playlist $id)
     {
         $user = \auth()->user();
         $playlist = Playlist::findOrFail($id);
@@ -180,7 +180,7 @@ class PlaylistController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, \App\Playlist $id)
     {
         $user = \auth()->user();
         $playlist = Playlist::findOrFail($id);
@@ -224,11 +224,10 @@ class PlaylistController extends Controller
      *
      * @param \App\Playlist $id
      *
-     * @throws \Exception
-     *
      * @return \Illuminate\Http\RedirectResponse
+     * @throws \Exception
      */
-    public function destroy($id)
+    public function destroy(\App\Playlist $id)
     {
         $user = \auth()->user();
         $playlist = Playlist::findOrFail($id);
@@ -244,12 +243,11 @@ class PlaylistController extends Controller
     /**
      * Download All History Torrents.
      *
-     * @param \Illuminate\Http\Request $request
      * @param                          $id
      *
      * @return \Illuminate\Http\RedirectResponse|\Symfony\Component\HttpFoundation\BinaryFileResponse
      */
-    public function downloadPlaylist(Request $request, $id)
+    public function downloadPlaylist($id)
     {
         //  Extend The Maximum Execution Time
         \set_time_limit(300);

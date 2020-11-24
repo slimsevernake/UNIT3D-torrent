@@ -14,7 +14,7 @@ class GitUpdateFactory extends Factory
      *
      * @var string
      */
-    protected $model = GitUpdate::class;
+    protected string $model = GitUpdate::class;
 
     /**
      * Define the model's default state.

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
  *
@@ -676,11 +677,10 @@ class User extends \Illuminate\Foundation\Auth\User
      * Return Upload In Human Format.
      *
      * @param null $bytes
-     * @param int  $precision
      *
      * @return string
      */
-    public function getUploaded($bytes = null, $precision = 2)
+    public function getUploaded($bytes = null)
     {
         $bytes = $this->uploaded;
         if ($bytes > 0) {
@@ -694,11 +694,10 @@ class User extends \Illuminate\Foundation\Auth\User
      * Return Download In Human Format.
      *
      * @param null $bytes
-     * @param int  $precision
      *
      * @return string
      */
-    public function getDownloaded($bytes = null, $precision = 2)
+    public function getDownloaded($bytes = null)
     {
         $bytes = $this->downloaded;
         if ($bytes > 0) {
@@ -798,7 +797,7 @@ class User extends \Illuminate\Foundation\Auth\User
      *
      * @return void
      */
-    public function setSignatureAttribute($value)
+    public function setSignatureAttribute(string $value)
     {
         $antiXss = new \voku\helper\AntiXSS();
         $this->attributes['signature'] = $antiXss->xss_clean($value);
@@ -824,7 +823,7 @@ class User extends \Illuminate\Foundation\Auth\User
      *
      * @return void
      */
-    public function setAboutAttribute($value)
+    public function setAboutAttribute(string $value)
     {
         $antiXss = new \voku\helper\AntiXSS();
         $this->attributes['about'] = $antiXss->xss_clean($value);
@@ -851,7 +850,7 @@ class User extends \Illuminate\Foundation\Auth\User
      *
      * Formats the seebonus of the User
      *
-     * @return decimal
+     * @return \App\Models\decimal|string
      */
     public function getSeedbonus()
     {

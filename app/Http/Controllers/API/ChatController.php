@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
  *
@@ -24,7 +25,7 @@ class ChatController extends \App\Http\Controllers\Controller
     /**
      * @var ChatRepository
      */
-    private $chatRepository;
+    private ChatRepository $chatRepository;
     /**
      * @var AuthManager
      */
@@ -309,7 +310,7 @@ class ChatController extends \App\Http\Controllers\Controller
             $ignore = $botId > 0 && $receiverId == 1 ? true : null;
             $save = true;
             $echo = true;
-            $message = $this->chatRepository->privateMessage($userId, $roomId, $message, $receiverId, null, $ignore);
+            $message = $this->chatRepository->privateMessage($userId, $message, $receiverId, null, $ignore);
         } else {
             $receiverId = null;
             $botId = null;

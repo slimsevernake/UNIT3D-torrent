@@ -16,7 +16,7 @@ class TorrentRequestBountyFactory extends Factory
      *
      * @var string
      */
-    protected $model = TorrentRequestBounty::class;
+    protected string $model = TorrentRequestBounty::class;
 
     /**
      * Define the model's default state.

@@ -16,7 +16,7 @@ class WarningFactory extends Factory
      *
      * @var string
      */
-    protected $model = Warning::class;
+    protected string $model = Warning::class;
 
     /**
      * Define the model's default state.

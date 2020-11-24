@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
  *
@@ -25,8 +26,8 @@ class ProcessCompletedAnnounceRequest implements \Illuminate\Contracts\Queue\Sho
     use \Illuminate\Bus\Queueable;
     use \Illuminate\Queue\SerializesModels;
     protected $queries;
-    protected $user;
-    protected $torrent;
+    protected User $user;
+    protected Torrent $torrent;
 
     /**
      * ProcessAnnounceRequest constructor.

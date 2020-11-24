@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
  *
@@ -20,10 +21,10 @@ class UserMadeFirstPost extends Achievement
     /*
      * The achievement name
      */
-    public $name = 'FirstPost';
+    public string $name = 'FirstPost';
 
     /*
      * A small description for the achievement
      */
-    public $description = 'Congratulations! You have made your first post!';
+    public string $description = 'Congratulations! You have made your first post!';
 }

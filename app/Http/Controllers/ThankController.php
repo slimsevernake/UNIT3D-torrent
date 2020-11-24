@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
  *
@@ -30,7 +31,7 @@ class ThankController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(Request $request, $id)
+    public function store(Request $request, Torrent $id)
     {
         $user = $request->user();
         $torrent = Torrent::findOrFail($id);

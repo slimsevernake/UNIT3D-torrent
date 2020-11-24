@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
  *
@@ -31,19 +32,19 @@ class SendActivationMail implements ShouldQueue
     /**
      * @var User
      */
-    public $user;
+    public User $user;
 
     /**
      * @var string
      */
-    public $code;
+    public string $code;
 
     /**
      * The number of times the job may be attempted.
      *
      * @var int
      */
-    public $tries = 3;
+    public int $tries = 3;
 
     /**
      * ActivateUser constructor.
@@ -51,7 +52,7 @@ class SendActivationMail implements ShouldQueue
      * @param User   $user
      * @param string $code
      */
-    public function __construct(User $user, $code)
+    public function __construct(User $user, string $code)
     {
         $this->user = $user;
         $this->code = $code;

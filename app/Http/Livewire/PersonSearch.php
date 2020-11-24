@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
  *
@@ -21,7 +22,7 @@ class PersonSearch extends Component
 {
     use WithPagination;
 
-    protected $queryString = ['searchTerm'];
+    protected array $queryString = ['searchTerm'];
 
     public $searchTerm;
 

@@ -15,7 +15,7 @@ class FollowFactory extends Factory
      *
      * @var string
      */
-    protected $model = Follow::class;
+    protected string $model = Follow::class;
 
     /**
      * Define the model's default state.

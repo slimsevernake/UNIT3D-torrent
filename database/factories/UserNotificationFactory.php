@@ -15,7 +15,7 @@ class UserNotificationFactory extends Factory
      *
      * @var string
      */
-    protected $model = UserNotification::class;
+    protected string $model = UserNotification::class;
 
     /**
      * Define the model's default state.

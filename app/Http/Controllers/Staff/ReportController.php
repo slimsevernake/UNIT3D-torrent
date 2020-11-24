@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
  *
@@ -42,7 +43,7 @@ class ReportController extends Controller
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function show($id)
+    public function show(Report $id)
     {
         $report = Report::findOrFail($id);
 
@@ -57,9 +58,9 @@ class ReportController extends Controller
      * @param \Illuminate\Http\Request $request
      * @param \App\Models\Report       $id
      *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Report $id)
     {
         $user = \auth()->user();
 

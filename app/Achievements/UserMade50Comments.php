@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
  *
@@ -20,15 +21,15 @@ class UserMade50Comments extends Achievement
     /*
      * The achievement name
      */
-    public $name = '50Comments';
+    public string $name = '50Comments';
 
     /*
      * A small description for the achievement
      */
-    public $description = 'Wow! You have already made 50 comments!';
+    public string $description = 'Wow! You have already made 50 comments!';
 
     /*
      * The amount of "points" this user need to obtain in order to complete this achievement
      */
-    public $points = 50;
+    public int $points = 50;
 }

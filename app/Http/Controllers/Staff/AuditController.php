@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
  *
@@ -40,11 +41,10 @@ class AuditController extends Controller
      * @param \Illuminate\Http\Request $request
      * @param \App\Models\Audit        $id
      *
-     * @throws \Exception
-     *
      * @return \Illuminate\Http\RedirectResponse
+     * @throws \Exception
      */
-    public function destroy(Request $request, $id)
+    public function destroy(Request $request, Audit $id)
     {
         $user = $request->user();
         $audit = Audit::findOrFail($id);

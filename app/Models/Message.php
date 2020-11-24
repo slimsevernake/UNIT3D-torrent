@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
  *
@@ -111,7 +112,7 @@ class Message extends Model
      *
      * @return void
      */
-    public function setMessageAttribute($value)
+    public function setMessageAttribute(string $value)
     {
         $antiXss = new AntiXSS();
 

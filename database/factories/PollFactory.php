@@ -15,7 +15,7 @@ class PollFactory extends Factory
      *
      * @var string
      */
-    protected $model = Poll::class;
+    protected string $model = Poll::class;
 
     /**
      * Define the model's default state.

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
  *
@@ -29,22 +30,22 @@ class TaggedUserRepository
      *
      * @var bool
      */
-    protected $debug = false;
+    protected bool $debug = false;
 
     /**
      * @var string
      */
-    protected $regex = '/@[a-zA-Z0-9-_]+/m';
+    protected string $regex = '/@[a-zA-Z0-9-_]+/m';
 
     /**
      * @var User
      */
-    private $user;
+    private User $user;
 
     /**
      * @var PrivateMessage
      */
-    private $privateMessage;
+    private PrivateMessage $privateMessage;
 
     /**
      * TaggedUserRepository constructor.

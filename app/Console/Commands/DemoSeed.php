@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
  *
@@ -248,18 +249,6 @@ Menu
         } else {
             $this->alert('Demo data has been successfully seeded!');
         }
-    }
-
-    /**
-     * Get the console command arguments.
-     *
-     * @return array
-     */
-    protected function getArguments()
-    {
-        return [
-
-        ];
     }
 
     private function search($id)

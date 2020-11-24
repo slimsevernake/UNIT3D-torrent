@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
  *
@@ -30,7 +31,7 @@ class Chatter implements ShouldBroadcastNow
      *
      * @var Message
      */
-    public $echoes;
+    public Message $echoes;
 
     public $target;
 

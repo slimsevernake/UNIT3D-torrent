@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
  *
@@ -29,7 +30,7 @@ class ImageController extends Controller
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function create($id)
+    public function create(Album $id)
     {
         $album = Album::find($id);
 
@@ -82,9 +83,9 @@ class ImageController extends Controller
      *
      * @param \App\Models\Image $id
      *
-     * @return \Illuminate\Http\RedirectResponse
+     * @return \Illuminate\Http\RedirectResponse|\Symfony\Component\HttpFoundation\BinaryFileResponse
      */
-    public function download($id)
+    public function download(Image $id)
     {
         $image = Image::findOrFail($id);
         $filename = $image->image;
@@ -106,11 +107,10 @@ class ImageController extends Controller
      * @param \Illuminate\Http\Request $request
      * @param \App\Models\Image        $id
      *
-     * @throws \Exception
-     *
      * @return \Illuminate\Http\RedirectResponse
+     * @throws \Exception
      */
-    public function destroy(Request $request, $id)
+    public function destroy(Request $request, Image $id)
     {
         $user = $request->user();
         $image = Image::findOrFail($id);

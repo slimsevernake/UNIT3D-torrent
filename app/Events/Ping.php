@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
  *
@@ -26,7 +27,7 @@ class Ping implements ShouldBroadcastNow
     use SerializesModels;
     public $room;
 
-    public $ping;
+    public array $ping;
 
     /**
      * Create a new event instance.

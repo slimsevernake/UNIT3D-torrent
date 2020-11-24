@@ -81,11 +81,10 @@ class AnnounceController extends \App\Http\Controllers\Controller
      * @param \Illuminate\Http\Request $request
      * @param \App\Models\User         $passkey
      *
-     * @throws \Exception
-     *
      * @return string
+     * @throws \Exception
      */
-    public function index(\Illuminate\Http\Request $request, $passkey)
+    public function index(\Illuminate\Http\Request $request, User $passkey)
     {
         try {
             /**
@@ -393,7 +392,7 @@ class AnnounceController extends \App\Http\Controllers\Controller
          */
         if (\strtolower($queries['event']) !== 'stopped') {
             $limit = $queries['numwant'] <= 50 ? $queries['numwant'] : 50;
-            // Get Torrents Peerss
+            // Get Torrents Peers
             $peers = \App\Models\Peer::where('torrent_id', '=', $torrent->id)->where('user_id', '!=', $user->id)->take($limit)->get()->toArray();
             $repDict['peers'] = $this->givePeers($peers, $queries['compact'], $queries['no_peer_id'], FILTER_FLAG_IPV4);
             $repDict['peers6'] = $this->givePeers($peers, $queries['compact'], $queries['no_peer_id'], FILTER_FLAG_IPV6);

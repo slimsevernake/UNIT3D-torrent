@@ -15,7 +15,7 @@ class RssFactory extends Factory
      *
      * @var string
      */
-    protected $model = Rss::class;
+    protected string $model = Rss::class;
 
     /**
      * Define the model's default state.

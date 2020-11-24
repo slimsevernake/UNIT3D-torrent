@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
  *
@@ -195,7 +196,7 @@ class TorrentRequest extends \Illuminate\Database\Eloquent\Model
      *
      * @return void
      */
-    public function setDescriptionAttribute($value)
+    public function setDescriptionAttribute(string $value)
     {
         $antiXss = new \voku\helper\AntiXSS();
         $this->attributes['description'] = $antiXss->xss_clean($value);
@@ -217,12 +218,11 @@ class TorrentRequest extends \Illuminate\Database\Eloquent\Model
     /**
      * Notify Requester When A New Action Is Taken.
      *
-     * @param $type
      * @param $payload
      *
      * @return bool
      */
-    public function notifyRequester($type, $payload)
+    public function notifyRequester($payload)
     {
         $user = \App\Models\User::with('notification')->findOrFail($this->user_id);
         if ($user->acceptsNotification(\auth()->user(), $user, 'request', 'show_request_comment')) {

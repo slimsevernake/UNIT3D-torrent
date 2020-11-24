@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
  *
@@ -76,7 +77,7 @@ class PrivateMessage extends \Illuminate\Database\Eloquent\Model
      *
      * @return void
      */
-    public function setMessageAttribute($value)
+    public function setMessageAttribute(string $value)
     {
         $antiXss = new \voku\helper\AntiXSS();
         $this->attributes['message'] = $antiXss->xss_clean($value);

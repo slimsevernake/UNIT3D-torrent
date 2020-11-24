@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
  *
@@ -23,8 +24,8 @@ class SetLanguage
      * This function checks if language to set is an allowed lang of config.
      *
      * @param string $locale
-     **/
-    private function setLocale($locale)
+     */
+    private function setLocale(string $locale)
     {
         // Check if is allowed and set default locale if not
         if (! \App\Models\Language::allowed($locale)) {
@@ -82,7 +83,7 @@ class SetLanguage
      *
      * @return mixed
      */
-    public function handle($request, \Closure $next)
+    public function handle(\Illuminate\Http\Request $request, \Closure $next)
     {
         if ($request->has('lang')) {
             $this->setLocale($request->get('lang'));

@@ -14,7 +14,7 @@ class GroupFactory extends Factory
      *
      * @var string
      */
-    protected $model = Group::class;
+    protected string $model = Group::class;
 
     /**
      * Define the model's default state.

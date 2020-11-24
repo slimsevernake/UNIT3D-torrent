@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
  *
@@ -97,11 +98,10 @@ class Subtitle extends \Illuminate\Database\Eloquent\Model
      * Returns The Size In Human Format.
      *
      * @param null $bytes
-     * @param int  $precision
      *
      * @return string
      */
-    public function getSize($bytes = null, $precision = 2)
+    public function getSize($bytes = null)
     {
         $bytes = $this->file_size;
 

@@ -15,7 +15,7 @@ class ApplicationImageProofFactory extends Factory
      *
      * @var string
      */
-    protected $model = ApplicationImageProof::class;
+    protected string $model = ApplicationImageProof::class;
 
     /**
      * Define the model's default state.

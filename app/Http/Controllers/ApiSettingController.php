@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
  *
@@ -56,7 +57,7 @@ class ApiSettingController extends Controller
      *
      * @return void
      */
-    public function show($id)
+    public function show(int $id)
     {
         //
     }
@@ -68,7 +69,7 @@ class ApiSettingController extends Controller
      *
      * @return void
      */
-    public function edit($id)
+    public function edit(int $id)
     {
         //
     }
@@ -81,7 +82,7 @@ class ApiSettingController extends Controller
      *
      * @return void
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, int $id)
     {
         //
     }
@@ -93,7 +94,7 @@ class ApiSettingController extends Controller
      *
      * @return void
      */
-    public function destroy($id)
+    public function destroy(int $id)
     {
         //
     }

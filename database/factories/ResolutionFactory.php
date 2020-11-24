@@ -14,7 +14,7 @@ class ResolutionFactory extends Factory
      *
      * @var string
      */
-    protected $model = Resolution::class;
+    protected string $model = Resolution::class;
 
     /**
      * Define the model's default state.

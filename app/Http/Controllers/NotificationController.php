@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
  *
@@ -117,7 +118,7 @@ class NotificationController extends \App\Http\Controllers\Controller
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function show(\Illuminate\Http\Request $request, $id)
+    public function show(\Illuminate\Http\Request $request, Notification $id)
     {
         $notification = $request->user()->notifications()->findOrFail($id);
         $notification->markAsRead();
@@ -133,7 +134,7 @@ class NotificationController extends \App\Http\Controllers\Controller
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(\Illuminate\Http\Request $request, $id)
+    public function update(\Illuminate\Http\Request $request, Notification $id)
     {
         $notification = $request->user()->notifications()->where('id', '=', $id)->first();
         if (! $notification) {
@@ -172,7 +173,7 @@ class NotificationController extends \App\Http\Controllers\Controller
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function destroy(\Illuminate\Http\Request $request, $id)
+    public function destroy(\Illuminate\Http\Request $request, Notification $id)
     {
         $request->user()->notifications()->findOrFail($id)->delete();
 

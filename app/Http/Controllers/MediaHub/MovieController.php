@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
  *
@@ -31,9 +32,9 @@ class MovieController extends Controller
     /**
      * Show A Movie.
      *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return void
      */
-    public function show($id)
+    public function show()
     {
         /*$movie = Movie::with(['collection', 'genres', 'companies'])->findOrFail($id);
 

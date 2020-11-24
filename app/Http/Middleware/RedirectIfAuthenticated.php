@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
  *
@@ -26,7 +27,7 @@ class RedirectIfAuthenticated
      *
      * @return mixed
      */
-    public function handle($request, Closure $next, ...$guards)
+    public function handle(\Illuminate\Http\Request $request, Closure $next, ...$guards)
     {
         $guards = empty($guards) ? [null] : $guards;
 

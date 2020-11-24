@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
  *
@@ -26,7 +27,7 @@ class BonusController extends \App\Http\Controllers\Controller
     /**
      * @var ChatRepository
      */
-    private $chatRepository;
+    private ChatRepository $chatRepository;
     /**
      * The library used for parsing byte units.
      *
@@ -177,7 +178,7 @@ class BonusController extends \App\Http\Controllers\Controller
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function exchange(\Illuminate\Http\Request $request, $id)
+    public function exchange(\Illuminate\Http\Request $request, \App\Models\BonExchange $id)
     {
         $user = $request->user();
         $userbon = $user->seedbonus;
@@ -205,7 +206,7 @@ class BonusController extends \App\Http\Controllers\Controller
      *
      * @return string
      */
-    public function doItemExchange($userID, $itemID)
+    public function doItemExchange(User $userID, \App\Models\BonExchange $itemID)
     {
         $current = \Carbon\Carbon::now();
         $item = \App\Models\BonExchange::where('id', '=', $itemID)->get()->toArray()[0];
@@ -239,7 +240,8 @@ class BonusController extends \App\Http\Controllers\Controller
                 return false;
             }
         } elseif ($item['invite'] == true) {
-            if ($userAcc->invites += $item['value']) {
+            $userAcc->invites += $item['value'];
+            if ($userAcc->invites) {
                 $userAcc->save();
             } else {
                 return false;
@@ -326,7 +328,7 @@ class BonusController extends \App\Http\Controllers\Controller
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function tipUploader(\Illuminate\Http\Request $request, $id)
+    public function tipUploader(\Illuminate\Http\Request $request, Torrent $id)
     {
         $user = $request->user();
         $torrent = \App\Models\Torrent::withAnyStatus()->findOrFail($id);

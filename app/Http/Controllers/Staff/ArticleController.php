@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
  *
@@ -96,7 +97,7 @@ class ArticleController extends Controller
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function edit($id)
+    public function edit(Article $id)
     {
         $article = Article::findOrFail($id);
 
@@ -111,7 +112,7 @@ class ArticleController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Article $id)
     {
         $article = Article::findOrFail($id);
         $article->title = $request->input('title');
@@ -150,11 +151,10 @@ class ArticleController extends Controller
      *
      * @param \App\Models\Article $id
      *
-     * @throws \Exception
-     *
      * @return \Illuminate\Http\RedirectResponse
+     * @throws \Exception
      */
-    public function destroy($id)
+    public function destroy(Article $id)
     {
         $article = Article::findOrFail($id);
         $article->delete();

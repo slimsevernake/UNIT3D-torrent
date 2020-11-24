@@ -15,7 +15,7 @@ class UserPrivacyFactory extends Factory
      *
      * @var string
      */
-    protected $model = UserPrivacy::class;
+    protected string $model = UserPrivacy::class;
 
     /**
      * Define the model's default state.

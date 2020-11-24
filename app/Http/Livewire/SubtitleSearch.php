@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Http\Livewire;
 
@@ -11,12 +12,12 @@ class SubtitleSearch extends Component
 {
     use WithPagination;
 
-    public $perPage = 25;
-    public $searchTerm = '';
-    public $categories = [];
-    public $language = '';
-    public $sortField = 'created_at';
-    public $sortDirection = 'desc';
+    public int $perPage = 25;
+    public string $searchTerm = '';
+    public array $categories = [];
+    public string $language = '';
+    public string $sortField = 'created_at';
+    public string $sortDirection = 'desc';
 
     public function paginationView()
     {

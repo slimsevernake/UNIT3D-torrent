@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
  *
@@ -18,8 +19,8 @@ use Illuminate\Database\Eloquent\Model;
 class Episode extends Model
 {
     protected $guarded = [];
-    protected $orderBy = 'order';
-    protected $orderDirection = 'ASC';
+    protected string $orderBy = 'order';
+    protected string $orderDirection = 'ASC';
     public $table = 'episodes';
 
     /**

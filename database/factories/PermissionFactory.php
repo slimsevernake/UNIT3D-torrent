@@ -16,7 +16,7 @@ class PermissionFactory extends Factory
      *
      * @var string
      */
-    protected $model = Permission::class;
+    protected string $model = Permission::class;
 
     /**
      * Define the model's default state.

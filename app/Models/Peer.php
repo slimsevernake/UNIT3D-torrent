@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
  *
@@ -70,7 +71,7 @@ class Peer extends Model
      *
      * @var array
      */
-    public $sortable = [
+    public array $sortable = [
         'id',
         'agent',
         'uploaded',

@@ -16,7 +16,7 @@ class GraveyardFactory extends Factory
      *
      * @var string
      */
-    protected $model = Graveyard::class;
+    protected string $model = Graveyard::class;
 
     /**
      * Define the model's default state.

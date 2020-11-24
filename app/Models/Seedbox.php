@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
  *
@@ -53,7 +54,7 @@ class Seedbox extends \Illuminate\Database\Eloquent\Model
      *
      * @var array
      */
-    protected $encryptable = ['ip'];
+    protected array $encryptable = ['ip'];
 
     /**
      * Belongs To A User.

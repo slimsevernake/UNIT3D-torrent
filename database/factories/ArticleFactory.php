@@ -15,7 +15,7 @@ class ArticleFactory extends Factory
      *
      * @var string
      */
-    protected $model = Article::class;
+    protected string $model = Article::class;
 
     /**
      * Define the model's default state.

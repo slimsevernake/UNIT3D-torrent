@@ -14,7 +14,7 @@ class NotificationFactory extends Factory
      *
      * @var string
      */
-    protected $model = Notification::class;
+    protected string $model = Notification::class;
 
     /**
      * Define the model's default state.

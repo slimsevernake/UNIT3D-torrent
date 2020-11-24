@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
  *
@@ -325,7 +326,7 @@ class StatsController extends \App\Http\Controllers\Controller
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function group($id)
+    public function group(Group $id)
     {
         // Fetch Users In Group
         $group = \App\Models\Group::findOrFail($id);

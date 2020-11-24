@@ -16,7 +16,7 @@ class BookmarkFactory extends Factory
      *
      * @var string
      */
-    protected $model = Bookmark::class;
+    protected string $model = Bookmark::class;
 
     /**
      * Define the model's default state.

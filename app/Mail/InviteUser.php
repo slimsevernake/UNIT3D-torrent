@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
  *
@@ -22,7 +23,8 @@ class InviteUser extends Mailable
 {
     use Queueable;
     use SerializesModels;
-    public $invite;
+
+    public Invite $invite;
 
     /**
      * Create a new message instance.

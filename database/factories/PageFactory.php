@@ -14,7 +14,7 @@ class PageFactory extends Factory
      *
      * @var string
      */
-    protected $model = Page::class;
+    protected string $model = Page::class;
 
     /**
      * Define the model's default state.

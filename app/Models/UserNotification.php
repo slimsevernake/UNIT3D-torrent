@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
  *
@@ -139,11 +140,9 @@ class UserNotification extends \Illuminate\Database\Eloquent\Model
     /**
      * Set the base vars on object creation without touching boot.
      *
-     * @param string $type
-     *
      * @return void
      */
-    public function setDefaultValues($type = 'default')
+    public function setDefaultValues()
     {
         foreach ($this->casts as $k => $v) {
             if ($v === 'array') {

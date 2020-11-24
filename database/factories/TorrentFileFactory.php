@@ -15,7 +15,7 @@ class TorrentFileFactory extends Factory
      *
      * @var string
      */
-    protected $model = TorrentFile::class;
+    protected string $model = TorrentFile::class;
 
     /**
      * Define the model's default state.

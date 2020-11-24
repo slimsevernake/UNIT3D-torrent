@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
  *
@@ -26,7 +27,7 @@ class Http2ServerPush
      *
      * @var \Symfony\Component\DomCrawler\Crawler
      */
-    protected $crawler;
+    protected Crawler $crawler;
 
     /**
      * @var array<string, string>
@@ -84,7 +85,7 @@ class Http2ServerPush
             ->flatten(1)
             ->map(fn ($url) => $this->buildLinkHeaderString($url))
             ->unique()
-            ->filter(function ($value, $key) use ($excludeKeywords) {
+            ->filter(function ($value) use ($excludeKeywords) {
                 if (! $value) {
                     return false;
                 }
@@ -134,7 +135,7 @@ class Http2ServerPush
      *
      * @return \Illuminate\Support\Collection
      */
-    protected function fetchLinkableNodes($response)
+    protected function fetchLinkableNodes(Response $response)
     {
         $crawler = $this->getCrawler($response);
 
@@ -148,7 +149,7 @@ class Http2ServerPush
      *
      * @return string
      */
-    private function buildLinkHeaderString($url)
+    private function buildLinkHeaderString(string $url)
     {
         $type = \collect(self::LINK_TYPE_MAP)->first(fn ($type, $extension) => Str::contains(\strtoupper($url), $extension));
         if (! \preg_match('#^https?://#i', $url)) {

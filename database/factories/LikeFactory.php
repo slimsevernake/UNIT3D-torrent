@@ -16,7 +16,7 @@ class LikeFactory extends Factory
      *
      * @var string
      */
-    protected $model = Like::class;
+    protected string $model = Like::class;
 
     /**
      * Define the model's default state.

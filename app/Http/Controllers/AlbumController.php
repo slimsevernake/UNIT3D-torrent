@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
  *
@@ -82,7 +83,7 @@ class AlbumController extends \App\Http\Controllers\Controller
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function show($id)
+    public function show(Album $id)
     {
         $album = \App\Models\Album::with('images')->find($id);
         $albums = \App\Models\Album::with('images')->get();
@@ -96,11 +97,10 @@ class AlbumController extends \App\Http\Controllers\Controller
      * @param \Illuminate\Http\Request $request
      * @param \App\Models\Album        $id
      *
-     * @throws \Exception
-     *
      * @return \Illuminate\Http\RedirectResponse
+     * @throws \Exception
      */
-    public function destroy(\Illuminate\Http\Request $request, $id)
+    public function destroy(\Illuminate\Http\Request $request, Album $id)
     {
         $user = $request->user();
         $album = \App\Models\Album::findOrFail($id);

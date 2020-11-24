@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
  *
@@ -21,7 +22,8 @@ class Contact extends Mailable
 {
     use Queueable;
     use SerializesModels;
-    public $input;
+
+    public array $input;
 
     /**
      * Create a new message instance.

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
  *
@@ -102,7 +103,7 @@ class ForumController extends Controller
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function edit($id)
+    public function edit(Forum $id)
     {
         $forum = Forum::findOrFail($id);
         $categories = Forum::where('parent_id', '=', 0)->get();
@@ -123,7 +124,7 @@ class ForumController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Forum $id)
     {
         $forum = Forum::findOrFail($id);
         $groups = Group::all();
@@ -166,11 +167,10 @@ class ForumController extends Controller
      *
      * @param \App\Models\Forum $id
      *
-     * @throws \Exception
-     *
      * @return \Illuminate\Http\RedirectResponse
+     * @throws \Exception
      */
-    public function destroy($id)
+    public function destroy(Forum $id)
     {
         // Forum to delete
         $forum = Forum::findOrFail($id);

@@ -15,7 +15,7 @@ class AuditFactory extends Factory
      *
      * @var string
      */
-    protected $model = Audit::class;
+    protected string $model = Audit::class;
 
     /**
      * Define the model's default state.

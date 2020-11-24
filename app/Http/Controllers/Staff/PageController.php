@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
  *
@@ -82,7 +83,7 @@ class PageController extends Controller
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function edit($id)
+    public function edit(Page $id)
     {
         $page = Page::findOrFail($id);
 
@@ -97,7 +98,7 @@ class PageController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Page $id)
     {
         $page = Page::findOrFail($id);
         $page->name = $request->input('name');
@@ -125,11 +126,10 @@ class PageController extends Controller
      *
      * @param \App\Models\Page $id
      *
-     * @throws \Exception
-     *
      * @return \Illuminate\Http\RedirectResponse
+     * @throws \Exception
      */
-    public function destroy($id)
+    public function destroy(Page $id)
     {
         Page::findOrFail($id)->delete();
 

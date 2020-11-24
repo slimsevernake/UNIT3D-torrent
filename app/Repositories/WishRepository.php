@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
  *
@@ -23,17 +24,17 @@ class WishRepository implements WishInterface
     /**
      * @var Wish
      */
-    private $wish;
+    private Wish $wish;
 
     /**
      * @var User
      */
-    private $user;
+    private User $user;
 
     /**
      * @var Torrent
      */
-    private $torrent;
+    private Torrent $torrent;
 
     /**
      * WishRepository constructor.

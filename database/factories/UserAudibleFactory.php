@@ -17,7 +17,7 @@ class UserAudibleFactory extends Factory
      *
      * @var string
      */
-    protected $model = UserAudible::class;
+    protected string $model = UserAudible::class;
 
     /**
      * Define the model's default state.

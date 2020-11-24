@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
  *
@@ -28,12 +29,12 @@ class ForumController extends Controller
     /**
      * @var TaggedUserRepository
      */
-    private $taggedUserRepository;
+    private TaggedUserRepository $taggedUserRepository;
 
     /**
      * @var ChatRepository
      */
-    private $chatRepository;
+    private ChatRepository $chatRepository;
 
     /**
      * ForumController Constructor.
@@ -336,9 +337,9 @@ class ForumController extends Controller
      *
      * @param \App\Models\Forum $id
      *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
      */
-    public function show($id)
+    public function show(Forum $id)
     {
         // Find the topic
         $forum = Forum::findOrFail($id);

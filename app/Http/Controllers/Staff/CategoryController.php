@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
  *
@@ -105,7 +106,7 @@ class CategoryController extends Controller
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function edit($id)
+    public function edit(Category $id)
     {
         $category = Category::findOrFail($id);
 
@@ -120,7 +121,7 @@ class CategoryController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Category $id)
     {
         $category = Category::findOrFail($id);
         $category->name = $request->input('name');
@@ -168,11 +169,10 @@ class CategoryController extends Controller
      *
      * @param \App\Models\Category $id
      *
-     * @throws \Exception
-     *
      * @return \Illuminate\Http\RedirectResponse
+     * @throws \Exception
      */
-    public function destroy($id)
+    public function destroy(Category $id)
     {
         $category = Category::findOrFail($id);
         $category->delete();

@@ -16,7 +16,7 @@ class PostFactory extends Factory
      *
      * @var string
      */
-    protected $model = Post::class;
+    protected string $model = Post::class;
 
     /**
      * Define the model's default state.

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
  *
@@ -20,17 +21,17 @@ class UserMadeTenComments extends Achievement
     /*
      * The achievement name
      */
-    public $name = '10Comments';
+    public string $name = '10Comments';
 
     /*
      * A small description for the achievement
      */
-    public $description = 'Wow! You have already made 10 comments!';
+    public string $description = 'Wow! You have already made 10 comments!';
 
     /*
      * The amount of "points" this user need to obtain in order to complete this achievement
      */
-    public $points = 10;
+    public int $points = 10;
 
     /*
      * Triggers whenever an Achiever makes progress on this achievement

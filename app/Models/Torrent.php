@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
  *
@@ -136,7 +137,7 @@ class Torrent extends \Illuminate\Database\Eloquent\Model
      *
      * @var array
      */
-    public $sortable = ['id', 'name', 'size', 'seeders', 'leechers', 'times_completed', 'created_at'];
+    public array $sortable = ['id', 'name', 'size', 'seeders', 'leechers', 'times_completed', 'created_at'];
 
     /**
      * Belongs To A User.
@@ -326,7 +327,7 @@ class Torrent extends \Illuminate\Database\Eloquent\Model
      *
      * @return void
      */
-    public function setDescriptionAttribute($value)
+    public function setDescriptionAttribute(string $value)
     {
         $antiXss = new \voku\helper\AntiXSS();
         $this->attributes['description'] = $antiXss->xss_clean($value);
@@ -352,7 +353,7 @@ class Torrent extends \Illuminate\Database\Eloquent\Model
      *
      * @return void
      */
-    public function setMediaInfoAttribute($value)
+    public function setMediaInfoAttribute(string $value)
     {
         $this->attributes['mediainfo'] = $value;
     }
@@ -373,11 +374,10 @@ class Torrent extends \Illuminate\Database\Eloquent\Model
      * Returns The Size In Human Format.
      *
      * @param null $bytes
-     * @param int  $precision
      *
      * @return string
      */
-    public function getSize($bytes = null, $precision = 2)
+    public function getSize($bytes = null)
     {
         $bytes = $this->size;
 

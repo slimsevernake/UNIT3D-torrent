@@ -14,7 +14,7 @@ class PersonalFreeleechFactory extends Factory
      *
      * @var string
      */
-    protected $model = PersonalFreeleech::class;
+    protected string $model = PersonalFreeleech::class;
 
     /**
      * Define the model's default state.

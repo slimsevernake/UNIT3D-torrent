@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
  *
@@ -40,11 +41,10 @@ class BanController extends \App\Http\Controllers\Controller
      * @param \Illuminate\Http\Request $request
      * @param \App\Models\User         $username
      *
-     * @throws \Exception
-     *
      * @return \Illuminate\Http\RedirectResponse
+     * @throws \Exception
      */
-    public function store(\Illuminate\Http\Request $request, $username)
+    public function store(\Illuminate\Http\Request $request, User $username)
     {
         $user = \App\Models\User::where('username', '=', $username)->firstOrFail();
         $staff = $request->user();
@@ -81,7 +81,7 @@ class BanController extends \App\Http\Controllers\Controller
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(\Illuminate\Http\Request $request, $username)
+    public function update(\Illuminate\Http\Request $request, User $username)
     {
         $user = \App\Models\User::where('username', '=', $username)->firstOrFail();
         $staff = $request->user();

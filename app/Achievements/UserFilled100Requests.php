@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
  *
@@ -20,15 +21,15 @@ class UserFilled100Requests extends Achievement
     /*
      * The achievement name
      */
-    public $name = 'Filled100Requests';
+    public string $name = 'Filled100Requests';
 
     /*
      * A small description for the achievement
      */
-    public $description = 'DAMN BRO! You have already filled 100 requests!';
+    public string $description = 'DAMN BRO! You have already filled 100 requests!';
 
     /*
      * The amount of "points" this user need to obtain in order to complete this achievement
      */
-    public $points = 100;
+    public int $points = 100;
 }

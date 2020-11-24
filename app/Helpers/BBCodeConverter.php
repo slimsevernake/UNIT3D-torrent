@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
  *
@@ -26,7 +27,7 @@ class BBCodeConverter
      *
      * @param string $text The text to be converted.
      */
-    public function __construct($text)
+    public function __construct(string $text)
     {
         $this->text = $text;
     }

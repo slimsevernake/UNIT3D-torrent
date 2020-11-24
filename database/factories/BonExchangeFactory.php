@@ -14,7 +14,7 @@ class BonExchangeFactory extends Factory
      *
      * @var string
      */
-    protected $model = BonExchange::class;
+    protected string $model = BonExchange::class;
 
     /**
      * Define the model's default state.

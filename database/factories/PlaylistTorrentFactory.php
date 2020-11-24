@@ -16,7 +16,7 @@ class PlaylistTorrentFactory extends Factory
      *
      * @var string
      */
-    protected $model = PlaylistTorrent::class;
+    protected string $model = PlaylistTorrent::class;
 
     /**
      * Define the model's default state.

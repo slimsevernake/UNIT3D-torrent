@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
  *
@@ -22,7 +23,7 @@ class PreventRequestsDuringMaintenance extends Middleware
      *
      * @var array
      */
-    protected $except = [
+    protected array $except = [
         //
     ];
 }

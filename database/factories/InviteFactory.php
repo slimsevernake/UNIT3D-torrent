@@ -15,7 +15,7 @@ class InviteFactory extends Factory
      *
      * @var string
      */
-    protected $model = Invite::class;
+    protected string $model = Invite::class;
 
     /**
      * Define the model's default state.

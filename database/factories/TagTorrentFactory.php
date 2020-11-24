@@ -15,7 +15,7 @@ class TagTorrentFactory extends Factory
      *
      * @var string
      */
-    protected $model = TagTorrent::class;
+    protected string $model = TagTorrent::class;
 
     /**
      * Define the model's default state.

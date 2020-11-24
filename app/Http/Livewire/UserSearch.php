@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
  *
@@ -21,10 +22,10 @@ class UserSearch extends Component
 {
     use WithPagination;
 
-    public $perPage = 25;
-    public $searchTerm = '';
-    public $sortField = 'created_at';
-    public $sortDirection = 'desc';
+    public int $perPage = 25;
+    public string $searchTerm = '';
+    public string $sortField = 'created_at';
+    public string $sortDirection = 'desc';
 
     public function paginationView()
     {

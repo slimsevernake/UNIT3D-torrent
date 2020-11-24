@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
  *
@@ -20,15 +21,15 @@ class UserMade100Posts extends Achievement
     /*
      * The achievement name
      */
-    public $name = '100Posts';
+    public string $name = '100Posts';
 
     /*
      * A small description for the achievement
      */
-    public $description = 'Wow! You have already made 100 posts!';
+    public string $description = 'Wow! You have already made 100 posts!';
 
     /*
      * The amount of "points" this user need to obtain in order to complete this achievement
      */
-    public $points = 100;
+    public int $points = 100;
 }

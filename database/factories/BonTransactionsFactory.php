@@ -15,7 +15,7 @@ class BonTransactionsFactory extends Factory
      *
      * @var string
      */
-    protected $model = BonTransactions::class;
+    protected string $model = BonTransactions::class;
 
     /**
      * Define the model's default state.

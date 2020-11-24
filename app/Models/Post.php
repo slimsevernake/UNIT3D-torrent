@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
  *
@@ -94,7 +95,7 @@ class Post extends \Illuminate\Database\Eloquent\Model
      *
      * @return void
      */
-    public function setContentAttribute($value)
+    public function setContentAttribute(string $value)
     {
         $antiXss = new \voku\helper\AntiXSS();
         $this->attributes['content'] = $antiXss->xss_clean($value);

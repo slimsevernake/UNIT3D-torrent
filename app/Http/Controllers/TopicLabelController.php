@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
  *
@@ -27,7 +28,7 @@ class TopicLabelController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function approve($id)
+    public function approve(Topic $id)
     {
         $topic = Topic::findOrFail($id);
         $topic->approved = $topic->approved == 0 ? '1' : '0';
@@ -44,7 +45,7 @@ class TopicLabelController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function deny($id)
+    public function deny(Topic $id)
     {
         $topic = Topic::findOrFail($id);
         $topic->denied = $topic->denied == 0 ? '1' : '0';
@@ -61,7 +62,7 @@ class TopicLabelController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function solve($id)
+    public function solve(Topic $id)
     {
         $topic = Topic::findOrFail($id);
         $topic->solved = $topic->solved == 0 ? '1' : '0';
@@ -78,7 +79,7 @@ class TopicLabelController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function invalid($id)
+    public function invalid(Topic $id)
     {
         $topic = Topic::findOrFail($id);
         $topic->invalid = $topic->invalid == 0 ? '1' : '0';
@@ -95,7 +96,7 @@ class TopicLabelController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function bug($id)
+    public function bug(Topic $id)
     {
         $topic = Topic::findOrFail($id);
         $topic->bug = $topic->bug == 0 ? '1' : '0';
@@ -112,7 +113,7 @@ class TopicLabelController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function suggest($id)
+    public function suggest(Topic $id)
     {
         $topic = Topic::findOrFail($id);
         $topic->suggestion = $topic->suggestion == 0 ? '1' : '0';
@@ -129,7 +130,7 @@ class TopicLabelController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function implement($id)
+    public function implement(Topic $id)
     {
         $topic = Topic::findOrFail($id);
         $topic->implemented = $topic->implemented == 0 ? '1' : '0';

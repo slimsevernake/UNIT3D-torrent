@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
  *
@@ -90,8 +91,8 @@ class Language
      * @param array $codes
      *
      * @return array
-     **/
-    public static function names($codes)
+     */
+    public static function names(array $codes)
     {
         // Get mode
         $mode = \config('language.mode');
@@ -118,8 +119,8 @@ class Language
      * @param array $langs
      *
      * @return array
-     **/
-    public static function codes($langs)
+     */
+    public static function codes(array $langs)
     {
         // Get mode
         $mode = \config('language.mode');
@@ -146,8 +147,8 @@ class Language
      * @param string $code
      *
      * @return string
-     **/
-    public static function back($code)
+     */
+    public static function back(string $code)
     {
         return \route('back', ['locale' => $code]);
     }
@@ -158,8 +159,8 @@ class Language
      * @param string $code
      *
      * @return string
-     **/
-    public static function home($code)
+     */
+    public static function home(string $code)
     {
         return \route('home', ['locale' => $code]);
     }

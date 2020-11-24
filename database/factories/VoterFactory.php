@@ -16,7 +16,7 @@ class VoterFactory extends Factory
      *
      * @var string
      */
-    protected $model = Voter::class;
+    protected string $model = Voter::class;
 
     /**
      * Define the model's default state.

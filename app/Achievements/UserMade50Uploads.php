@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
  *
@@ -20,15 +21,15 @@ class UserMade50Uploads extends Achievement
     /*
      * The achievement name
      */
-    public $name = '50Uploads';
+    public string $name = '50Uploads';
 
     /*
      * A small description for the achievement
      */
-    public $description = 'You have made 50 torrent uploads!';
+    public string $description = 'You have made 50 torrent uploads!';
 
     /*
      * The amount of "points" this user need to obtain in order to complete this achievement
      */
-    public $points = 50;
+    public int $points = 50;
 }

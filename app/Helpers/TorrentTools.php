@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
  *
@@ -18,12 +19,12 @@ class TorrentTools
     /**
      * Name of the file to be saved.
      */
-    public static $fileName = '';
+    public static string $fileName = '';
 
     /**
      * Representative table of the decoded torrent.
      */
-    public static $decodedTorrent = [];
+    public static array $decodedTorrent = [];
 
     /**
      * Moves and decodes the torrent.

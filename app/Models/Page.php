@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
  *
@@ -48,7 +49,7 @@ class Page extends \Illuminate\Database\Eloquent\Model
      *
      * @return void
      */
-    public function setContentAttribute($value)
+    public function setContentAttribute(string $value)
     {
         $this->attributes['content'] = $value;
     }

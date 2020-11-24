@@ -15,7 +15,7 @@ class AlbumFactory extends Factory
      *
      * @var string
      */
-    protected $model = Album::class;
+    protected string $model = Album::class;
 
     /**
      * Define the model's default state.

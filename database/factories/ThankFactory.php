@@ -16,7 +16,7 @@ class ThankFactory extends Factory
      *
      * @var string
      */
-    protected $model = Thank::class;
+    protected string $model = Thank::class;
 
     /**
      * Define the model's default state.

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
  *
@@ -24,7 +25,7 @@ class FailedLogin extends \Illuminate\Notifications\Notification implements \Ill
      *
      * @var string
      */
-    public $ip;
+    public string $ip;
     /**
      * The Time.
      *
@@ -37,9 +38,8 @@ class FailedLogin extends \Illuminate\Notifications\Notification implements \Ill
      *
      * @param string $ip
      *
-     * @return void
      */
-    public function __construct($ip)
+    public function __construct(string $ip)
     {
         $this->ip = $ip;
         $this->carbon = \Carbon\Carbon::now();
@@ -48,11 +48,9 @@ class FailedLogin extends \Illuminate\Notifications\Notification implements \Ill
     /**
      * Get the notification's delivery channels.
      *
-     * @param mixed $notifiable
-     *
      * @return array
      */
-    public function via($notifiable)
+    public function via()
     {
         return ['mail'];
     }
@@ -60,11 +58,9 @@ class FailedLogin extends \Illuminate\Notifications\Notification implements \Ill
     /**
      * Get the database representation of the notification.
      *
-     * @param mixed $notifiable
-     *
      * @return array
      */
-    public function toArray($notifiable)
+    public function toArray()
     {
         return ['ip' => $this->ip, 'time' => $this->carbon];
     }
@@ -72,11 +68,9 @@ class FailedLogin extends \Illuminate\Notifications\Notification implements \Ill
     /**
      * Get the mail representation of the notification.
      *
-     * @param mixed $notifiable
-     *
      * @return \Illuminate\Notifications\Messages\MailMessage
      */
-    public function toMail($notifiable)
+    public function toMail()
     {
         return (new \Illuminate\Notifications\Messages\MailMessage())->error()->subject(\trans('email.fail-login-subject'))->greeting(\trans('email.fail-login-greeting'))->line(\trans('email.fail-login-line1'))->line(\trans('email.fail-login-line2', ['ip' => $this->ip, 'host' => \gethostbyaddr($this->ip), 'time' => $this->carbon]));
     }

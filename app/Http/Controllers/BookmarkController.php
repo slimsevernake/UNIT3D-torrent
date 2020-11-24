@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
  *
@@ -31,7 +32,7 @@ class BookmarkController extends Controller
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function index(Request $request, $username)
+    public function index(Request $request, User $username)
     {
         $user = User::with('bookmarks')->where('username', '=', $username)->firstOrFail();
 
@@ -56,7 +57,7 @@ class BookmarkController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(Request $request, $id)
+    public function store(Request $request, Torrent $id)
     {
         $torrent = Torrent::withAnyStatus()->findOrFail($id);
 
@@ -78,7 +79,7 @@ class BookmarkController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function destroy(Request $request, $id)
+    public function destroy(Request $request, Torrent $id)
     {
         $torrent = Torrent::withAnyStatus()->findOrFail($id);
         $request->user()->bookmarks()->detach($torrent->id);

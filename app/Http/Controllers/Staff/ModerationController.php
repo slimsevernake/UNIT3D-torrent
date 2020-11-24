@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
  *
@@ -24,7 +25,7 @@ class ModerationController extends \App\Http\Controllers\Controller
     /**
      * @var ChatRepository
      */
-    private $chatRepository;
+    private ChatRepository $chatRepository;
 
     /**
      * ModerationController Constructor.
@@ -58,7 +59,7 @@ class ModerationController extends \App\Http\Controllers\Controller
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function approve($id)
+    public function approve(Torrent $id)
     {
         $torrent = \App\Models\Torrent::withAnyStatus()->where('id', '=', $id)->first();
         if ($torrent->status !== 1) {

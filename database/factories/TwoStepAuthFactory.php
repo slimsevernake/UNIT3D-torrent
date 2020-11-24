@@ -15,7 +15,7 @@ class TwoStepAuthFactory extends Factory
      *
      * @var string
      */
-    protected $model = TwoStepAuth::class;
+    protected string $model = TwoStepAuth::class;
 
     /**
      * Define the model's default state.

@@ -15,7 +15,7 @@ class BanFactory extends Factory
      *
      * @var string
      */
-    protected $model = Ban::class;
+    protected string $model = Ban::class;
 
     /**
      * Define the model's default state.

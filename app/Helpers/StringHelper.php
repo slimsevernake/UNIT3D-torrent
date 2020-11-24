@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
  *
@@ -92,7 +93,7 @@ class StringHelper
      *
      * @return string
      */
-    public static function timeRemaining($seconds)
+    public static function timeRemaining(time $seconds)
     {
         $minutes = 0;
         $hours = 0;
@@ -148,7 +149,7 @@ class StringHelper
      *
      * @return string
      */
-    public static function timeElapsed($seconds)
+    public static function timeElapsed(time $seconds)
     {
         $minutes = 0;
         $hours = 0;

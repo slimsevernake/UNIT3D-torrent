@@ -17,7 +17,7 @@ class SubscriptionFactory extends Factory
      *
      * @var string
      */
-    protected $model = Subscription::class;
+    protected string $model = Subscription::class;
 
     /**
      * Define the model's default state.

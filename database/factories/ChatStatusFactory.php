@@ -14,7 +14,7 @@ class ChatStatusFactory extends Factory
      *
      * @var string
      */
-    protected $model = ChatStatus::class;
+    protected string $model = ChatStatus::class;
 
     /**
      * Define the model's default state.

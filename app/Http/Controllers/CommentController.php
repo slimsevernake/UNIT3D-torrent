@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
  *
@@ -46,12 +47,12 @@ class CommentController extends Controller
     /**
      * @var TaggedUserRepository
      */
-    private $taggedUserRepository;
+    private TaggedUserRepository $taggedUserRepository;
 
     /**
      * @var ChatRepository
      */
-    private $chatRepository;
+    private ChatRepository $chatRepository;
 
     /**
      * CommentController Constructor.
@@ -72,7 +73,7 @@ class CommentController extends Controller
      * @param $slug
      * @param $id
      *
-     * @return Illuminate\Http\RedirectResponse
+     * @return \App\Http\Controllers\Illuminate\Http\RedirectResponse|\Illuminate\Http\RedirectResponse
      */
     public function collection(Request $request, $id)
     {
@@ -121,7 +122,7 @@ class CommentController extends Controller
             if ($this->taggedUserRepository->contains($request->input('content'), '@here') && $user->group->is_modo) {
                 $users = \collect([]);
 
-                $collection->comments()->get()->each(function ($c, $v) use ($users) {
+                $collection->comments()->get()->each(function ($c) use ($users) {
                     $users->push($c->user);
                 });
                 $this->tag->messageCommentUsers(
@@ -169,7 +170,7 @@ class CommentController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function article(Request $request, $id)
+    public function article(Request $request, Article $id)
     {
         $article = Article::findOrFail($id);
         $user = $request->user();
@@ -260,7 +261,7 @@ class CommentController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function playlist(Request $request, $id)
+    public function playlist(Request $request, Playlist $id)
     {
         $playlist = Playlist::findOrFail($id);
         $user = \auth()->user();
@@ -351,7 +352,7 @@ class CommentController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function torrent(Request $request, $id)
+    public function torrent(Request $request, Torrent $id)
     {
         $torrent = Torrent::findOrFail($id);
         $user = $request->user();
@@ -446,7 +447,7 @@ class CommentController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function request(Request $request, $id)
+    public function request(Request $request, TorrentRequest $id)
     {
         $tr = TorrentRequest::findOrFail($id);
         $user = $request->user();
@@ -541,7 +542,7 @@ class CommentController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function quickthanks(Request $request, $id)
+    public function quickthanks(Request $request, Torrent $id)
     {
         $torrent = Torrent::findOrFail($id);
         $user = $request->user();

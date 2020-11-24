@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
  *
@@ -28,7 +29,7 @@ class InviteController extends \App\Http\Controllers\Controller
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function index(\Illuminate\Http\Request $request, $username)
+    public function index(\Illuminate\Http\Request $request, \App\Models\User $username)
     {
         $user = $request->user();
         $owner = \App\Models\User::where('username', '=', $username)->firstOrFail();
@@ -43,7 +44,7 @@ class InviteController extends \App\Http\Controllers\Controller
      *
      * @param \Illuminate\Http\Request $request
      *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
      */
     public function create(\Illuminate\Http\Request $request)
     {
@@ -115,7 +116,7 @@ class InviteController extends \App\Http\Controllers\Controller
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function send(\Illuminate\Http\Request $request, $id)
+    public function send(\Illuminate\Http\Request $request, Invite $id)
     {
         $user = $request->user();
         $invite = \App\Models\Invite::findOrFail($id);

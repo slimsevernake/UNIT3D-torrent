@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
  *
@@ -29,7 +30,7 @@ class RssController extends Controller
     /**
      * @var TorrentFacetedRepository
      */
-    private $torrentFacetedRepository;
+    private TorrentFacetedRepository $torrentFacetedRepository;
 
     /**
      * RssController Constructor.
@@ -141,7 +142,7 @@ class RssController extends Controller
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function edit(Request $request, $id)
+    public function edit(Request $request, int $id)
     {
         $user = $request->user();
         $rss = Rss::where('is_private', '=', 0)->findOrFail($id);
@@ -165,7 +166,7 @@ class RssController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, int $id)
     {
         $rss = Rss::where('is_private', '=', 0)->findOrFail($id);
 
@@ -217,11 +218,10 @@ class RssController extends Controller
      *
      * @param int $id
      *
-     * @throws \Exception
-     *
      * @return \Illuminate\Http\Response
+     * @throws \Exception
      */
-    public function destroy($id)
+    public function destroy(int $id)
     {
         $rss = Rss::where('is_private', '=', 0)->findOrFail($id);
         $rss->delete();

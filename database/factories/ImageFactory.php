@@ -15,7 +15,7 @@ class ImageFactory extends Factory
      *
      * @var string
      */
-    protected $model = Image::class;
+    protected string $model = Image::class;
 
     /**
      * Define the model's default state.

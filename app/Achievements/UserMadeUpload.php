@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
  *
@@ -20,10 +21,10 @@ class UserMadeUpload extends Achievement
     /*
      * The achievement name
      */
-    public $name = 'FirstUpload';
+    public string $name = 'FirstUpload';
 
     /*
      * A small description for the achievement
      */
-    public $description = 'Congratulations! You have made your first torrent upload!';
+    public string $description = 'Congratulations! You have made your first torrent upload!';
 }

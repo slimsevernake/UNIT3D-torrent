@@ -14,7 +14,7 @@ class ForumFactory extends Factory
      *
      * @var string
      */
-    protected $model = Forum::class;
+    protected string $model = Forum::class;
 
     /**
      * Define the model's default state.

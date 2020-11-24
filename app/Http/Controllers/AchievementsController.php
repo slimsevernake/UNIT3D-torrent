@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
  *
@@ -50,7 +51,7 @@ class AchievementsController extends Controller
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function show($username)
+    public function show(User $username)
     {
         $user = User::where('username', '=', $username)->firstOrFail();
 

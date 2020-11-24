@@ -16,7 +16,7 @@ class TopicFactory extends Factory
      *
      * @var string
      */
-    protected $model = Topic::class;
+    protected string $model = Topic::class;
 
     /**
      * Define the model's default state.

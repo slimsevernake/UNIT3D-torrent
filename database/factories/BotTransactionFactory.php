@@ -16,7 +16,7 @@ class BotTransactionFactory extends Factory
      *
      * @var string
      */
-    protected $model = BotTransaction::class;
+    protected string $model = BotTransaction::class;
 
     /**
      * Define the model's default state.

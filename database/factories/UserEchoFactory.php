@@ -17,7 +17,7 @@ class UserEchoFactory extends Factory
      *
      * @var string
      */
-    protected $model = UserEcho::class;
+    protected string $model = UserEcho::class;
 
     /**
      * Define the model's default state.

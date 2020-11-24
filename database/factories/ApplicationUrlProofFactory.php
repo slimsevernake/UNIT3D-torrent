@@ -15,7 +15,7 @@ class ApplicationUrlProofFactory extends Factory
      *
      * @var string
      */
-    protected $model = ApplicationUrlProof::class;
+    protected string $model = ApplicationUrlProof::class;
 
     /**
      * Define the model's default state.

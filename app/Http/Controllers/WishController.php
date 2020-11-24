@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
  *
@@ -26,7 +27,7 @@ class WishController extends Controller
     /**
      * @var WishInterface
      */
-    private $wish;
+    private WishInterface $wish;
 
     /**
      * WishController Constructor.
@@ -46,7 +47,7 @@ class WishController extends Controller
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function index(Request $request, $username)
+    public function index(Request $request, User $username)
     {
         $user = User::with('wishes')->where('username', '=', $username)->firstOrFail();
 
@@ -117,7 +118,7 @@ class WishController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function destroy(Request $request, $id)
+    public function destroy(Request $request, \App\Models\Wish $id)
     {
         $user = $request->user();
 

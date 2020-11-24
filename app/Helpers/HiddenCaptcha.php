@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
  *
@@ -98,7 +99,7 @@ class HiddenCaptcha
      *
      * @return string|bool
      */
-    private static function getToken($captcha)
+    private static function getToken(string $captcha)
     {
         // Get the token values
         try {

@@ -14,7 +14,7 @@ class FreeleechTokenFactory extends Factory
      *
      * @var string
      */
-    protected $model = FreeleechToken::class;
+    protected string $model = FreeleechToken::class;
 
     /**
      * Define the model's default state.

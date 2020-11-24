@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
  *
@@ -92,7 +93,7 @@ class ResolutionController extends Controller
      * @param \Illuminate\Http\Request $request
      * @param                          $id
      *
-     * @return Illuminate\Http\RedirectResponse
+     * @return \App\Http\Controllers\Staff\Illuminate\Http\RedirectResponse|\Illuminate\Http\RedirectResponse
      */
     public function update(Request $request, $id)
     {

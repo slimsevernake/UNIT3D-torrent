@@ -14,7 +14,7 @@ class ChatroomFactory extends Factory
      *
      * @var string
      */
-    protected $model = Chatroom::class;
+    protected string $model = Chatroom::class;
 
     /**
      * Define the model's default state.

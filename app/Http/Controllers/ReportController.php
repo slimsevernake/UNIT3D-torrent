@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
  *
@@ -27,7 +28,7 @@ class ReportController extends Controller
     /**
      * @var Report
      */
-    private $report;
+    private Report $report;
 
     /**
      * ReportController Constructor.
@@ -47,7 +48,7 @@ class ReportController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function request(Request $request, $id)
+    public function request(Request $request, TorrentRequest $id)
     {
         $torrentRequest = TorrentRequest::findOrFail($id);
         $reportedBy = $request->user();
@@ -84,7 +85,7 @@ class ReportController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function torrent(Request $request, $id)
+    public function torrent(Request $request, Torrent $id)
     {
         $torrent = Torrent::findOrFail($id);
         $reportedBy = $request->user();
@@ -121,7 +122,7 @@ class ReportController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function user(Request $request, $username)
+    public function user(Request $request, User $username)
     {
         $reportedUser = User::where('username', '=', $username)->firstOrFail();
         $reportedBy = $request->user();

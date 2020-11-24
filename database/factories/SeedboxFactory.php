@@ -15,7 +15,7 @@ class SeedboxFactory extends Factory
      *
      * @var string
      */
-    protected $model = Seedbox::class;
+    protected string $model = Seedbox::class;
 
     /**
      * Define the model's default state.

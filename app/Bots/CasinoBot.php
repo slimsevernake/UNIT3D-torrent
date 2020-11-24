@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
  *
@@ -16,14 +17,14 @@ namespace App\Bots;
 class CasinoBot
 {
     private $bot;
-    private $chat;
+    private \App\Repositories\ChatRepository $chat;
     private $target;
     private $type;
     private $message;
     private $targeted;
     private $log;
-    private $expiresAt;
-    private $current;
+    private \Carbon\Carbon $expiresAt;
+    private \Carbon\Carbon $current;
 
     /**
      * NerdBot Constructor.
@@ -73,7 +74,7 @@ class CasinoBot
      */
     public function putDonate($amount = 0, $note = '')
     {
-        $output = \implode(' ', $note);
+        $output = \implode((array)' ', $note);
         $v = \validator(['bot_id' => $this->bot->id, 'amount' => $amount, 'note' => $output], ['bot_id' => 'required|exists:bots,id|max:999', 'amount' => \sprintf('required|numeric|min:1|max:%s', $this->target->seedbonus), 'note' => 'required|string']);
         if ($v->passes()) {
             $value = $amount;
@@ -101,13 +102,10 @@ class CasinoBot
     /**
      * Get Bot Donations.
      *
-     * @param string $duration
-     *
-     * @throws \Exception
-     *
      * @return string
+     * @throws \Exception
      */
-    public function getDonations($duration = 'default')
+    public function getDonations()
     {
         $donations = \cache()->get('casinobot-donations');
         if (! $donations || $donations == null) {
@@ -176,7 +174,7 @@ class CasinoBot
         }
         if (\array_key_exists($x, $command)) {
             if ($command[$x] === 'donations') {
-                $log = $this->getDonations($params);
+                $log = $this->getDonations();
             }
             if ($command[$x] === 'donate') {
                 $log = $this->putDonate($params, $wildcard);
@@ -200,9 +198,6 @@ class CasinoBot
         $txt = $this->log;
         $message = $this->message;
         $targeted = $this->targeted;
-        if ($targeted) {
-            // future holder
-        }
         if ($type === 'message' || $type === 'private') {
             $receiverDirty = 0;
             $receiverEchoes = \cache()->get('user-echoes'.$target->id);
@@ -254,8 +249,8 @@ class CasinoBot
             }
             if ($txt != '') {
                 $roomId = 0;
-                $message = $this->chat->privateMessage($target->id, $roomId, $message, 1, $this->bot->id);
-                $message = $this->chat->privateMessage(1, $roomId, $txt, $target->id, $this->bot->id);
+                $message = $this->chat->privateMessage($target->id, $message, 1, $this->bot->id);
+                $message = $this->chat->privateMessage(1, $txt, $target->id, $this->bot->id);
             }
 
             return \response('success');
@@ -263,7 +258,7 @@ class CasinoBot
         if ($type === 'echo') {
             if ($txt != '') {
                 $roomId = 0;
-                $message = $this->chat->botMessage($this->bot->id, $roomId, $txt, $target->id);
+                $message = $this->chat->botMessage($this->bot->id, $txt, $target->id);
             }
 
             return \response('success');

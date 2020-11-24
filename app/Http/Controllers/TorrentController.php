@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
  *
@@ -32,11 +33,11 @@ class TorrentController extends \App\Http\Controllers\Controller
     /**
      * @var TorrentFacetedRepository
      */
-    private $torrentFacetedRepository;
+    private TorrentFacetedRepository $torrentFacetedRepository;
     /**
      * @var ChatRepository
      */
-    private $chatRepository;
+    private ChatRepository $chatRepository;
     /**
      * @var int
      */
@@ -169,11 +170,11 @@ class TorrentController extends \App\Http\Controllers\Controller
      *
      * @param \Illuminate\Http\Request $request
      *
-     * @throws \ErrorException
-     * @throws \HttpInvalidParamException
+     * @return array|\Illuminate\Contracts\View\Factory|\Illuminate\View\View|string
+     *@throws \HttpInvalidParamException
      * @throws \Throwable
      *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @throws \ErrorException
      */
     public function groupingLayout(\Illuminate\Http\Request $request)
     {
@@ -687,7 +688,7 @@ class TorrentController extends \App\Http\Controllers\Controller
      *
      * @param $mediainfo
      *
-     * @return array
+     * @return array|void
      */
     private static function anonymizeMediainfo($mediainfo)
     {
@@ -738,12 +739,11 @@ class TorrentController extends \App\Http\Controllers\Controller
      * @param \Illuminate\Http\Request $request
      * @param \App\Models\Torrent      $id
      *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      * @throws \ErrorException
      * @throws \HttpInvalidParamException
-     *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function torrent(\Illuminate\Http\Request $request, $id)
+    public function torrent(\Illuminate\Http\Request $request, Torrent $id)
     {
         $torrent = \App\Models\Torrent::withAnyStatus()->with(['comments', 'category', 'type', 'resolution', 'subtitles'])->findOrFail($id);
         $uploader = $torrent->user;
@@ -809,7 +809,7 @@ class TorrentController extends \App\Http\Controllers\Controller
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function editForm(\Illuminate\Http\Request $request, $id)
+    public function editForm(\Illuminate\Http\Request $request, Torrent $id)
     {
         $user = $request->user();
         $torrent = \App\Models\Torrent::withAnyStatus()->findOrFail($id);
@@ -824,12 +824,11 @@ class TorrentController extends \App\Http\Controllers\Controller
      * @param \Illuminate\Http\Request $request
      * @param \App\Models\Torrent      $id
      *
+     * @return \Illuminate\Http\RedirectResponse
      * @throws \ErrorException
      * @throws \HttpInvalidParamException
-     *
-     * @return \Illuminate\Http\RedirectResponse
      */
-    public function edit(\Illuminate\Http\Request $request, $id)
+    public function edit(\Illuminate\Http\Request $request, Torrent $id)
     {
         $user = $request->user();
         $torrent = \App\Models\Torrent::withAnyStatus()->findOrFail($id);
@@ -944,7 +943,7 @@ class TorrentController extends \App\Http\Controllers\Controller
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function peers($id)
+    public function peers(Torrent $id)
     {
         $torrent = \App\Models\Torrent::withAnyStatus()->findOrFail($id);
         $peers = \App\Models\Peer::with(['user'])->where('torrent_id', '=', $id)->latest('seeder')->paginate(25);
@@ -959,7 +958,7 @@ class TorrentController extends \App\Http\Controllers\Controller
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function history($id)
+    public function history(Torrent $id)
     {
         $torrent = \App\Models\Torrent::withAnyStatus()->findOrFail($id);
         $history = \App\Models\History::with(['user'])->where('info_hash', '=', $torrent->info_hash)->latest()->paginate(25);
@@ -1120,7 +1119,7 @@ class TorrentController extends \App\Http\Controllers\Controller
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function downloadCheck(\Illuminate\Http\Request $request, $id)
+    public function downloadCheck(\Illuminate\Http\Request $request, Torrent $id)
     {
         $torrent = \App\Models\Torrent::withAnyStatus()->findOrFail($id);
         $user = $request->user();
@@ -1133,11 +1132,11 @@ class TorrentController extends \App\Http\Controllers\Controller
      *
      * @param \Illuminate\Http\Request $request
      * @param \App\Models\Torrent      $id
-     * @param \App\Models\User         $rsskey
+     * @param null                     $rsskey
      *
-     * @return TorrentFile
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
      */
-    public function download(\Illuminate\Http\Request $request, $id, $rsskey = null)
+    public function download(\Illuminate\Http\Request $request, Torrent $id, $rsskey = null)
     {
         $user = $request->user();
         if (! $user && $rsskey) {
@@ -1190,7 +1189,7 @@ class TorrentController extends \App\Http\Controllers\Controller
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function bumpTorrent(\Illuminate\Http\Request $request, $id)
+    public function bumpTorrent(\Illuminate\Http\Request $request, Torrent $id)
     {
         $user = $request->user();
         \abort_unless($user->group->is_modo || $user->group->is_internal, 403);
@@ -1221,7 +1220,7 @@ class TorrentController extends \App\Http\Controllers\Controller
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function sticky(\Illuminate\Http\Request $request, $id)
+    public function sticky(\Illuminate\Http\Request $request, Torrent $id)
     {
         $user = $request->user();
         \abort_unless($user->group->is_modo || $user->group->is_internal, 403);
@@ -1240,7 +1239,7 @@ class TorrentController extends \App\Http\Controllers\Controller
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function grantFL(\Illuminate\Http\Request $request, $id)
+    public function grantFL(\Illuminate\Http\Request $request, Torrent $id)
     {
         $user = $request->user();
         \abort_unless($user->group->is_modo || $user->group->is_internal, 403);
@@ -1266,7 +1265,7 @@ class TorrentController extends \App\Http\Controllers\Controller
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function grantFeatured(\Illuminate\Http\Request $request, $id)
+    public function grantFeatured(\Illuminate\Http\Request $request, Torrent $id)
     {
         $user = $request->user();
         \abort_unless($user->group->is_modo || $user->group->is_internal, 403);
@@ -1298,7 +1297,7 @@ class TorrentController extends \App\Http\Controllers\Controller
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function grantDoubleUp(\Illuminate\Http\Request $request, $id)
+    public function grantDoubleUp(\Illuminate\Http\Request $request, Torrent $id)
     {
         $user = $request->user();
         \abort_unless($user->group->is_modo || $user->group->is_internal, 403);
@@ -1324,7 +1323,7 @@ class TorrentController extends \App\Http\Controllers\Controller
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function reseedTorrent(\Illuminate\Http\Request $request, $id)
+    public function reseedTorrent(\Illuminate\Http\Request $request, Torrent $id)
     {
         $appurl = \config('app.url');
         $user = $request->user();
@@ -1353,7 +1352,7 @@ class TorrentController extends \App\Http\Controllers\Controller
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function freeleechToken(\Illuminate\Http\Request $request, $id)
+    public function freeleechToken(\Illuminate\Http\Request $request, Torrent $id)
     {
         $user = $request->user();
         $torrent = \App\Models\Torrent::withAnyStatus()->findOrFail($id);

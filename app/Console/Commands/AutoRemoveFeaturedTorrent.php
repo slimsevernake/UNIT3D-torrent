@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
  *
@@ -25,7 +26,7 @@ class AutoRemoveFeaturedTorrent extends \Illuminate\Console\Command
     /**
      * @var ChatRepository
      */
-    private $chatRepository;
+    private ChatRepository $chatRepository;
 
     public function __construct(\App\Repositories\ChatRepository $chatRepository)
     {

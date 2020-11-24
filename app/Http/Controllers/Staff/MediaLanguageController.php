@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
  *
@@ -76,7 +77,7 @@ class MediaLanguageController extends Controller
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function edit($id)
+    public function edit(MediaLanguage $id)
     {
         $mediaLanguage = MediaLanguage::findOrFail($id);
 
@@ -91,7 +92,7 @@ class MediaLanguageController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, MediaLanguage $id)
     {
         $mediaLanguage = MediaLanguage::findOrFail($id);
         $mediaLanguage->name = $request->input('name');
@@ -117,11 +118,10 @@ class MediaLanguageController extends Controller
      *
      * @param \App\Models\MediaLanguage $id
      *
-     * @throws \Exception
-     *
      * @return \Illuminate\Http\RedirectResponse
+     * @throws \Exception
      */
-    public function destroy($id)
+    public function destroy(MediaLanguage $id)
     {
         $mediaLanguage = MediaLanguage::findOrFail($id);
         $mediaLanguage->delete();

@@ -16,7 +16,7 @@ class FeaturedTorrentFactory extends Factory
      *
      * @var string
      */
-    protected $model = FeaturedTorrent::class;
+    protected string $model = FeaturedTorrent::class;
 
     /**
      * Define the model's default state.

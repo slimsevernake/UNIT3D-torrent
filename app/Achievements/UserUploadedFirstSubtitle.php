@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Achievements;
 
@@ -9,12 +10,12 @@ class UserUploadedFirstSubtitle extends Achievement
     /*
      * The achievement name
      */
-    public $name = 'UserUploadedFirstSubtitle';
+    public string $name = 'UserUploadedFirstSubtitle';
 
     /*
      * A small description for the achievement
      */
-    public $description = 'Congratulations! You have made your first subtitle upload!';
+    public string $description = 'Congratulations! You have made your first subtitle upload!';
 
     /*
     * A small description for the award

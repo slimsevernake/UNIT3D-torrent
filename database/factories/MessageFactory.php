@@ -17,7 +17,7 @@ class MessageFactory extends Factory
      *
      * @var string
      */
-    protected $model = Message::class;
+    protected string $model = Message::class;
 
     /**
      * Define the model's default state.

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
  *
@@ -32,9 +33,9 @@ class ProcessStartedAnnounceRequest implements ShouldQueue
 
     protected $queries;
 
-    protected $user;
+    protected User $user;
 
-    protected $torrent;
+    protected Torrent $torrent;
 
     /**
      * ProcessAnnounceRequest constructor.

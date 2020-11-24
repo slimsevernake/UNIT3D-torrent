@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
  *
@@ -24,7 +25,7 @@ class Authenticate extends Middleware
      *
      * @return string
      */
-    protected function redirectTo($request)
+    protected function redirectTo(\Illuminate\Http\Request $request)
     {
         return \route('login');
     }

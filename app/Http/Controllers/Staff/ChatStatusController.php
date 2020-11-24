@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
  *
@@ -26,7 +27,7 @@ class ChatStatusController extends Controller
     /**
      * @var ChatRepository
      */
-    private $chatRepository;
+    private ChatRepository $chatRepository;
 
     /**
      * ChatController Constructor.
@@ -90,7 +91,7 @@ class ChatStatusController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, ChatStatus $id)
     {
         $chatstatus = ChatStatus::findOrFail($id);
         $chatstatus->name = $request->input('name');
@@ -118,11 +119,10 @@ class ChatStatusController extends Controller
      *
      * @param \App\Models\ChatStatus $id
      *
-     * @throws \Exception
-     *
      * @return \Illuminate\Http\RedirectResponse
+     * @throws \Exception
      */
-    public function destroy($id)
+    public function destroy(ChatStatus $id)
     {
         $chatstatus = ChatStatus::findOrFail($id);
         $chatstatus->delete();

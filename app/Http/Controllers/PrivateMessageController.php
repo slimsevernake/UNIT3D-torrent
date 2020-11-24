@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
  *
@@ -92,9 +93,9 @@ class PrivateMessageController extends Controller
      * @param \Illuminate\Http\Request   $request
      * @param \App\Models\PrivateMessage $id
      *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
      */
-    public function getPrivateMessageById(Request $request, $id)
+    public function getPrivateMessageById(Request $request, PrivateMessage $id)
     {
         $user = $request->user();
         $pm = PrivateMessage::where('id', '=', $id)->firstOrFail();
@@ -193,7 +194,7 @@ class PrivateMessageController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function replyPrivateMessage(Request $request, $id)
+    public function replyPrivateMessage(Request $request, PrivateMessage $id)
     {
         $user = $request->user();
 
@@ -232,11 +233,10 @@ class PrivateMessageController extends Controller
      * @param \Illuminate\Http\Request   $request
      * @param \App\Models\PrivateMessage $id
      *
-     * @throws \Exception
-     *
      * @return \Illuminate\Http\RedirectResponse
+     * @throws \Exception
      */
-    public function deletePrivateMessage(Request $request, $id)
+    public function deletePrivateMessage(Request $request, PrivateMessage $id)
     {
         $user = $request->user();
         $pm = PrivateMessage::where('id', '=', $id)->firstOrFail();

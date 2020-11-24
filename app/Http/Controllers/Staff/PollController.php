@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
  *
@@ -27,7 +28,7 @@ class PollController extends Controller
     /**
      * @var ChatRepository
      */
-    private $chatRepository;
+    private ChatRepository $chatRepository;
 
     /**
      * PollController Constructor.
@@ -58,7 +59,7 @@ class PollController extends Controller
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function show($id)
+    public function show(Poll $id)
     {
         $poll = Poll::where('id', '=', $id)->firstOrFail();
 
@@ -108,7 +109,7 @@ class PollController extends Controller
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function edit($id)
+    public function edit(Poll $id)
     {
         $poll = Poll::findOrFail($id);
 
@@ -180,11 +181,10 @@ class PollController extends Controller
      *
      * @param \App\Models\Poll $id
      *
-     * @throws \Exception
-     *
      * @return \Illuminate\Http\RedirectResponse
+     * @throws \Exception
      */
-    public function destroy($id)
+    public function destroy(Poll $id)
     {
         $poll = Poll::findOrFail($id);
         $poll->delete();

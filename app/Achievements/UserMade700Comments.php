@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
  *
@@ -20,15 +21,15 @@ class UserMade700Comments extends Achievement
     /*
      * The achievement name
      */
-    public $name = '700Comments';
+    public string $name = '700Comments';
 
     /*
      * A small description for the achievement
      */
-    public $description = 'Wow! You have already made 700 comments!';
+    public string $description = 'Wow! You have already made 700 comments!';
 
     /*
      * The amount of "points" this user need to obtain in order to complete this achievement
      */
-    public $points = 700;
+    public int $points = 700;
 }

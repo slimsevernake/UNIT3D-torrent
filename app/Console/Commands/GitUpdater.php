@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
  *
@@ -30,7 +31,7 @@ class GitUpdater extends Command
     /**
      * The copy command.
      */
-    protected $copy_command = 'cp -Rfp';
+    protected string $copy_command = 'cp -Rfp';
 
     /**
      * The console command signature.

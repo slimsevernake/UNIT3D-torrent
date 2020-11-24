@@ -15,7 +15,7 @@ class PlaylistFactory extends Factory
      *
      * @var string
      */
-    protected $model = Playlist::class;
+    protected string $model = Playlist::class;
 
     /**
      * Define the model's default state.

@@ -16,7 +16,7 @@ class HistoryFactory extends Factory
      *
      * @var string
      */
-    protected $model = History::class;
+    protected string $model = History::class;
 
     /**
      * Define the model's default state.

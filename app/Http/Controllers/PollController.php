@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
  *
@@ -28,7 +29,7 @@ class PollController extends Controller
     /**
      * @var ChatRepository
      */
-    private $chatRepository;
+    private ChatRepository $chatRepository;
 
     /**
      * PollController Constructor.
@@ -60,7 +61,7 @@ class PollController extends Controller
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function show(Request $request, $id)
+    public function show(Request $request, Poll $id)
     {
         $poll = Poll::findOrFail($id);
         $user = $request->user();
@@ -122,7 +123,7 @@ class PollController extends Controller
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function result($id)
+    public function result(Poll $id)
     {
         $poll = Poll::findOrFail($id);
         $map = [

@@ -15,7 +15,7 @@ class PrivateMessageFactory extends Factory
      *
      * @var string
      */
-    protected $model = PrivateMessage::class;
+    protected string $model = PrivateMessage::class;
 
     /**
      * Define the model's default state.

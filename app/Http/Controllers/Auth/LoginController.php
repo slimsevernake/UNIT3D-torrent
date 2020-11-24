@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
  *
@@ -23,13 +24,13 @@ class LoginController extends Controller
     use AuthenticatesUsers;
 
     // Upon Successful Login
-    protected $redirectTo = '/';
+    protected string $redirectTo = '/';
 
     // Max Attempts Until Lockout
-    public $maxAttempts = 3;
+    public int $maxAttempts = 3;
 
     // Minutes Lockout
-    public $decayMinutes = 60;
+    public int $decayMinutes = 60;
 
     /**
      * LoginController Constructor.

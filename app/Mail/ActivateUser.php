@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
  *
@@ -25,12 +26,12 @@ class ActivateUser extends Mailable
     /**
      * @var User
      */
-    public $user;
+    public User $user;
 
     /**
      * @var string
      */
-    public $code;
+    public string $code;
 
     /**
      * ActivateUser constructor.
@@ -38,7 +39,7 @@ class ActivateUser extends Mailable
      * @param User   $user
      * @param string $code
      */
-    public function __construct(User $user, $code)
+    public function __construct(User $user, string $code)
     {
         $this->user = $user;
         $this->code = $code;

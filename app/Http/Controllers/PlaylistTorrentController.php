@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
  *
@@ -60,11 +61,10 @@ class PlaylistTorrentController extends Controller
      *
      * @param int $id
      *
-     * @throws \Exception
-     *
      * @return \Illuminate\Http\RedirectResponse
+     * @throws \Exception
      */
-    public function destroy($id)
+    public function destroy(int $id)
     {
         $user = \auth()->user();
         $playlistTorrent = PlaylistTorrent::findOrFail($id);

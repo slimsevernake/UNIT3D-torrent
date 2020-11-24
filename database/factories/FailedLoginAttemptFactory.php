@@ -14,7 +14,7 @@ class FailedLoginAttemptFactory extends Factory
      *
      * @var string
      */
-    protected $model = FailedLoginAttempt::class;
+    protected string $model = FailedLoginAttempt::class;
 
     /**
      * Define the model's default state.

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
  *
@@ -31,14 +32,14 @@ class SendDisableUserMail implements ShouldQueue
     /**
      * @var User
      */
-    public $user;
+    public User $user;
 
     /**
      * The number of times the job may be attempted.
      *
      * @var int
      */
-    public $tries = 3;
+    public int $tries = 3;
 
     /**
      * ActivateUser constructor.

@@ -15,7 +15,7 @@ class UserActivationFactory extends Factory
      *
      * @var string
      */
-    protected $model = UserActivation::class;
+    protected string $model = UserActivation::class;
 
     /**
      * Define the model's default state.

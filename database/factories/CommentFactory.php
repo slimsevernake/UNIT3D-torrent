@@ -19,7 +19,7 @@ class CommentFactory extends Factory
      *
      * @var string
      */
-    protected $model = Comment::class;
+    protected string $model = Comment::class;
 
     /**
      * Define the model's default state.

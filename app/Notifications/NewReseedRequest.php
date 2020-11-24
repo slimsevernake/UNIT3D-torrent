@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
  *
@@ -22,7 +23,7 @@ class NewReseedRequest extends Notification implements ShouldQueue
 {
     use Queueable;
 
-    public $torrent;
+    public Torrent $torrent;
 
     /**
      * Create a new notification instance.
@@ -37,11 +38,9 @@ class NewReseedRequest extends Notification implements ShouldQueue
     /**
      * Get the notification's delivery channels.
      *
-     * @param mixed $notifiable
-     *
      * @return array
      */
-    public function via($notifiable)
+    public function via()
     {
         return ['database'];
     }
@@ -49,11 +48,9 @@ class NewReseedRequest extends Notification implements ShouldQueue
     /**
      * Get the array representation of the notification.
      *
-     * @param mixed $notifiable
-     *
      * @return array
      */
-    public function toArray($notifiable)
+    public function toArray()
     {
         $appurl = \config('app.url');
 

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
  *
@@ -20,7 +21,7 @@ use Illuminate\Support\Facades\Session;
 
 class AchievementUnlocked
 {
-    private $chat;
+    private ChatRepository $chat;
 
     public function __construct(ChatRepository $chatRepository)
     {

@@ -17,7 +17,7 @@ class ReportFactory extends Factory
      *
      * @var string
      */
-    protected $model = Report::class;
+    protected string $model = Report::class;
 
     /**
      * Define the model's default state.

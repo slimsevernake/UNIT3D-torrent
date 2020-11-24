@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
  *
@@ -77,7 +78,7 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app['validator']->extendImplicit(
             'hiddencaptcha',
-            function ($attribute, $value, $parameters, $validator) {
+            function ($parameters, $validator) {
                 $minLimit = (isset($parameters[0]) && \is_numeric($parameters[0])) ? $parameters[0] : 0;
                 $maxLimit = (isset($parameters[1]) && \is_numeric($parameters[1])) ? $parameters[1] : 1_200;
                 if (! HiddenCaptcha::check($validator, $minLimit, $maxLimit)) {

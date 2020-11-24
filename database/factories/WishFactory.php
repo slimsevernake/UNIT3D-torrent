@@ -15,7 +15,7 @@ class WishFactory extends Factory
      *
      * @var string
      */
-    protected $model = Wish::class;
+    protected string $model = Wish::class;
 
     /**
      * Define the model's default state.

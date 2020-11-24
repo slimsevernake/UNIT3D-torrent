@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
  *
@@ -24,7 +25,7 @@ class ChatRoomResource extends JsonResource
      *
      * @return array
      */
-    public function toArray($request)
+    public function toArray(\Illuminate\Http\Request $request)
     {
         return [
             'id'         => $this->id,

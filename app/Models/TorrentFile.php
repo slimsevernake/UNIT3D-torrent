@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
  *
@@ -67,11 +68,10 @@ class TorrentFile extends Model
      * Return Size In Human Format.
      *
      * @param null $bytes
-     * @param int  $precision
      *
      * @return string
      */
-    public function getSize($bytes = null, $precision = 2)
+    public function getSize($bytes = null)
     {
         $bytes = $this->size;
 

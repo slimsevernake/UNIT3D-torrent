@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
  *
@@ -32,27 +33,27 @@ class ChatRepository
     /**
      * @var Message
      */
-    private $message;
+    private Message $message;
 
     /**
      * @var Chatroom
      */
-    private $chatroom;
+    private Chatroom $chatroom;
 
     /**
      * @var ChatStatus
      */
-    private $chatStatus;
+    private ChatStatus $chatStatus;
 
     /**
      * @var User
      */
-    private $user;
+    private User $user;
 
     /**
      * @var Bot
      */
-    private $bot;
+    private Bot $bot;
 
     /**
      * @var Echo
@@ -158,7 +159,7 @@ class ChatRepository
         return $message;
     }
 
-    public function botMessage($botId, $roomId, $message, $receiver = null)
+    public function botMessage($botId, $message, $receiver = null)
     {
         $user = $this->user->find($receiver);
         if ($user->censor) {
@@ -186,7 +187,7 @@ class ChatRepository
         $message->delete();
     }
 
-    public function privateMessage($userId, $roomId, $message, $receiver = null, $bot = null, $ignore = null)
+    public function privateMessage($userId, $message, $receiver = null, $bot = null, $ignore = null)
     {
         if ($this->user->find($userId)->censor) {
             $message = $this->censorMessage($message);

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
  *
@@ -23,13 +24,11 @@ class CheckIfBanned
      *
      * @param \Illuminate\Http\Request $request
      * @param \Closure                 $next
-     * @param string|null              $guard
-     *
-     * @throws \Exception
      *
      * @return mixed
+     * @throws \Exception
      */
-    public function handle($request, Closure $next, $guard = null)
+    public function handle(\Illuminate\Http\Request $request, Closure $next)
     {
         $user = $request->user();
         $bannedGroup = \cache()->rememberForever('banned_group', fn () => Group::where('slug', '=', 'banned')->pluck('id'));

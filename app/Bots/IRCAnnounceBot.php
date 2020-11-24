@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * NOTICE OF LICENSE.
  *
@@ -42,11 +43,11 @@ class IRCAnnounceBot
 
     protected $socket = null;
 
-    private $channel = null;
+    private $channel;
 
-    private $username = null;
+    private $username;
 
-    private $registered = false;
+    private bool $registered = false;
 
     public function __construct()
     {

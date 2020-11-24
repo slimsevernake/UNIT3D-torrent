@@ -15,7 +15,7 @@ class OptionFactory extends Factory
      *
      * @var string
      */
-    protected $model = Option::class;
+    protected string $model = Option::class;
 
     /**
      * Define the model's default state.
