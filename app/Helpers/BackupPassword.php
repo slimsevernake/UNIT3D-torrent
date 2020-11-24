@@ -51,17 +51,17 @@ class BackupPassword
 
         // If ZipArchive is enabled
         if (\class_exists(\ZipArchive::class) && \in_array('setEncryptionIndex', \get_class_methods(\ZipArchive::class))) {
-            console_output()->info('Applying password and encryption to zip using ZipArchive...');
+            \console_output()->info('Applying password and encryption to zip using ZipArchive...');
             $this->makeZipArchive($backupEncryption, $path);
         }
 
         // Fall back on PHP-driven ZipFile
         else {
-            console_output()->info('Applying password and encryption to zip using ZipFile...');
+            \console_output()->info('Applying password and encryption to zip using ZipFile...');
             $this->makeZipFile($backupEncryption, $path);
         }
 
-        console_output()->info('Successfully applied password and encryption to zip.');
+        \console_output()->info('Successfully applied password and encryption to zip.');
     }
 
     /**

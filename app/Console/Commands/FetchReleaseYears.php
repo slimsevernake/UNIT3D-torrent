@@ -76,7 +76,7 @@ class FetchReleaseYears extends Command
                 } else {
                     $meta = $movieScrapper->scrape('tv', 'tt'.$torrent->imdb);
                 }
-                if (property_exists($meta, 'releaseYear') && $meta->releaseYear !== null && $meta->releaseYear > '1900') {
+                if (\property_exists($meta, 'releaseYear') && $meta->releaseYear !== null && $meta->releaseYear > '1900') {
                     $torrent->release_year = $meta->releaseYear;
                     $torrent->save();
                     $this->info(\sprintf('(%s) Release Year Fetched For Torrent %s 
@@ -94,7 +94,7 @@ class FetchReleaseYears extends Command
                 } else {
                     $meta = $movieScrapper->scrape('movie', 'tt'.$torrent->imdb);
                 }
-                if (property_exists($meta, 'releaseYear') && $meta->releaseYear !== null && $meta->releaseYear > '1900') {
+                if (\property_exists($meta, 'releaseYear') && $meta->releaseYear !== null && $meta->releaseYear > '1900') {
                     $torrent->release_year = $meta->releaseYear;
                     $torrent->save();
                     $this->info(\sprintf('(%s) Release Year Fetched For Torrent %s 
@@ -110,7 +110,7 @@ class FetchReleaseYears extends Command
                 if ($torrent->igdb && $torrent->igdb != 0) {
                     $meta = Game::find($torrent->igdb);
                 }
-                if (property_exists($meta, 'first_release_date') && $meta->first_release_date !== null && $meta->first_release_date > '1900') {
+                if (\property_exists($meta, 'first_release_date') && $meta->first_release_date !== null && $meta->first_release_date > '1900') {
                     $torrent->release_year = \date('Y', \strtotime($meta->first_release_date));
                     $torrent->save();
                     $this->info(\sprintf('(%s) Release Year Fetched For Torrent %s 

@@ -109,11 +109,11 @@ class CommentController extends Controller
         // Auto Shout
         if ($comment->anon == 0) {
             $this->chatRepository->systemMessage(
-                    sprintf('[url=%s]%s[/url] has left a comment on collection [url=%s]%s[/url]', $profile_url, $user->username, $collection_url, $collection->name)
+                    \sprintf('[url=%s]%s[/url] has left a comment on collection [url=%s]%s[/url]', $profile_url, $user->username, $collection_url, $collection->name)
                 );
         } else {
             $this->chatRepository->systemMessage(
-                    sprintf('An anonymous user has left a comment on collection [url=%s]%s[/url]', $collection_url, $collection->name)
+                    \sprintf('An anonymous user has left a comment on collection [url=%s]%s[/url]', $collection_url, $collection->name)
                 );
         }
 

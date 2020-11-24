@@ -27,7 +27,7 @@ class LanguageCensor
 
     protected static function isSpecial($c)
     {
-        return \strpos(self::SPECIAL_CHARS, $c) !== false;
+        return \strpos(self::SPECIAL_CHARS, (string) $c) !== false;
     }
 
     protected static function matchWordIndexes($string, $word)
@@ -35,14 +35,14 @@ class LanguageCensor
         $result = [];
         $length = \strlen($word);
         $string_length = \strlen($string);
-        $pos = \stripos($string, $word, 0);
+        $pos = \stripos($string, (string) $word, 0);
         while ($pos !== false) {
             $prev = ($pos === 0) ? ' ' : $string[$pos - 1];
             $last = ($pos + $length) < $string_length ? $string[$pos + $length] : ' ';
             if (self::isSpecial($prev) && self::isSpecial($last)) {
                 $result[] = $pos;
             }
-            $pos = \stripos($string, $word, $pos + $length);
+            $pos = \stripos($string, (string) $word, $pos + $length);
         }
 
         return $result;

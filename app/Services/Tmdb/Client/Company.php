@@ -51,7 +51,7 @@ class Company
 
         $response = $this->client->request('get', 'https://api.TheMovieDB.org/3/company/'.$id);
 
-        $this->data = \json_decode($response->getBody()->getContents(), true);
+        $this->data = \json_decode($response->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);
     }
 
     public function index()
@@ -129,7 +129,7 @@ class Company
         $array = [];
         $this->page = 1;
         while ($data = $this->data['movies'][$this->page++]) {
-            $json = \json_decode($data, true);                                   //01
+            $json = \json_decode($data, true, 512, JSON_THROW_ON_ERROR);                                   //01
             foreach ($json['results'] as $row) {
                 $array[] = $row;
             }
